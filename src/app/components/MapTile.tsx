@@ -3,6 +3,7 @@ import "leaflet/dist/leaflet.css";
 import { InfoProps } from "@/types";
 import { useEffect } from "react";
 import L from "leaflet";
+import { useLocale } from "next-intl";
 
 interface MapTileProps {
     coinCartData: InfoProps[];
@@ -20,6 +21,7 @@ const truckIcon = L.icon({
 
 const MapTile = ({ coinCartData, location, setLocation }: MapTileProps) => {
     const selectedLocation = coinCartData[location];
+    const locale = useLocale();
 
     const MapCenter = () => {
         const map = useMap();
@@ -46,7 +48,7 @@ const MapTile = ({ coinCartData, location, setLocation }: MapTileProps) => {
                 />
                 {/* Map Label (buildings, landmarks) */}
                 <TileLayer
-                    url='https://mapapi.geodata.gov.hk/gs/api/v1.0.0/xyz/label/hk/tc/WGS84/{z}/{x}/{y}.png'
+                    url={`https://mapapi.geodata.gov.hk/gs/api/v1.0.0/xyz/label/hk/${locale}/WGS84/{z}/{x}/{y}.png`}
                     attribution='&copy; <a href="https://api.portal.hkmapservice.gov.hk/disclaimer">Lands Department</a> contributors'
                 />
                 <ZoomControl position='bottomright' />

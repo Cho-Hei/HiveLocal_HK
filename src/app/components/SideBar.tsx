@@ -1,6 +1,7 @@
 import { InfoProps } from "@/types";
 import { Info, MapPinLine } from "@phosphor-icons/react/dist/ssr";
 import Locations from "./Locations";
+import { useTranslations } from "next-intl";
 
 interface SideBarProps {
     coinCartData: InfoProps[];
@@ -9,19 +10,22 @@ interface SideBarProps {
 }
 
 const SideBar = ({ coinCartData, location, setLocation }: SideBarProps) => {
+    const t = useTranslations("SideBar");
     return (
         <section className='sidebar h-screen lg:max-w-[310px] bg-[#17153B] p-2 lg:p-1 overflow-y-auto grid grid-cols-2 lg:grid-cols-1 gap-2 place-content-stretch'>
             <div className='min-h-[420px] max-h-[440px] rounded-2xl bg-[#2E236C] lg:mx-2 lg:my-1 shadow-lg flex flex-col'>
                 <div className='info flex flex-col flex-grow'>
                     <div className='info-title bg-[#433D8B] flexCenter rounded-t-2xl'>
                         <Info weight='fill' size={24} />
-                        <h1 className='text-white text-xl py-1 text-center mx-2'>Locations</h1>
+                        <h1 className='text-white text-xl py-1 text-center mx-2'>
+                            {t("locations")}
+                        </h1>
                     </div>
                     {coinCartData && coinCartData.length > 0 && (
                         <div className='info-content p-2 flex-grow flex flex-col'>
                             <div className='service-provider p-4 rounded-2xl bg-violet-700'>
-                                <h2 className='text-xl lg:text-2xl font-bold'>Coin Cart</h2>
-                                <p className='text-sm lg:text-base'>Hong Kong Monetary Authority</p>
+                                <h2 className='text-xl lg:text-2xl font-bold'>{t("coincart")}</h2>
+                                <p className='text-sm lg:text-base'>{t("HKMA")}</p>
                             </div>
                             <div className='service-detail flex-grow flex flex-col justify-between'>
                                 <div className='flex flex-col'>
