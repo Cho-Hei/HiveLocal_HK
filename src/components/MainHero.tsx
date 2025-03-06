@@ -6,7 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchCoinCartData } from "@/store/coinCartSlice";
 import dynamic from "next/dynamic";
 import { useParams } from "next/navigation";
-import LocaleSwitch from "./LocaleSwitch";
+import Navbar from "./Navbar";
+import { Spinner } from "@heroui/react";
 
 const MapTile = dynamic(() => import("./MapTile"), { ssr: false });
 
@@ -23,9 +24,9 @@ const MainHero = () => {
         dispatch(fetchCoinCartData(locale));
     }, [dispatch, locale]);
 
-    if (status === "loading") {
-        return <div>Loading...</div>;
-    }
+    // if (status === "loading") {
+    //     return <div>Loading...</div>;
+    // }
 
     if (status === "failed") {
         return <div>Error loading data</div>;
@@ -36,11 +37,24 @@ const MainHero = () => {
     };
 
     return (
-        <section className='relative overflow-hidden flex flex-col-reverse lg:flex-row'>
-            {/* Language Switcher */}
-            <LocaleSwitch />
-            <SideBar coinCartData={coinCartData} location={location} setLocation={handleLocation} />
-            <MapTile coinCartData={coinCartData} location={location} setLocation={handleLocation} />
+        <section className='relative overflow-hidden'>
+            <div className='flex flex-col-reverse lg:flex-row'>
+                <SideBar
+                    coinCartData={coinCartData}
+                    location={location}
+                    setLocation={handleLocation}
+                    Selectorstatus={status}
+                />
+
+                <div className='flex flex-col flex-grow lg:h-screen'>
+                    <Navbar />
+                    <MapTile
+                        coinCartData={coinCartData}
+                        location={location}
+                        setLocation={handleLocation}
+                    />
+                </div>
+            </div>
         </section>
     );
 };
