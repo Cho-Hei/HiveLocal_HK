@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# HK Coin Cart Map
 
-## Getting Started
+This is an information board for Coin Carts in Hong Kong which is part of the coin collection programme started in 2014 ([More on HKMA](https://www.hkma.gov.hk/eng/key-functions/money/hong-kong-currency/coin-collection-programme/)). This webapp added a map interface to further enhance usability ([Match Between the System and the Real World](https://www.nngroup.com/articles/ten-usability-heuristics/#toc-2-match-between-the-system-and-the-real-world-2)).
 
-First, run the development server:
+> This application may change to add more facilities as long as APIs are available (Currently there's only coin cart data in this application). However, this application mainly focuses on those that don't show on commonly used map applications.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Deployed link: https://hkmap.choheitoby.com/
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**Client:** NextJS, Typescript, TailwindCSS, Redux, next-intl, react-leaflet
+**API:** (Data.gov.hk): https://data.gov.hk/tc-data/dataset/hk-hkma-coincart-coin-cart-schedule
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Features
 
-## Learn More
+-   Map interface to show location of facilities
+-   Auto update of locations
+-   Fully mobile responsive design
+-   i18n Support
 
-To learn more about Next.js, take a look at the following resources:
+## Future Improvements
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+-   Add csv support
+-   Add more items
+    -   (e.g Electric Vehicle Chargers)
+-   Weather Warnings
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Acknowledgement
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Inspiration**
+GTAWeb.eu: https://gtaweb.eu/gtao-map/ls/
+[獨立巴士預報 HK Bus ETA](https://hkbus.app/en) : https://github.com/hkbus/hk-independent-bus-eta
+**UI Design**
+リアルタイム地震ビューアー Scratch Realtime Earthquake Viewer: https://kotoho7.github.io/scratch-realtime-earthquake-viewer-page/
+**Map**
+Common Spatial Data Infrastructure: https://portal.csdi.gov.hk/csdi-webpage/
+Lands Department (HK): https://www.landsd.gov.hk/en/index.html
