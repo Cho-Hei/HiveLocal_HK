@@ -1,7 +1,21 @@
 {
-    "SideBar": {
-        "locations": "地點",
+    "I_SideBar": {
+        "info": "資訊",
         "coincart": "收銀車",
         "HKMA": "香港金融管理局"
+    },
+
+    "I_Location": {
+        "location": "地點"
+    },
+
+    "I_MapNote": {
+        "district": "地區",
+        "address": "地址",
+        "servicehours": "服務時段",
+        "date": "日期",
+        "remark": "備註",
+        "to": "至",
+        "remarkwarn": "備註: 有關服務時段、地址及備註資料僅供參考，如有更改，恕不另行通知。 以上資料由香港金融管理局提供。<br></br><br></br>請到香港金融管理局網站查閱最新資料: <link>https://www.hkma.gov.hk/chi/key-functions/money/hong-kong-currency/coin-collection-programme/</link>"
     }
 }

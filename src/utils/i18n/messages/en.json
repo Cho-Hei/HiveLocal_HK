@@ -1,7 +1,20 @@
 {
-    "SideBar": {
-        "locations": "Locations",
+    "I_SideBar": {
+        "info": "Information",
         "coincart": "Coin Cart",
         "HKMA": "Hong Kong Monetary Authority"
+    },
+
+    "I_Location": {
+        "location": "Locations"
+    },
+    "I_MapNote": {
+        "district": "District",
+        "address": "Address",
+        "servicehours": "Service Hours",
+        "date": "Date",
+        "remark": "Remark",
+        "to": "to",
+        "remarkwarn": "Remark: The information on service hours, address and remarks is for reference only. In case of any changes, no further notice will be given.<br></br> <br></br>The above information is provided by the Hong Kong Monetary Authority. For the latest information, please visit the Hong Kong Monetary Authority website: <link>https://www.hkma.gov.hk/eng/key-functions/money/hong-kong-currency/coin-collection-programme/</link>"
     }
 }

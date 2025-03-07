@@ -40,7 +40,7 @@ const LocaleSwitch = () => {
     };
 
     return (
-        <div>
+        <div className='lng-dropdown'>
             {/* <select
                 className='inline-flex appearance-none bg-transparent py-3 pl-2 pr-6'
                 defaultValue={locale}
@@ -54,14 +54,16 @@ const LocaleSwitch = () => {
             </select> */}
             <Dropdown backdrop='blur' className='bg-slate-400'>
                 <DropdownTrigger>
-                    <Button className='bg-slate-400 min-w-4 h-6 m-2'>{locale}</Button>
+                    <Button className='bg-slate-400 min-w-6 h-6 m-2'>
+                        {locale === "en" ? "EN" : "中"}
+                    </Button>
                 </DropdownTrigger>
                 <DropdownMenu
                     aria-label='Locale'
                     onAction={(key) => onDropdownChange(key as string)}>
                     {routing.locales.map((cur) => (
                         <DropdownItem key={cur} value={cur}>
-                            {cur}
+                            {cur === "en" ? "EN" : "中"}
                         </DropdownItem>
                     ))}
                 </DropdownMenu>

@@ -12,16 +12,16 @@ interface SideBarProps {
 }
 
 const SideBar = ({ coinCartData, location, setLocation, Selectorstatus }: SideBarProps) => {
-    const t = useTranslations("SideBar");
+    const t = useTranslations("I_SideBar");
     return (
-        <section className='sidebar h-screen lg:max-w-[310px] bg-[#17153B] p-2 lg:p-1 overflow-y-auto grid grid-cols-2 lg:grid-cols-1 gap-2 place-content-stretch'>
+        <section
+            className='sidebar h-screen lg:max-w-[310px] bg-[#17153B] p-2 lg:p-1 overflow-y-auto grid grid-cols-2 lg:grid-cols-1 gap-2 place-content-stretch'
+            style={{ gridTemplateRows: "auto 1fr" }}>
             <div className='min-h-[440px] max-h-[450px] rounded-2xl bg-[#2E236C] lg:mx-2 lg:my-1 shadow-lg flex flex-col'>
                 <div className='info flex flex-col flex-grow'>
                     <div className='info-title bg-[#433D8B] flexCenter rounded-t-2xl'>
                         <Info weight='fill' size={24} />
-                        <h1 className='text-white text-xl py-1 text-center mx-2'>
-                            {t("locations")}
-                        </h1>
+                        <h1 className='text-white text-xl py-1 text-center mx-2'>{t("info")}</h1>
                     </div>
 
                     {Selectorstatus === "loading" ? (
@@ -60,7 +60,7 @@ const SideBar = ({ coinCartData, location, setLocation, Selectorstatus }: SideBa
                                                 <div className='w-full text-center'>
                                                     <h4 className='text-xl text-balance whitespace-nowrap'>{`${coinCartData[location].start_date} to ${coinCartData[location].end_date}`}</h4>
                                                     <h4 className='text-base mt-2'>
-                                                        6:00 PM - 10:00 PM
+                                                        10:00 AM - 19:00 PM
                                                     </h4>
                                                 </div>
                                             </div>
@@ -92,6 +92,7 @@ const SideBar = ({ coinCartData, location, setLocation, Selectorstatus }: SideBa
                     )}
                 </div>
             </div>
+
             <Locations coinCartData={coinCartData} setLocation={setLocation} />
         </section>
     );

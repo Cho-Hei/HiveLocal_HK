@@ -179,3 +179,10 @@ body {
 .sidebar::-webkit-scrollbar {
     display: none; /* For Chrome, Safari, and Opera */
 }
+
+/* React Leaflet */
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+    background-color: #a29af9 !important;
+}

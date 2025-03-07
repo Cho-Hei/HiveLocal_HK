@@ -3,7 +3,8 @@ import "leaflet/dist/leaflet.css";
 import { InfoProps } from "@/types";
 import { useEffect } from "react";
 import L from "leaflet";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import Link from "next/link";
 
 interface MapTileProps {
     coinCartData: InfoProps[];
@@ -13,14 +14,15 @@ interface MapTileProps {
 
 // Create a custom icon
 const truckIcon = L.icon({
-    iconUrl: "/truck.svg", // Path to your truck icon image in the public directory
-    iconSize: [20, 20], // Size of the icon
+    iconUrl: "/money-transport_1.svg", // Path to your truck icon image in the public directory
+    iconSize: [25, 25], // Size of the icon
     iconAnchor: [10, 10], // Anchor point of the icon
     popupAnchor: [0, -16], // Anchor point of the popup relative to the icon
 });
 
 const MapTile = ({ coinCartData, location, setLocation }: MapTileProps) => {
     const selectedLocation = coinCartData[location];
+    const t = useTranslations("I_MapNote");
     const locale = useLocale();
 
     const MapCenter = () => {
@@ -64,11 +66,35 @@ const MapTile = ({ coinCartData, location, setLocation }: MapTileProps) => {
                             },
                         }}>
                         <Popup>
-                            <div>
-                                <h2>{data.district}</h2>
-                                <p>{data.address}</p>
-                                <p>{`${data.start_date} - ${data.end_date}`}</p>
-                                {data.remarks && <p>{data.remarks}</p>}
+                            <div className='popup-content'>
+                                <h2 className='text-lg font-bold'>
+                                    {t("district")}: {data.district}
+                                </h2>
+                                <h3 className='text-lg'>
+                                    {t("address")}: {data.address}
+                                </h3>
+                                <h4 className='text-base'>
+                                    {t("date")}: {`${data.start_date} ${t("to")} ${data.end_date}`}
+                                </h4>
+                                {data.remarks && (
+                                    <h4 className='text-sm'>
+                                        {t("remark")}: {data.remarks}
+                                    </h4>
+                                )}
+                                <p className='text-justify'>
+                                    {t.rich("remarkwarn", {
+                                        br: () => <br />,
+                                        link: (chunks) => (
+                                            <Link
+                                                href={`${chunks}`}
+                                                target='_blank'
+                                                className='break-words break-all whitespace-normal'>
+                                                <br />
+                                                {chunks}
+                                            </Link>
+                                        ),
+                                    })}
+                                </p>
                             </div>
                         </Popup>
                     </Marker>
