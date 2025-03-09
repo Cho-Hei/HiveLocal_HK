@@ -1,8 +1,8 @@
 import { MapContainer, TileLayer, Marker, Popup, ZoomControl, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { InfoProps } from "@/types";
-import { useEffect } from "react";
-import L from "leaflet";
+import { useEffect, useRef } from "react";
+import L, { Map } from "leaflet";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 
@@ -24,15 +24,22 @@ const MapTile = ({ coinCartData, location, setLocation }: MapTileProps) => {
     // const selectedLocation = coinCartData[location];
     const t = useTranslations("I_MapNote");
     const locale = useLocale();
+    const mapRef = useRef<Map | null>(null);
 
     const MapCenter = () => {
         const map = useMap();
+
         useEffect(() => {
             if (location) {
+                map.closePopup();
                 map.setView([location.latitude, location.longitude], 18);
             }
         }, [location, map]);
         return null;
+    };
+
+    const handleLocation = (location: InfoProps) => {
+        setLocation(location);
     };
 
     return (
@@ -42,7 +49,8 @@ const MapTile = ({ coinCartData, location, setLocation }: MapTileProps) => {
                 zoom={13}
                 minZoom={10}
                 className='map'
-                zoomControl={false}>
+                zoomControl={false}
+                ref={mapRef}>
                 {/* Base map */}
                 <TileLayer
                     url='https://mapapi.geodata.gov.hk/gs/api/v1.0.0/xyz/basemap/WGS84/{z}/{x}/{y}.png'
@@ -62,7 +70,7 @@ const MapTile = ({ coinCartData, location, setLocation }: MapTileProps) => {
                         icon={truckIcon}
                         eventHandlers={{
                             click: () => {
-                                setLocation(data);
+                                handleLocation(data);
                             },
                         }}>
                         <Popup>
