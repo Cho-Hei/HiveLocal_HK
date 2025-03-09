@@ -174,6 +174,13 @@ body {
 .sidebar {
     scrollbar-width: none; /* For Firefox */
     -ms-overflow-style: none; /* For Internet Explorer and Edge */
+    grid-template-rows: auto;
+}
+
+@media (width >= 64rem) {
+    .sidebar {
+        grid-template-rows: auto 1fr;
+    }
 }
 
 .sidebar::-webkit-scrollbar {

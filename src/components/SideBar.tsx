@@ -6,18 +6,17 @@ import { Skeleton } from "@heroui/react";
 
 interface SideBarProps {
     coinCartData: InfoProps[];
-    location: number;
-    setLocation: (index: number) => void;
+    location: InfoProps | null;
+    setLocation: (prop: InfoProps) => void;
     Selectorstatus: string;
 }
 
 const SideBar = ({ coinCartData, location, setLocation, Selectorstatus }: SideBarProps) => {
     const t = useTranslations("I_SideBar");
+
     return (
-        <section
-            className='sidebar h-screen lg:max-w-[310px] bg-[#17153B] p-2 lg:p-1 overflow-y-auto grid grid-cols-2 lg:grid-cols-1 gap-2 place-content-stretch'
-            style={{ gridTemplateRows: "auto 1fr" }}>
-            <div className='min-h-[440px] max-h-[450px] rounded-2xl bg-[#2E236C] lg:mx-2 lg:my-1 shadow-lg flex flex-col'>
+        <section className='sidebar h-screen lg:max-w-[310px] min-w-[300px] bg-[#17153B] p-2 lg:p-1 overflow-y-auto grid grid-cols-2 lg:grid-cols-1 gap-2 place-content-stretch'>
+            <div className='min-h-[440px] max-h-fit rounded-2xl bg-[#2E236C] lg:mx-2 lg:my-1 shadow-lg flex flex-col'>
                 <div className='info flex flex-col flex-grow'>
                     <div className='info-title bg-[#433D8B] flexCenter rounded-t-2xl'>
                         <Info weight='fill' size={24} />
@@ -33,20 +32,20 @@ const SideBar = ({ coinCartData, location, setLocation, Selectorstatus }: SideBa
                                 <Skeleton className='w-[150px] rounded-lg bg-violet-600'>
                                     <div className='h-4 w-3/5 rounded-lg' />
                                 </Skeleton>
-                                <Skeleton className='w-[250px] rounded-lg bg-violet-600'>
+                                <Skeleton className='lg:w-[250px] w-[180px] rounded-lg bg-violet-600'>
                                     <div className='h-5 w-4/5 rounded-lg' />
                                 </Skeleton>
-                                <Skeleton className='w-[200px] rounded-lg bg-violet-600'>
+                                <Skeleton className='w-[170px] rounded-lg bg-violet-600'>
                                     <div className='h-3 w-2/5 rounded-lg' />
                                 </Skeleton>
-                                <Skeleton className='w-[180px] rounded-lg bg-violet-600'>
+                                <Skeleton className='w-[160px] rounded-lg bg-violet-600'>
                                     <div className='h-3 w-2/5 rounded-lg' />
                                 </Skeleton>
                             </div>
                         </div>
                     ) : (
                         <>
-                            {coinCartData && coinCartData.length > 0 && (
+                            {location ? (
                                 <div className='info-content p-2 flex-grow flex flex-col'>
                                     <div className='service-provider p-4 rounded-2xl bg-violet-700'>
                                         <h2 className='text-xl lg:text-2xl font-bold'>
@@ -58,7 +57,7 @@ const SideBar = ({ coinCartData, location, setLocation, Selectorstatus }: SideBa
                                         <div className='flex flex-col'>
                                             <div className='flex items-center rounded-lg m-1'>
                                                 <div className='w-full text-center'>
-                                                    <h4 className='text-xl text-balance whitespace-nowrap'>{`${coinCartData[location].start_date} to ${coinCartData[location].end_date}`}</h4>
+                                                    <h4 className='text-xl text-balance whitespace-nowrap'>{`${location.start_date} to ${location.end_date}`}</h4>
                                                     <h4 className='text-base mt-2'>
                                                         10:00 AM - 19:00 PM
                                                     </h4>
@@ -67,25 +66,29 @@ const SideBar = ({ coinCartData, location, setLocation, Selectorstatus }: SideBa
 
                                             <div className='rounded-lg m-1'>
                                                 <h4 className='text-base lg:text-lg font-bold'>
-                                                    {coinCartData[location].district}
+                                                    {location.district}
                                                 </h4>
                                             </div>
 
                                             <div className='rounded-lg m-1'>
                                                 <h4 className='text-sm lg:text-lg'>
-                                                    {coinCartData[location].address}
+                                                    {location.address}
                                                 </h4>
                                             </div>
                                         </div>
 
-                                        {coinCartData[location].remarks && (
+                                        {location.remarks && (
                                             <div className='flexCenter rounded-lg p-2 min-h-[64px] text-center bg-orange-600/80 w-full'>
                                                 <h4 className='text-sm font-bold text-pretty'>
-                                                    {coinCartData[location].remarks}
+                                                    {location.remarks}
                                                 </h4>
                                             </div>
                                         )}
                                     </div>
+                                </div>
+                            ) : (
+                                <div className='flexCenter flex-grow'>
+                                    <h1 className='text-white text-center'>{t("noData")}</h1>
                                 </div>
                             )}
                         </>

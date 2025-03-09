@@ -3,20 +3,16 @@ import { InfoProps } from "@/types";
 
 export const fetchCoinCartData = createAsyncThunk(
     "coinCart/fetchCoinCartData",
-    async (lang: string) => {
-        const response = await fetch(
-            `https://api.hkma.gov.hk/public/coin-cart-schedule?lang=${lang}`
-        );
+    async ({ lang, all }: { lang: string; all: boolean }) => {
+        const response = await fetch(`/api/coincart`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ lang, all }),
+        });
         const data = await response.json();
-
-        // Filter out the data that has already started
-        const currentDate = new Date();
-        data.result.records = data.result.records.filter(
-            (record: InfoProps) =>
-                new Date(record.start_date) < currentDate && new Date(record.end_date) > currentDate
-        );
-
-        return data.result.records as InfoProps[];
+        return data as InfoProps[];
     }
 );
 
@@ -26,8 +22,13 @@ const coinCartSlice = createSlice({
         data: [] as InfoProps[],
         status: "idle",
         error: null,
+        showAll: false,
     },
-    reducers: {},
+    reducers: {
+        toggleShowAll: (state) => {
+            state.showAll = !state.showAll;
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(fetchCoinCartData.pending, (state) => {
@@ -43,5 +44,7 @@ const coinCartSlice = createSlice({
             });
     },
 });
+
+export const { toggleShowAll } = coinCartSlice.actions;
 
 export default coinCartSlice.reducer;

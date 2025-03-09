@@ -8,8 +8,8 @@ import Link from "next/link";
 
 interface MapTileProps {
     coinCartData: InfoProps[];
-    location: number;
-    setLocation: (index: number) => void;
+    location: InfoProps | null;
+    setLocation: (location: InfoProps) => void;
 }
 
 // Create a custom icon
@@ -21,17 +21,17 @@ const truckIcon = L.icon({
 });
 
 const MapTile = ({ coinCartData, location, setLocation }: MapTileProps) => {
-    const selectedLocation = coinCartData[location];
+    // const selectedLocation = coinCartData[location];
     const t = useTranslations("I_MapNote");
     const locale = useLocale();
 
     const MapCenter = () => {
         const map = useMap();
         useEffect(() => {
-            if (selectedLocation) {
-                map.setView([selectedLocation.latitude, selectedLocation.longitude], 18);
+            if (location) {
+                map.setView([location.latitude, location.longitude], 18);
             }
-        }, [selectedLocation, map]);
+        }, [location, map]);
         return null;
     };
 
@@ -62,7 +62,7 @@ const MapTile = ({ coinCartData, location, setLocation }: MapTileProps) => {
                         icon={truckIcon}
                         eventHandlers={{
                             click: () => {
-                                setLocation(index);
+                                setLocation(data);
                             },
                         }}>
                         <Popup>
