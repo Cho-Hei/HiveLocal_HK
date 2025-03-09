@@ -8,6 +8,9 @@ import dynamic from "next/dynamic";
 import { useParams } from "next/navigation";
 import Navbar from "./Navbar";
 import { InfoProps } from "@/types";
+import { getGPUTier } from "detect-gpu";
+import { addToast, cn } from "@heroui/react";
+import { useTranslations } from "next-intl";
 
 const MapTile = dynamic(() => import("./MapTile"), { ssr: false });
 
@@ -18,6 +21,28 @@ const MainHero = () => {
     const showAll = useSelector((state: RootState) => state.coinCart.showAll);
     const [location, setLocation] = useState<InfoProps | null>(null);
     const { locale } = useParams<{ locale: string }>();
+    const t = useTranslations("I_popup");
+
+    const checkGPU = async () => {
+        const { tier } = await getGPUTier();
+
+        console.log(`GPU tier: ${tier}`);
+        if (tier < 2) {
+            addToast({
+                color: "warning",
+                title: t("performance_remind"),
+                timeout: 5000,
+                shouldShowTimeoutProgress: true,
+                classNames: {
+                    base: cn(["absolute bottom-0 right-0 z-10"]),
+                },
+            });
+        }
+    };
+
+    useEffect(() => {
+        checkGPU();
+    }, []);
 
     useEffect(() => {
         console.log(`locale: ${locale}`);

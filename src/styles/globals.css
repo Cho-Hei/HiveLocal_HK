@@ -187,9 +187,37 @@ body {
     display: none; /* For Chrome, Safari, and Opera */
 }
 
+.location_scroll {
+    &::-webkit-scrollbar {
+        background-color: #433d8b;
+        width: 8px;
+        border-radius: 8px;
+    }
+    &::-webkit-scrollbar-thumb {
+        border-radius: 8px;
+        background-color: #362d6c;
+    }
+}
+
 /* React Leaflet */
 
 .leaflet-popup-content-wrapper,
 .leaflet-popup-tip {
     background-color: #a29af9 !important;
+}
+
+.leaflet-control {
+    z-index: 0 !important;
+}
+.leaflet-pane {
+    z-index: 0 !important;
+}
+.leaflet-top,
+.leaflet-bottom {
+    z-index: 0 !important;
+}
+
+.location_scroll {
+    /* max-height: 400px; */
+    overflow-y: auto;
 }

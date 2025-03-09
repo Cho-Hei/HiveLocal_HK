@@ -13,6 +13,7 @@
     "@phosphor-icons/react": "^2.1.7",
     "@reduxjs/toolkit": "^2.5.1",
     "@types/leaflet": "^1.9.16",
+    "detect-gpu": "^5.0.70",
     "framer-motion": "^12.4.10",
     "leaflet": "^1.9.4",
     "leaflet-defaulticon-compatibility": "^0.1.2",

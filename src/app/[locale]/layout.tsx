@@ -5,6 +5,7 @@ import { routing } from "@/utils/i18n/routing";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
+import { HeroUIProvider, ToastProvider } from "@heroui/react";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
