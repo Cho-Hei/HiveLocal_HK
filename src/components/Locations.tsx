@@ -44,17 +44,17 @@ const Locations = ({ coinCartData, setLocation }: LocationsProps) => {
     }, [coinCartData]);
 
     return (
-        <div className='flex flex-col location rounded-2xl bg-[#2E236C] lg:mx-2'>
+        <div className='flex flex-col location rounded-2xl bg-[#2E236C] lg:mx-2 text-white'>
             <div className='info-title bg-[#433D8B] flexCenter rounded-t-2xl'>
                 <MapPinLine weight='fill' size={24} />
-                <h1 className='text-white text-xl py-1 text-center mx-2'>{t("location")}</h1>
+                <h1 className='text-xl py-1 text-center mx-2'>{t("location")}</h1>
             </div>
             {/* List of location */}
             {coinCartData && coinCartData.length > 0 ? (
                 <div className='location_scroll my-2'>
                     {Object.keys(groupedData).map((month) => (
                         <div key={month}>
-                            <h2 className='text-xl font-bold text-white flexCenter bg-[#433D8B] rounded-lg m-2 px-2'>
+                            <h2 className='text-xl font-bold flexCenter bg-[#433D8B] rounded-lg m-2 px-2'>
                                 {month}
                             </h2>
                             {groupedData[month].map((data, index) => (
@@ -76,9 +76,7 @@ const Locations = ({ coinCartData, setLocation }: LocationsProps) => {
             )}
             {/* Show all */}
             <div>
-                <button
-                    className='bg-[#433D8B] text-white w-full py-2 rounded-2xl'
-                    onClick={handleToggle}>
+                <button className='bg-[#433D8B] w-full py-2 rounded-2xl' onClick={handleToggle}>
                     {showAll ? t("showLess") : t("showAll")}
                 </button>
             </div>

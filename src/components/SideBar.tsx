@@ -46,8 +46,8 @@ const SideBar = ({ coinCartData, location, setLocation, Selectorstatus }: SideBa
                     ) : (
                         <>
                             {location ? (
-                                <div className='info-content p-2 flex-grow flex flex-col'>
-                                    <div className='service-provider p-4 rounded-2xl bg-violet-700'>
+                                <div className='info-content p-2 flex-grow flex flex-col text-white'>
+                                    <div className='service-provider p-4 rounded-2xl bg-[#6250a0]'>
                                         <h2 className='text-xl lg:text-2xl font-bold'>
                                             {t("coincart")}
                                         </h2>
@@ -57,7 +57,9 @@ const SideBar = ({ coinCartData, location, setLocation, Selectorstatus }: SideBa
                                         <div className='flex flex-col'>
                                             <div className='flex items-center rounded-lg m-1'>
                                                 <div className='w-full text-center'>
-                                                    <h4 className='text-xl text-balance whitespace-nowrap'>{`${location.start_date} to ${location.end_date}`}</h4>
+                                                    <h4 className='text-lg text-balance whitespace-nowrap'>{`${
+                                                        location.start_date
+                                                    } ${t("to")} ${location.end_date}`}</h4>
                                                     <h4 className='text-base mt-2'>
                                                         10:00 AM - 19:00 PM
                                                     </h4>

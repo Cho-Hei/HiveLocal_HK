@@ -14,6 +14,10 @@ export default {
                 background: "var(--background)",
                 foreground: "var(--foreground)",
             },
+            fontFamily: {
+                sans: ["var(--font-noto-sans-tc)"],
+                en: ["var(--font-geist-sans)"],
+            },
         },
     },
     plugins: [heroui()],

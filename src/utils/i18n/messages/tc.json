@@ -3,7 +3,8 @@
         "info": "資訊",
         "coincart": "收銀車",
         "HKMA": "香港金融管理局",
-        "noData": "請選擇地點"
+        "noData": "請選擇地點",
+        "to": "至"
     },
 
     "I_Location": {

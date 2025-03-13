@@ -3,7 +3,8 @@
         "info": "Information",
         "coincart": "Coin Cart",
         "HKMA": "Hong Kong Monetary Authority",
-        "noData": "Choose a location"
+        "noData": "Choose a location",
+        "to": "to"
     },
 
     "I_Location": {

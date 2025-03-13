@@ -55,7 +55,7 @@ const LocaleSwitch = () => {
             <Dropdown backdrop='blur' className='bg-slate-400'>
                 <DropdownTrigger>
                     <Button className='bg-slate-400 min-w-6 h-6 m-2'>
-                        {locale === "en" ? "EN" : "中"}
+                        {locale === "en" ? "中" : "EN"}
                     </Button>
                 </DropdownTrigger>
                 <DropdownMenu
@@ -63,7 +63,7 @@ const LocaleSwitch = () => {
                     onAction={(key) => onDropdownChange(key as string)}>
                     {routing.locales.map((cur) => (
                         <DropdownItem key={cur} value={cur}>
-                            {cur === "en" ? "EN" : "中"}
+                            {cur === "en" ? "English" : "中"}
                         </DropdownItem>
                     ))}
                 </DropdownMenu>
