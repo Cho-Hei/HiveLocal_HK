@@ -23,6 +23,12 @@ export async function POST(req: NextRequest) {
             );
         }
 
+        // Filter out address after ";" and "*"
+        data.result.records.forEach((record: InfoProps) => {
+            const address = record.address.split(/;|\*/)[0];
+            record.address = address;
+        });
+
         // Sort by start date
         data.result.records.sort(
             (a: InfoProps, b: InfoProps) =>

@@ -74,18 +74,18 @@ const MapTile = ({ coinCartData, location, setLocation }: MapTileProps) => {
                             },
                         }}>
                         <Popup>
-                            <div className='popup-content'>
+                            <div className='popup-content w-full'>
                                 <h2 className='text-lg font-bold'>
                                     {t("district")}: {data.district}
                                 </h2>
-                                <h3 className='text-lg'>
+                                <h3 className='text-base/5 my-1 font-semibold'>
                                     {t("address")}: {data.address}
                                 </h3>
-                                <h4 className='text-base'>
+                                <h4 className='text-base font-semibold'>
                                     {t("date")}: {`${data.start_date} ${t("to")} ${data.end_date}`}
                                 </h4>
                                 {data.remarks && (
-                                    <h4 className='text-sm'>
+                                    <h4 className='text-sm font-semibold italic my-1'>
                                         {t("remark")}: {data.remarks}
                                     </h4>
                                 )}

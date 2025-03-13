@@ -60,7 +60,8 @@ const LocaleSwitch = () => {
                 </DropdownTrigger>
                 <DropdownMenu
                     aria-label='Locale'
-                    onAction={(key) => onDropdownChange(key as string)}>
+                    onAction={(key) => onDropdownChange(key as string)}
+                    disabledKeys={[locale]}>
                     {routing.locales.map((cur) => (
                         <DropdownItem key={cur} value={cur}>
                             {cur === "en" ? "English" : "中"}

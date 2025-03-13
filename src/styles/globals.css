@@ -203,6 +203,11 @@ body {
 /* React Leaflet */
 
 .leaflet-popup-content-wrapper,
+.leaflet-popup-content {
+    min-width: 365px !important;
+}
+
+.leaflet-popup-content-wrapper,
 .leaflet-popup-tip {
     background-color: #a29af9 !important;
 }
