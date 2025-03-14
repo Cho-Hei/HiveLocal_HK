@@ -2,10 +2,6 @@ import { NextResponse, type NextRequest } from "next/server";
 import { InfoProps } from "@/types";
 
 export async function POST(req: NextRequest) {
-    // const searchParams = req.nextUrl.searchParams;
-    // const lang = searchParams.get("lang");
-    // const all = searchParams.get("all");
-
     const { lang, all } = await req.json();
 
     try {

@@ -20,6 +20,7 @@ const coinCartSlice = createSlice({
     name: "coinCart",
     initialState: {
         data: [] as InfoProps[],
+        currentLocation: null as InfoProps | null,
         status: "idle",
         error: null,
         showAll: false,
@@ -27,6 +28,9 @@ const coinCartSlice = createSlice({
     reducers: {
         toggleShowAll: (state) => {
             state.showAll = !state.showAll;
+        },
+        updateCurrentLocation: (state, action) => {
+            state.currentLocation = action.payload;
         },
     },
     extraReducers: (builder) => {
@@ -45,6 +49,6 @@ const coinCartSlice = createSlice({
     },
 });
 
-export const { toggleShowAll } = coinCartSlice.actions;
+export const { toggleShowAll, updateCurrentLocation } = coinCartSlice.actions;
 
 export default coinCartSlice.reducer;

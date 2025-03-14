@@ -5,6 +5,8 @@ import { useEffect, useRef } from "react";
 import L, { Map } from "leaflet";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
+import { getGPUTier } from "detect-gpu";
+import { addToast, cn } from "@heroui/react";
 
 interface MapTileProps {
     coinCartData: InfoProps[];
@@ -26,6 +28,29 @@ const MapTile = ({ coinCartData, location, setLocation }: MapTileProps) => {
     const locale = useLocale();
     const mapRef = useRef<Map | null>(null);
 
+    const checkGPU = async () => {
+        const { tier } = await getGPUTier();
+
+        console.log(`GPU tier: ${tier}`);
+        if (tier < 2) {
+            addToast({
+                color: "warning",
+                title: t("performance_remind"),
+                timeout: 5000,
+                shouldShowTimeoutProgress: true,
+                classNames: {
+                    base: cn(["absolute bottom-0 right-0 z-10"]),
+                },
+            });
+        }
+    };
+
+    // Hardware acceleration check
+    useEffect(() => {
+        checkGPU();
+    }, []);
+
+    // Close popup when changing location
     const MapCenter = () => {
         const map = useMap();
 
