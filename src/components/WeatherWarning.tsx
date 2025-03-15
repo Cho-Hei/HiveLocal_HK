@@ -1,14 +1,26 @@
 import { useWeather } from "@/hooks/useWeather";
-import { WarningCircle } from "@phosphor-icons/react/dist/ssr";
+import { Warning, WeatherIcons } from "@/types/weather";
+import { Avatar } from "@heroui/react";
 
 const WeatherWarning = () => {
     const { warnings } = useWeather();
 
+    if (!warnings) {
+        return null;
+    }
+    console.log(warnings);
+
     return (
         <div className='flexCenter'>
-            <WarningCircle size={26} color='#aac488' weight='duotone' />
-            <WarningCircle size={26} color='#aac488' weight='duotone' />
-            <WarningCircle size={26} color='#aac488' weight='duotone' />
+            {/* Show warning icons */}
+            {warnings.map((warning: Warning) => (
+                <div
+                    key={warning.code}
+                    className='mx-1 border-2 animate-[flashBorder_3s_infinite]'
+                    style={{ "--flashing-color": "red" } as React.CSSProperties}>
+                    <Avatar src={WeatherIcons[warning.code]} size='sm' className='rounded-none' />
+                </div>
+            ))}
         </div>
     );
 };

@@ -227,3 +227,14 @@ body {
     /* max-height: 400px; */
     overflow-y: auto;
 }
+
+/* Weather warning flashing border */
+@keyframes flashBorder {
+    0%,
+    100% {
+        border-color: transparent;
+    }
+    50% {
+        border-color: var(--flashing-color, red); /* Default to red */
+    }
+}
