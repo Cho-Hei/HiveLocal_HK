@@ -1,3 +1,4 @@
+"use client";
 import { usePathname, useRouter } from "@/utils/i18n/navigation";
 import { Locale, routing } from "@/utils/i18n/routing";
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@heroui/react";
@@ -55,15 +56,16 @@ const LocaleSwitch = () => {
             <Dropdown backdrop='blur' className='bg-slate-400'>
                 <DropdownTrigger>
                     <Button className='bg-slate-400 min-w-6 h-6 m-2'>
-                        {locale === "en" ? "EN" : "中"}
+                        {locale === "en" ? "中" : "EN"}
                     </Button>
                 </DropdownTrigger>
                 <DropdownMenu
                     aria-label='Locale'
-                    onAction={(key) => onDropdownChange(key as string)}>
+                    onAction={(key) => onDropdownChange(key as string)}
+                    disabledKeys={[locale]}>
                     {routing.locales.map((cur) => (
                         <DropdownItem key={cur} value={cur}>
-                            {cur === "en" ? "EN" : "中"}
+                            {cur === "en" ? "English" : "中"}
                         </DropdownItem>
                     ))}
                 </DropdownMenu>

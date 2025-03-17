@@ -1,20 +1,22 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Noto_Sans_TC } from "next/font/google";
 import "@/styles/globals.css";
-import { routing } from "@/utils/i18n/routing";
-import { notFound } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
-import { HeroUIProvider, ToastProvider } from "@heroui/react";
+import useFontFamily from "@/hooks/useFontFamily";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
+    weight: ["400", "500", "600", "700"],
     subsets: ["latin"],
+    display: "swap",
 });
 
-const geistMono = Geist_Mono({
-    variable: "--font-geist-mono",
+const notoSansTC = Noto_Sans_TC({
     subsets: ["latin"],
+    weight: ["400", "500", "600", "700"],
+    variable: "--font-noto-sans-tc",
+    display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -36,9 +38,13 @@ export default async function LocaleLayout({
 
     const messages = await getMessages();
 
+    // const fontClass = locale === "tc" ? notoSansTC.variable : geistSans.variable;
+    const fontClass = useFontFamily(locale);
+
     return (
         <html lang={locale}>
-            <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+            <body
+                className={`${fontClass} ${locale === "tc" ? "font-sans" : "font-en"} antialiased`}>
                 <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
             </body>
         </html>

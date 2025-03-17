@@ -14,6 +14,19 @@ export default {
                 background: "var(--background)",
                 foreground: "var(--foreground)",
             },
+            fontFamily: {
+                sans: ["var(--font-noto-sans-tc)"],
+                en: ["var(--font-geist-sans)"],
+            },
+            // animation: {
+            //     "flash-border": "flashBorder 1s infinite",
+            // },
+            // keyframes: {
+            //     flashBorder: {
+            //         "0%, 100%": { borderColor: "transparent" },
+            //         "50%": { borderColor: "red" },
+            //     },
+            // },
         },
     },
     plugins: [heroui()],

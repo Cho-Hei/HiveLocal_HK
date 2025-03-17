@@ -1,15 +1,21 @@
+"use client";
 import { MapContainer, TileLayer, Marker, Popup, ZoomControl, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { InfoProps } from "@/types";
+import { DataProps } from "@/types";
 import { useEffect, useRef } from "react";
 import L, { Map } from "leaflet";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
+import { getGPUTier } from "detect-gpu";
+import { addToast, cn } from "@heroui/react";
+import { AppDispatch, RootState } from "@/store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { updateCurrentLocation } from "@/store/dataSetsSlice";
 
 interface MapTileProps {
-    coinCartData: InfoProps[];
-    location: InfoProps | null;
-    setLocation: (location: InfoProps) => void;
+    data: DataProps[];
+    location: DataProps | null;
+    setLocation: (location: DataProps) => void;
 }
 
 // Create a custom icon
@@ -20,12 +26,44 @@ const truckIcon = L.icon({
     popupAnchor: [0, -16], // Anchor point of the popup relative to the icon
 });
 
-const MapTile = ({ coinCartData, location, setLocation }: MapTileProps) => {
+const clothesIcon = L.icon({
+    iconUrl: "/tshirt.svg",
+    iconSize: [25, 25],
+    iconAnchor: [10, 10],
+    popupAnchor: [0, -16],
+});
+
+const MapTile = () => {
     // const selectedLocation = coinCartData[location];
     const t = useTranslations("I_MapNote");
+    const dispatch: AppDispatch = useDispatch();
+    const { data, currentLocation: location } = useSelector((state: RootState) => state.dataSets);
     const locale = useLocale();
     const mapRef = useRef<Map | null>(null);
 
+    const checkGPU = async () => {
+        const { tier } = await getGPUTier();
+
+        console.log(`GPU tier: ${tier}`);
+        if (tier < 2) {
+            addToast({
+                color: "warning",
+                title: t("performance_remind"),
+                timeout: 5000,
+                shouldShowTimeoutProgress: true,
+                classNames: {
+                    base: cn(["absolute bottom-0 right-0 z-10"]),
+                },
+            });
+        }
+    };
+
+    // Hardware acceleration check
+    useEffect(() => {
+        checkGPU();
+    }, []);
+
+    // Close popup when changing location
     const MapCenter = () => {
         const map = useMap();
 
@@ -38,8 +76,8 @@ const MapTile = ({ coinCartData, location, setLocation }: MapTileProps) => {
         return null;
     };
 
-    const handleLocation = (location: InfoProps) => {
-        setLocation(location);
+    const handleLocation = (location: DataProps) => {
+        dispatch(updateCurrentLocation(location));
     };
 
     return (
@@ -63,7 +101,7 @@ const MapTile = ({ coinCartData, location, setLocation }: MapTileProps) => {
                 />
                 <ZoomControl position='bottomright' />
                 <MapCenter />
-                {coinCartData.map((data, index) => (
+                {data.map((data, index) => (
                     <Marker
                         key={index}
                         position={[data.latitude, data.longitude]}
@@ -74,18 +112,18 @@ const MapTile = ({ coinCartData, location, setLocation }: MapTileProps) => {
                             },
                         }}>
                         <Popup>
-                            <div className='popup-content'>
+                            <div className='popup-content w-full'>
                                 <h2 className='text-lg font-bold'>
                                     {t("district")}: {data.district}
                                 </h2>
-                                <h3 className='text-lg'>
+                                <h3 className='text-base/5 my-1 font-semibold'>
                                     {t("address")}: {data.address}
                                 </h3>
-                                <h4 className='text-base'>
+                                <h4 className='text-base font-semibold'>
                                     {t("date")}: {`${data.start_date} ${t("to")} ${data.end_date}`}
                                 </h4>
                                 {data.remarks && (
-                                    <h4 className='text-sm'>
+                                    <h4 className='text-sm font-semibold italic my-1'>
                                         {t("remark")}: {data.remarks}
                                     </h4>
                                 )}
