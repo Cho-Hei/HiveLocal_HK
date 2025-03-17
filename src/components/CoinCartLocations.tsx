@@ -1,20 +1,17 @@
-import { toggleShowAll } from "@/store/dataSetsSlice";
-import { AppDispatch, RootState } from "@/store/store";
-import { DataProps, LocationsProps } from "@/types";
+"use client";
+import { DataProps } from "@/types";
 import { MapPinLine } from "@phosphor-icons/react/dist/ssr";
 import { useLocale, useTranslations } from "next-intl";
-import { useDispatch, useSelector } from "react-redux";
 import { useMemo } from "react";
+import ExpandButton from "./ExpandButton";
+import LocationCard from "./LocationCard";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
-const CoinCartLocations = ({ data: coinCartData, setLocation }: LocationsProps) => {
+const CoinCartLocations = () => {
     const locale = useLocale();
     const t = useTranslations("I_Location");
-    const dispatch: AppDispatch = useDispatch();
-    const showAll = useSelector((state: RootState) => state.dataSets.showAll);
-
-    const handleToggle = () => {
-        dispatch(toggleShowAll());
-    };
+    const { data: coinCartData } = useSelector((state: RootState) => state.dataSets);
 
     const groupedData = useMemo(() => {
         const grouped: { [key: string]: DataProps[] } = {};
@@ -55,13 +52,7 @@ const CoinCartLocations = ({ data: coinCartData, setLocation }: LocationsProps) 
                                 {month}
                             </h2>
                             {groupedData[month].map((data, index) => (
-                                <div
-                                    key={index}
-                                    className='p-2 cursor-pointer hover:bg-[#433D8B] rounded-lg'
-                                    onClick={() => setLocation(data)}>
-                                    <h2 className='text-xl font-bold'>{data.district}</h2>
-                                    <h4 className='text-base'>{data.address}</h4>
-                                </div>
+                                <LocationCard key={index} data={data} />
                             ))}
                         </div>
                     ))}
@@ -72,11 +63,7 @@ const CoinCartLocations = ({ data: coinCartData, setLocation }: LocationsProps) 
                 </div>
             )}
             {/* Show all */}
-            <div>
-                <button className='bg-[#433D8B] w-full py-2 rounded-2xl' onClick={handleToggle}>
-                    {showAll ? t("showLess") : t("showAll")}
-                </button>
-            </div>
+            <ExpandButton />
         </div>
     );
 };

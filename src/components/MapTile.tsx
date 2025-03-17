@@ -1,12 +1,16 @@
+"use client";
 import { MapContainer, TileLayer, Marker, Popup, ZoomControl, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { InfoProps, DataProps } from "@/types";
+import { DataProps } from "@/types";
 import { useEffect, useRef } from "react";
 import L, { Map } from "leaflet";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import { getGPUTier } from "detect-gpu";
 import { addToast, cn } from "@heroui/react";
+import { AppDispatch, RootState } from "@/store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { updateCurrentLocation } from "@/store/dataSetsSlice";
 
 interface MapTileProps {
     data: DataProps[];
@@ -29,9 +33,11 @@ const clothesIcon = L.icon({
     popupAnchor: [0, -16],
 });
 
-const MapTile = ({ data, location, setLocation }: MapTileProps) => {
+const MapTile = () => {
     // const selectedLocation = coinCartData[location];
     const t = useTranslations("I_MapNote");
+    const dispatch: AppDispatch = useDispatch();
+    const { data, currentLocation: location } = useSelector((state: RootState) => state.dataSets);
     const locale = useLocale();
     const mapRef = useRef<Map | null>(null);
 
@@ -71,7 +77,7 @@ const MapTile = ({ data, location, setLocation }: MapTileProps) => {
     };
 
     const handleLocation = (location: DataProps) => {
-        setLocation(location);
+        dispatch(updateCurrentLocation(location));
     };
 
     return (

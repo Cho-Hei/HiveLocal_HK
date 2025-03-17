@@ -25,5 +25,4 @@ export type DataName = "coincart" | "clothesrecycle";
 
 export interface LocationsProps {
     data: DataProps[];
-    setLocation: (location: DataProps) => void;
 }

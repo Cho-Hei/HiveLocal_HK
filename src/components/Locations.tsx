@@ -1,18 +1,14 @@
-import { toggleShowAll } from "@/store/dataSetsSlice";
-import { AppDispatch, RootState } from "@/store/store";
-import { DataProps, LocationsProps } from "@/types";
+"use client";
 import { MapPinLine } from "@phosphor-icons/react/dist/ssr";
 import { useTranslations } from "next-intl";
-import { useDispatch, useSelector } from "react-redux";
+import LocationCard from "./LocationCard";
+import ExpandButton from "./ExpandButton";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
-const Locations = ({ data, setLocation }: LocationsProps) => {
+const Locations = () => {
     const t = useTranslations("I_Location");
-    const dispatch: AppDispatch = useDispatch();
-    const showAll = useSelector((state: RootState) => state.dataSets.showAll);
-
-    const handleToggle = () => {
-        dispatch(toggleShowAll());
-    };
+    const { data } = useSelector((state: RootState) => state.dataSets);
 
     return (
         <div className='flex flex-col location rounded-2xl bg-[#2E236C] lg:mx-2 text-white'>
@@ -24,13 +20,7 @@ const Locations = ({ data, setLocation }: LocationsProps) => {
             {data && data.length > 0 ? (
                 <div className='location_scroll my-2'>
                     {data.map((data, index) => (
-                        <div
-                            key={index}
-                            className='p-2 cursor-pointer hover:bg-[#433D8B] rounded-lg'
-                            onClick={() => setLocation(data)}>
-                            <h2 className='text-xl font-bold'>{data.district}</h2>
-                            <h4 className='text-base'>{data.address}</h4>
-                        </div>
+                        <LocationCard key={index} data={data} />
                     ))}
                 </div>
             ) : (
@@ -39,11 +29,7 @@ const Locations = ({ data, setLocation }: LocationsProps) => {
                 </div>
             )}
             {/* Show all */}
-            <div>
-                <button className='bg-[#433D8B] w-full py-2 rounded-2xl' onClick={handleToggle}>
-                    {showAll ? t("showLess") : t("showAll")}
-                </button>
-            </div>
+            <ExpandButton />
         </div>
     );
 };

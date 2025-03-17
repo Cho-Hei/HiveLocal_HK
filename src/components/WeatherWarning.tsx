@@ -1,3 +1,4 @@
+"use client";
 import { useWeather } from "@/hooks/useWeather";
 import { Warning, WeatherIcons } from "@/types/weather";
 import { Avatar } from "@heroui/react";
@@ -8,7 +9,7 @@ const WeatherWarning = () => {
     if (!warnings) {
         return null;
     }
-    console.log(warnings);
+    // console.log(warnings);
 
     return (
         <div className='flexCenter'>

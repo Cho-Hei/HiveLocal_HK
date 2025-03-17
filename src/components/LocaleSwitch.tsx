@@ -1,3 +1,4 @@
+"use client";
 import { usePathname, useRouter } from "@/utils/i18n/navigation";
 import { Locale, routing } from "@/utils/i18n/routing";
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@heroui/react";
