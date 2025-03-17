@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { DataProps } from "@/types";
+import { DataName, DataProps } from "@/types";
 
 export const fetchData = createAsyncThunk(
     "datasets/fetchData",
@@ -20,7 +20,7 @@ const dataSetsSlice = createSlice({
     name: "datasets",
     initialState: {
         data: [] as DataProps[],
-        type: "coincart" as string,
+        type: "coincart" as DataName,
         currentLocation: null as DataProps | null,
         status: "idle",
         error: null,

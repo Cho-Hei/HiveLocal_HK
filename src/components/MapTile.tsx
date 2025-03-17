@@ -1,6 +1,6 @@
 import { MapContainer, TileLayer, Marker, Popup, ZoomControl, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { InfoProps } from "@/types";
+import { InfoProps, DataProps } from "@/types";
 import { useEffect, useRef } from "react";
 import L, { Map } from "leaflet";
 import { useLocale, useTranslations } from "next-intl";
@@ -9,9 +9,9 @@ import { getGPUTier } from "detect-gpu";
 import { addToast, cn } from "@heroui/react";
 
 interface MapTileProps {
-    coinCartData: InfoProps[];
-    location: InfoProps | null;
-    setLocation: (location: InfoProps) => void;
+    data: DataProps[];
+    location: DataProps | null;
+    setLocation: (location: DataProps) => void;
 }
 
 // Create a custom icon
@@ -22,7 +22,14 @@ const truckIcon = L.icon({
     popupAnchor: [0, -16], // Anchor point of the popup relative to the icon
 });
 
-const MapTile = ({ coinCartData, location, setLocation }: MapTileProps) => {
+const clothesIcon = L.icon({
+    iconUrl: "/tshirt.svg",
+    iconSize: [25, 25],
+    iconAnchor: [10, 10],
+    popupAnchor: [0, -16],
+});
+
+const MapTile = ({ data, location, setLocation }: MapTileProps) => {
     // const selectedLocation = coinCartData[location];
     const t = useTranslations("I_MapNote");
     const locale = useLocale();
@@ -63,7 +70,7 @@ const MapTile = ({ coinCartData, location, setLocation }: MapTileProps) => {
         return null;
     };
 
-    const handleLocation = (location: InfoProps) => {
+    const handleLocation = (location: DataProps) => {
         setLocation(location);
     };
 
@@ -88,7 +95,7 @@ const MapTile = ({ coinCartData, location, setLocation }: MapTileProps) => {
                 />
                 <ZoomControl position='bottomright' />
                 <MapCenter />
-                {coinCartData.map((data, index) => (
+                {data.map((data, index) => (
                     <Marker
                         key={index}
                         position={[data.latitude, data.longitude]}

@@ -29,12 +29,14 @@ export const useWeather = () => {
         { refreshInterval: 150000 }
     );
 
+    const exclusionCode = ["WFROST", "WTMW", "WFIRER", "WFIREY"];
+
     // Filter out warnings that are cancelled
     let warnings: Warning[] = [];
     if (data) {
-        warnings = Object.values(data as Record<string, Warning>).filter(
-            ({ actionCode }) => actionCode !== "CANCEL"
-        );
+        warnings = Object.values(data as Record<string, Warning>)
+            .filter(({ actionCode }) => actionCode !== "CANCEL")
+            .filter(({ code }) => !exclusionCode.includes(code));
     }
 
     return {

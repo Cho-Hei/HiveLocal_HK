@@ -1,47 +1,18 @@
-import { toggleShowAll } from "@/store/coinCartSlice";
+import { toggleShowAll } from "@/store/dataSetsSlice";
 import { AppDispatch, RootState } from "@/store/store";
-import { InfoProps } from "@/types";
+import { DataProps, LocationsProps } from "@/types";
 import { MapPinLine } from "@phosphor-icons/react/dist/ssr";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { useDispatch, useSelector } from "react-redux";
-import { useMemo } from "react";
 
-interface LocationsProps {
-    coinCartData: InfoProps[];
-    setLocation: (location: InfoProps) => void;
-}
-
-const Locations = ({ coinCartData, setLocation }: LocationsProps) => {
-    const locale = useLocale();
+const Locations = ({ data, setLocation }: LocationsProps) => {
     const t = useTranslations("I_Location");
     const dispatch: AppDispatch = useDispatch();
-    const showAll = useSelector((state: RootState) => state.coinCart.showAll);
+    const showAll = useSelector((state: RootState) => state.dataSets.showAll);
 
     const handleToggle = () => {
         dispatch(toggleShowAll());
     };
-
-    const groupedData = useMemo(() => {
-        const grouped: { [key: string]: InfoProps[] } = {};
-
-        coinCartData.forEach((data) => {
-            const month = new Date(data.start_date).toLocaleString(
-                locale === "tc" ? "zh-HK" : "en-US",
-                {
-                    month: "long",
-                    year: "numeric",
-                }
-            );
-
-            if (!grouped[month]) {
-                grouped[month] = [];
-            }
-
-            grouped[month].push(data);
-        });
-
-        return grouped;
-    }, [coinCartData]);
 
     return (
         <div className='flex flex-col location rounded-2xl bg-[#2E236C] lg:mx-2 text-white'>
@@ -50,22 +21,15 @@ const Locations = ({ coinCartData, setLocation }: LocationsProps) => {
                 <h1 className='text-xl py-1 text-center mx-2'>{t("location")}</h1>
             </div>
             {/* List of location */}
-            {coinCartData && coinCartData.length > 0 ? (
+            {data && data.length > 0 ? (
                 <div className='location_scroll my-2'>
-                    {Object.keys(groupedData).map((month) => (
-                        <div key={month}>
-                            <h2 className='text-xl font-bold flexCenter bg-[#433D8B] rounded-lg m-2 px-2'>
-                                {month}
-                            </h2>
-                            {groupedData[month].map((data, index) => (
-                                <div
-                                    key={index}
-                                    className='p-2 cursor-pointer hover:bg-[#433D8B] rounded-lg'
-                                    onClick={() => setLocation(data)}>
-                                    <h2 className='text-xl font-bold'>{data.district}</h2>
-                                    <h4 className='text-base'>{data.address}</h4>
-                                </div>
-                            ))}
+                    {data.map((data, index) => (
+                        <div
+                            key={index}
+                            className='p-2 cursor-pointer hover:bg-[#433D8B] rounded-lg'
+                            onClick={() => setLocation(data)}>
+                            <h2 className='text-xl font-bold'>{data.district}</h2>
+                            <h4 className='text-base'>{data.address}</h4>
                         </div>
                     ))}
                 </div>

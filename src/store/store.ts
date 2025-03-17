@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import coinCartReducer from "./coinCartSlice";
+import dataSetsSlice from "./dataSetsSlice";
 
 const store = configureStore({
     reducer: {
-        coinCart: coinCartReducer,
+        dataSets: dataSetsSlice,
     },
 });
 

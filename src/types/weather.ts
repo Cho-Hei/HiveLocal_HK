@@ -33,16 +33,16 @@ export type WeatherCode =
     | "TC3"
     | "TC1"
     | "WRAINA"
-    | "WFROST"
     | "WL"
-    | "WTMW"
     | "WTS"
     | "WFNTSA"
-    | "WFIRER"
-    | "WFIREY"
     | "WHOT"
     | "WCOLD"
-    | "WMSGNL";
+    | "WMSGNL"
+    | "WFROST"
+    | "WTMW"
+    | "WFIRER"
+    | "WFIREY";
 
 export const WeatherIcons: Partial<Record<WeatherCode, string>> = {
     TC10: "https://upload.wikimedia.org/wikipedia/commons/3/3d/No._10_Hurricane_Signal.png",

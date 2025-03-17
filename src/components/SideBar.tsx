@@ -1,18 +1,22 @@
-import { InfoProps } from "@/types";
+import { DataProps } from "@/types";
 import { Info } from "@phosphor-icons/react/dist/ssr";
 import Locations from "./Locations";
 import { useTranslations } from "next-intl";
 import { Skeleton } from "@heroui/react";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import CoinCartLocations from "./CoinCartLocations";
 
 interface SideBarProps {
-    coinCartData: InfoProps[];
-    location: InfoProps | null;
-    setLocation: (prop: InfoProps) => void;
+    data: DataProps[];
+    location: DataProps | null;
+    setLocation: (prop: DataProps) => void;
     Selectorstatus: string;
 }
 
-const SideBar = ({ coinCartData, location, setLocation, Selectorstatus }: SideBarProps) => {
+const SideBar = ({ data, location, setLocation, Selectorstatus }: SideBarProps) => {
     const t = useTranslations("I_SideBar");
+    const type = useSelector((state: RootState) => state.dataSets.type);
 
     return (
         <section className='sidebar h-screen lg:max-w-[310px] min-w-[300px] bg-[#17153B] p-2 lg:p-1 overflow-y-auto grid grid-cols-2 lg:grid-cols-1 gap-2 place-content-stretch'>
@@ -61,7 +65,7 @@ const SideBar = ({ coinCartData, location, setLocation, Selectorstatus }: SideBa
                                                         location.start_date
                                                     } ${t("to")} ${location.end_date}`}</h4>
                                                     <h4 className='text-base mt-2'>
-                                                        10:00 AM - 19:00 PM
+                                                        {location.open_hours}
                                                     </h4>
                                                 </div>
                                             </div>
@@ -97,8 +101,11 @@ const SideBar = ({ coinCartData, location, setLocation, Selectorstatus }: SideBa
                     )}
                 </div>
             </div>
-
-            <Locations coinCartData={coinCartData} setLocation={setLocation} />
+            {type === "coincart" ? (
+                <CoinCartLocations data={data} setLocation={setLocation} />
+            ) : (
+                <Locations data={data} setLocation={setLocation} />
+            )}
         </section>
     );
 };
