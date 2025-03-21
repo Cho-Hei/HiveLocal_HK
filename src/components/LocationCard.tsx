@@ -2,7 +2,6 @@
 import { updateCurrentLocation } from "@/store/dataSetsSlice";
 import { AppDispatch } from "@/store/store";
 import { DataProps } from "@/types";
-import React from "react";
 import { useDispatch } from "react-redux";
 
 interface LocationCardProps {
@@ -14,6 +13,7 @@ const LocationCard = ({ data }: LocationCardProps) => {
     const handleLocation = (location: DataProps) => {
         dispatch(updateCurrentLocation(location));
     };
+
     return (
         <div
             className='p-2 cursor-pointer hover:bg-[#433D8B] rounded-lg'

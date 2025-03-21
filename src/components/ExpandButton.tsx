@@ -2,7 +2,6 @@
 import { toggleShowAll } from "@/store/dataSetsSlice";
 import { AppDispatch, RootState } from "@/store/store";
 import { useTranslations } from "next-intl";
-import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const ExpandButton = () => {

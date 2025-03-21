@@ -53,23 +53,26 @@ const LocaleSwitch = () => {
                     </option>
                 ))}
             </select> */}
-            <Dropdown backdrop='blur' className='bg-slate-400'>
-                <DropdownTrigger>
-                    <Button className='bg-slate-400 min-w-6 h-6 m-2'>
-                        {locale === "en" ? "中" : "EN"}
-                    </Button>
-                </DropdownTrigger>
-                <DropdownMenu
-                    aria-label='Locale'
-                    onAction={(key) => onDropdownChange(key as string)}
-                    disabledKeys={[locale]}>
-                    {routing.locales.map((cur) => (
-                        <DropdownItem key={cur} value={cur}>
-                            {cur === "en" ? "English" : "中"}
-                        </DropdownItem>
-                    ))}
-                </DropdownMenu>
-            </Dropdown>
+            <div className='flex items-center text-center'>
+                <h2 className='text-primary'>Language:</h2>
+                <Dropdown backdrop='blur' className='bg-slate-400'>
+                    <DropdownTrigger>
+                        <Button className='bg-slate-400 min-w-6 h-6 m-2'>
+                            {locale === "en" ? "中" : "EN"}
+                        </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu
+                        aria-label='Locale'
+                        onAction={(key) => onDropdownChange(key as string)}
+                        disabledKeys={[locale]}>
+                        {routing.locales.map((cur) => (
+                            <DropdownItem key={cur} value={cur}>
+                                {cur === "en" ? "English" : "中"}
+                            </DropdownItem>
+                        ))}
+                    </DropdownMenu>
+                </Dropdown>
+            </div>
         </div>
     );
 };

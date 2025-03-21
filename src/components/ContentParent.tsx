@@ -17,7 +17,7 @@ const ContentParent = ({ children }: ContentParentProps) => {
     useEffect(() => {
         console.log(`locale: ${locale}`);
         dispatch(fetchData({ type: type as string, lang: locale as string, all: showAll }));
-    }, [dispatch, locale, showAll]);
+    }, [dispatch, locale, showAll, type]);
 
     useEffect(() => {
         dispatch(updateCurrentLocation(null));

@@ -53,6 +53,6 @@ const dataSetsSlice = createSlice({
     },
 });
 
-export const { toggleShowAll, updateCurrentLocation } = dataSetsSlice.actions;
+export const { toggleShowAll, updateCurrentLocation, changeType } = dataSetsSlice.actions;
 
 export default dataSetsSlice.reducer;

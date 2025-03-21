@@ -1,7 +1,7 @@
 "use client";
 import { MapContainer, TileLayer, Marker, Popup, ZoomControl, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { DataProps } from "@/types";
+import { DataName, DataProps, MapIcons } from "@/types";
 import { useEffect, useRef } from "react";
 import L, { Map } from "leaflet";
 import { useLocale, useTranslations } from "next-intl";
@@ -18,28 +18,32 @@ interface MapTileProps {
     setLocation: (location: DataProps) => void;
 }
 
-// Create a custom icon
-const truckIcon = L.icon({
-    iconUrl: "/money-transport_1.svg", // Path to your truck icon image in the public directory
-    iconSize: [25, 25], // Size of the icon
-    iconAnchor: [10, 10], // Anchor point of the icon
-    popupAnchor: [0, -16], // Anchor point of the popup relative to the icon
-});
-
-const clothesIcon = L.icon({
-    iconUrl: "/tshirt.svg",
-    iconSize: [25, 25],
-    iconAnchor: [10, 10],
-    popupAnchor: [0, -16],
-});
+// const clothesIcon = L.icon({
+//     iconUrl: "/tshirt.svg",
+//     iconSize: [25, 25],
+//     iconAnchor: [10, 10],
+//     popupAnchor: [0, -16],
+// });
 
 const MapTile = () => {
     // const selectedLocation = coinCartData[location];
     const t = useTranslations("I_MapNote");
     const dispatch: AppDispatch = useDispatch();
-    const { data, currentLocation: location } = useSelector((state: RootState) => state.dataSets);
+    const {
+        type,
+        data,
+        currentLocation: location,
+    } = useSelector((state: RootState) => state.dataSets);
     const locale = useLocale();
     const mapRef = useRef<Map | null>(null);
+
+    // Create a custom icon
+    const MapIcon = L.icon({
+        iconUrl: MapIcons[type], // Path to your truck icon image in the public directory
+        iconSize: [25, 25], // Size of the icon
+        iconAnchor: [10, 10], // Anchor point of the icon
+        popupAnchor: [0, -16], // Anchor point of the popup relative to the icon
+    });
 
     const checkGPU = async () => {
         const { tier } = await getGPUTier();
@@ -105,7 +109,7 @@ const MapTile = () => {
                     <Marker
                         key={index}
                         position={[data.latitude, data.longitude]}
-                        icon={truckIcon}
+                        icon={MapIcon}
                         eventHandlers={{
                             click: () => {
                                 handleLocation(data);

@@ -23,6 +23,16 @@ export interface DataProps {
 
 export type DataName = "coincart" | "clothesrecycle";
 
+export const DataTypes: Record<DataName, { id: DataName; name_en: string; name_zh: string }> = {
+    coincart: { id: "coincart", name_en: "Coin Cart", name_zh: "硬幣車" },
+    clothesrecycle: { id: "clothesrecycle", name_en: "Clothes Recycle", name_zh: "衣物回收" },
+};
+
+export const MapIcons: Record<DataName, string> = {
+    coincart: "/money-transport_1.svg",
+    clothesrecycle: "/tshirt.svg",
+};
+
 export interface LocationsProps {
     data: DataProps[];
 }
