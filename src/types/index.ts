@@ -14,7 +14,7 @@ export interface DataProps {
     start_date: string | null;
     end_date: string | null;
     open_hours: string | null;
-    district: string;
+    district: districtshort;
     address: string;
     latitude: number;
     longitude: number;
@@ -36,3 +36,22 @@ export const MapIcons: Record<DataName, string> = {
 export interface LocationsProps {
     data: DataProps[];
 }
+
+export type districtshort =
+    | "cw"
+    | "e"
+    | "s"
+    | "wc"
+    | "kc"
+    | "kt"
+    | "ssp"
+    | "wts"
+    | "ytm"
+    | "is"
+    | "n"
+    | "sk"
+    | "st"
+    | "tp"
+    | "tw"
+    | "tm"
+    | "yl";

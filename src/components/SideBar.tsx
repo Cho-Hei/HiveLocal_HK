@@ -6,10 +6,19 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import CoinCartLocations from "./CoinCartLocations";
 import InfoCard from "./InfoCard";
+import { useMemo } from "react";
 
 const SideBar = () => {
     const t = useTranslations("I_SideBar");
     const type = useSelector((state: RootState) => state.dataSets.type);
+
+    const LocationsPicker = useMemo(() => {
+        if (type === "coincart") {
+            return <CoinCartLocations />;
+        } else {
+            return <Locations />;
+        }
+    }, [type]);
 
     return (
         <section className='sidebar h-screen lg:max-w-[310px] min-w-[300px] bg-[#17153B] p-2 lg:p-1 overflow-y-auto grid grid-cols-2 lg:grid-cols-1 gap-2 place-content-stretch'>
@@ -23,7 +32,7 @@ const SideBar = () => {
                     <InfoCard />
                 </div>
             </div>
-            {type === "coincart" ? <CoinCartLocations /> : <Locations />}
+            {LocationsPicker}
         </section>
     );
 };
