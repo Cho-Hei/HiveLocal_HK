@@ -21,18 +21,18 @@ const SideBar = () => {
     }, [type]);
 
     return (
-        <section className='sidebar h-screen lg:max-w-[310px] min-w-[300px] bg-[#17153B] p-2 lg:p-1 overflow-y-auto grid grid-cols-2 lg:grid-cols-1 gap-2 place-content-stretch'>
+        <section className='sidebar h-[450px] lg:h-screen lg:max-w-[310px] min-w-[310px] bg-[#17153B] p-2 lg:p-1 grid grid-cols-2 lg:grid-cols-1 gap-2 place-content-stretch text-primary'>
             <div className='min-h-[420px] max-h-fit rounded-2xl bg-[#2E236C] lg:mx-2 lg:my-1 shadow-lg flex flex-col'>
-                <div className='info flex flex-col flex-grow'>
+                <div className='info flex flex-col flex-grow h-full'>
                     <div className='info-title bg-[#433D8B] flexCenter rounded-t-2xl'>
                         <Info weight='fill' color='#ffffff' size={24} />
-                        <h1 className='text-primary text-xl py-1 text-center mx-2'>{t("info")}</h1>
+                        <h1 className='text-xl py-1 text-center mx-2'>{t("info")}</h1>
                     </div>
 
                     <InfoCard />
                 </div>
             </div>
-            {LocationsPicker}
+            <div className='flex flex-col flex-grow overflow-y-auto'>{LocationsPicker}</div>
         </section>
     );
 };

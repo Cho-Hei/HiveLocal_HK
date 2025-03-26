@@ -1,4 +1,4 @@
-import { DataProps } from "@/types";
+import { DataProps, Districts, districtshort } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -12,13 +12,17 @@ export async function POST(req: NextRequest) {
 
         const records = data.features;
 
+        const districtCodeToName = (code: districtshort): string => {
+            return lang === "tc" ? Districts[code].zh : Districts[code].en || "unknown";
+        };
+
         let clothesRecycleData: DataProps[] = records.map((record: any) => ({
             organization: `${lang === "en" ? record.properties.sm_en : record.properties.sm_tc}`,
             start_date: null,
             end_date: null,
             open_hours: null,
             address: `${lang === "en" ? record.properties.addr_en : record.properties.addr_tc}`,
-            district: record.properties.District,
+            district: districtCodeToName(record.properties.District),
             latitude: record.geometry.coordinates[1],
             longitude: record.geometry.coordinates[0],
             remarks: null,

@@ -6,26 +6,12 @@ import { useLocale } from "next-intl";
 import { useParams } from "next/navigation";
 import { useTransition } from "react";
 
-const LocaleSwitch = () => {
+const LocaleSwitch = ({ dropdownref }: { dropdownref: React.Ref<HTMLElement | null> }) => {
     const [isPending, startTransition] = useTransition();
     const router = useRouter();
     const pathname = usePathname();
     const params = useParams();
-
     const locale = useLocale();
-
-    // const onSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    //     const nextLocale = event.target.value as Locale;
-    //     startTransition(() => {
-    //         router.replace(
-    //             // @ts-expect-error -- TypeScript will validate that only known `params`
-    //             // are used in combination with a given `pathname`. Since the two will
-    //             // always match for the current route, we can skip runtime checks.
-    //             { pathname, params },
-    //             { locale: nextLocale }
-    //         );
-    //     });
-    // };
 
     const onDropdownChange = (key: string) => {
         const nextLocale = key as Locale;
@@ -42,17 +28,6 @@ const LocaleSwitch = () => {
 
     return (
         <div className='lng-dropdown'>
-            {/* <select
-                className='inline-flex appearance-none bg-transparent py-3 pl-2 pr-6'
-                defaultValue={locale}
-                disabled={isPending}
-                onChange={onSelectChange}>
-                {routing.locales.map((cur) => (
-                    <option key={cur} value={cur}>
-                        {cur}
-                    </option>
-                ))}
-            </select> */}
             <div className='flex items-center text-center'>
                 <h2 className='text-primary'>Language:</h2>
                 <Dropdown backdrop='blur' className='bg-slate-400'>
@@ -62,6 +37,7 @@ const LocaleSwitch = () => {
                         </Button>
                     </DropdownTrigger>
                     <DropdownMenu
+                        ref={dropdownref}
                         aria-label='Locale'
                         onAction={(key) => onDropdownChange(key as string)}
                         disabledKeys={[locale]}>

@@ -1,11 +1,13 @@
 "use client";
 import { RootState } from "@/store/store";
+import { DataTypes } from "@/types";
 import { Skeleton } from "@heroui/react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useSelector } from "react-redux";
 
 const InfoCard = () => {
     const t = useTranslations("I_SideBar");
+    const locale = useLocale();
     const {
         type,
         status,
@@ -36,9 +38,13 @@ const InfoCard = () => {
             ) : (
                 <>
                     {location ? (
-                        <div className='info-content p-2 flex-grow flex flex-col text-primary'>
+                        <div className='info-content p-2 flex-grow flex flex-col'>
                             <div className='service-provider px-4 py-3 rounded-2xl bg-[#6250a0]'>
-                                <h2 className='text-xl lg:text-2xl font-bold'>{type}</h2>
+                                <h2 className='text-xl lg:text-2xl font-bold'>
+                                    {locale === "tc"
+                                        ? DataTypes[type].name_zh
+                                        : DataTypes[type].name_en}
+                                </h2>
                                 <p className='text-sm lg:text-base'>{location.organization}</p>
                             </div>
                             <div className='service-detail flex-grow flex flex-col justify-between'>

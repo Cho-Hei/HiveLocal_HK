@@ -7,8 +7,6 @@ import { useEffect, useRef, useMemo } from "react";
 import L, { Map } from "leaflet";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
-import { getGPUTier } from "detect-gpu";
-import { addToast, cn } from "@heroui/react";
 import { AppDispatch, RootState } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { updateCurrentLocation } from "@/store/dataSetsSlice";
@@ -36,26 +34,6 @@ const MapTile = () => {
             }),
         [type]
     );
-
-    // Hardware acceleration check
-    useEffect(() => {
-        const checkGPU = async () => {
-            const { tier } = await getGPUTier();
-            console.log(`GPU tier: ${tier}`);
-            if (tier < 2) {
-                addToast({
-                    color: "warning",
-                    title: t("performance_remind"),
-                    timeout: 5000,
-                    shouldShowTimeoutProgress: true,
-                    classNames: {
-                        base: cn(["absolute bottom-0 right-0 z-10"]),
-                    },
-                });
-            }
-        };
-        checkGPU();
-    }, []);
 
     // Close popup when changing location
     const MapCenter = () => {
@@ -104,7 +82,7 @@ const MapTile = () => {
                                 },
                             }}>
                             <Popup>
-                                <div className='popup-content w-full'>
+                                <div className='popup-content w-full text-[#353935]'>
                                     <h2 className='text-lg font-bold'>
                                         {t("district")}: {data.district}
                                     </h2>
