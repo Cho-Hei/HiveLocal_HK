@@ -6,23 +6,30 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import CoinCartLocations from "./CoinCartLocations";
 import InfoCard from "./InfoCard";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useRef } from "react";
 
 const SideBar = () => {
     const t = useTranslations("I_SideBar");
     const type = useSelector((state: RootState) => state.dataSets.type);
 
-    const LocationsPicker = useMemo(() => {
-        return type === "coincart" ? <CoinCartLocations /> : <Locations />;
-    }, [type]);
+    // Explicitly type the ref for LocationsPicker
+    const LocationsPickerRef = useRef<HTMLDivElement>(null);
 
-    // Default values
     const minHeight = 300; // Minimum height of the section
     const maxHeight = window.innerHeight - 250; // Maximum height of the section
     const [height, setHeight] = useState(minHeight); // Initial height
     const [isDragging, setIsDragging] = useState(false); // Drag state
 
+    const LocationsPicker = useMemo(() => {
+        return type === "coincart" ? <CoinCartLocations /> : <Locations />;
+    }, [type]);
+
     const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
+        // Prevent drag if the event originated within LocationsPicker
+        if (LocationsPickerRef.current && LocationsPickerRef.current.contains(e.target as Node)) {
+            return; // Ignore drag
+        }
+
         setIsDragging(true);
         const startY = "clientY" in e ? e.clientY : e.touches?.[0].clientY; // Capture starting cursor position
 
@@ -75,7 +82,11 @@ const SideBar = () => {
                     <InfoCard />
                 </div>
 
-                <div className='flex flex-col overflow-y-auto'>{LocationsPicker}</div>
+                <div
+                    ref={LocationsPickerRef} // Attach ref to detect interaction
+                    className='flex flex-col overflow-y-auto'>
+                    {LocationsPicker}
+                </div>
             </section>
 
             {/* Desktop Sidebar */}

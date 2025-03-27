@@ -1,10 +1,13 @@
 import { DataProps, Districts, districtshort } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
 
+export const maxDuration = 20;
+
 export async function POST(req: NextRequest) {
     const { lang } = await req.json();
 
     try {
+        await new Promise((resolve) => setTimeout(resolve, 1000));
         const response = await fetch(
             `https://api.csdi.gov.hk/apim/dataquery/api/?id=had_rcd_1665042410524_59761&layer=geotagging&limit=2000`
         );
@@ -20,18 +23,23 @@ export async function POST(req: NextRequest) {
                 ? Districts[code as districtshort]?.zh
                 : Districts[code as districtshort]?.en || "unknown";
         };
+        let clothesRecycleData: DataProps[] = [];
 
-        let clothesRecycleData: DataProps[] = records.map((record: any) => ({
-            organization: `${lang === "en" ? record.properties.sm_en : record.properties.sm_tc}`,
-            start_date: null,
-            end_date: null,
-            open_hours: null,
-            address: `${lang === "en" ? record.properties.addr_en : record.properties.addr_tc}`,
-            district: districtCodeToName(record.properties.District, record.properties.Region),
-            latitude: record.geometry.coordinates[1],
-            longitude: record.geometry.coordinates[0],
-            remarks: null,
-        }));
+        if (records) {
+            clothesRecycleData = records.map((record: any) => ({
+                organization: `${
+                    lang === "en" ? record.properties.sm_en : record.properties.sm_tc
+                }`,
+                start_date: null,
+                end_date: null,
+                open_hours: null,
+                address: `${lang === "en" ? record.properties.addr_en : record.properties.addr_tc}`,
+                district: districtCodeToName(record.properties.District, record.properties.Region),
+                latitude: record.geometry.coordinates[1],
+                longitude: record.geometry.coordinates[0],
+                remarks: null,
+            }));
+        }
 
         return NextResponse.json(clothesRecycleData);
     } catch (err) {
