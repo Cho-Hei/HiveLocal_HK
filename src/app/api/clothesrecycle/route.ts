@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
     const { lang } = await req.json();
 
     try {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        await new Promise((resolve) => setTimeout(resolve, 2000));
         const response = await fetch(
             `https://api.csdi.gov.hk/apim/dataquery/api/?id=had_rcd_1665042410524_59761&layer=geotagging&limit=2000`
         );

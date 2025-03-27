@@ -10,7 +10,6 @@ import { DataTypes, MapIcons } from "@/types";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { getGPUTier } from "detect-gpu";
-import { div } from "framer-motion/client";
 
 const Settings = () => {
     const [slideopen, setSlideopen] = useState(false);
