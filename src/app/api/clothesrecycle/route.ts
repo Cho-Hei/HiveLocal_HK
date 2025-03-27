@@ -12,8 +12,13 @@ export async function POST(req: NextRequest) {
 
         const records = data.features;
 
-        const districtCodeToName = (code: districtshort): string => {
-            return lang === "tc" ? Districts[code].zh : Districts[code].en || "unknown";
+        const districtCodeToName = (code: string, region: string): string => {
+            if (code === "kt") {
+                code = region === "kl" ? "kto" : "kts";
+            }
+            return lang === "tc"
+                ? Districts[code as districtshort]?.zh
+                : Districts[code as districtshort]?.en || "unknown";
         };
 
         let clothesRecycleData: DataProps[] = records.map((record: any) => ({
@@ -22,7 +27,7 @@ export async function POST(req: NextRequest) {
             end_date: null,
             open_hours: null,
             address: `${lang === "en" ? record.properties.addr_en : record.properties.addr_tc}`,
-            district: districtCodeToName(record.properties.District),
+            district: districtCodeToName(record.properties.District, record.properties.Region),
             latitude: record.geometry.coordinates[1],
             longitude: record.geometry.coordinates[0],
             remarks: null,

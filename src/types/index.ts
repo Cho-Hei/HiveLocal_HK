@@ -47,7 +47,8 @@ export type districtshort =
     | "s"
     | "wc"
     | "kc"
-    | "kt"
+    | "kto"
+    | "kts"
     | "ssp"
     | "wts"
     | "ytm"
@@ -66,7 +67,8 @@ export const Districts: Record<districtshort, Record<string, string>> = {
     s: { en: "Southern", zh: "南區" },
     wc: { en: "Wan Chai", zh: "灣仔" },
     kc: { en: "Kowloon City", zh: "九龍城" },
-    kt: { en: "Kwun Tong", zh: "觀塘" },
+    kto: { en: "Kwun Tong", zh: "觀塘" },
+    kts: { en: "Kwai Tsing", zh: "葵青" },
     ssp: { en: "Sham Shui Po", zh: "深水埗" },
     wts: { en: "Wong Tai Sin", zh: "黃大仙" },
     ytm: { en: "Yau Tsim Mong", zh: "油尖旺" },

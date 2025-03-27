@@ -12,6 +12,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateCurrentLocation } from "@/store/dataSetsSlice";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 
+export const ResourceExTLink = {
+    coincart: {
+        data_provider: {
+            en: "Hong Kong Monetary Authority",
+            zh: "香港金融管理局",
+        },
+        en: "https://www.hkma.gov.hk/eng/key-functions/money/hong-kong-currency/coin-collection-programme/",
+        zh: "https://www.hkma.gov.hk/chi/key-functions/money/hong-kong-currency/coin-collection-programme/",
+    },
+    clothesrecycle: {
+        data_provider: {
+            en: "Home Affairs Department",
+            zh: "民政事務總署",
+        },
+        en: "https://www.had.gov.hk/en/public_services/community_used_clothes_recycling_bank_scheme/",
+        zh: "https://www.had.gov.hk/tc/public_services/community_used_clothes_recycling_bank_scheme/",
+    },
+};
+
 const MapTile = () => {
     const t = useTranslations("I_MapNote");
     const dispatch: AppDispatch = useDispatch();
@@ -89,10 +108,13 @@ const MapTile = () => {
                                     <h3 className='text-base/5 my-1 font-semibold'>
                                         {t("address")}: {data.address}
                                     </h3>
-                                    <h4 className='text-base font-semibold'>
-                                        {t("date")}:{" "}
-                                        {`${data.start_date} ${t("to")} ${data.end_date}`}
-                                    </h4>
+                                    {data.start_date && (
+                                        <h4 className='text-base font-semibold'>
+                                            {t("date")}
+                                            {`${data.start_date} ${t("to")} ${data.end_date}`}
+                                        </h4>
+                                    )}
+
                                     {data.remarks && (
                                         <h4 className='text-sm font-semibold italic my-1'>
                                             {t("remark")}: {data.remarks}
@@ -100,14 +122,27 @@ const MapTile = () => {
                                     )}
                                     <p className='text-justify'>
                                         {t.rich("remarkwarn", {
+                                            data_provider: `${
+                                                locale === "tc"
+                                                    ? ResourceExTLink[type].data_provider.zh
+                                                    : ResourceExTLink[type].data_provider.en
+                                            }`,
                                             br: () => <br />,
-                                            link: (chunks) => (
+                                            link: () => (
                                                 <Link
-                                                    href={`${chunks}`}
+                                                    href={`${
+                                                        locale === "tc"
+                                                            ? ResourceExTLink[type].zh
+                                                            : ResourceExTLink[type].en
+                                                    }`}
                                                     target='_blank'
                                                     className='break-words break-all whitespace-normal'>
                                                     <br />
-                                                    {chunks}
+                                                    {`${
+                                                        locale === "tc"
+                                                            ? ResourceExTLink[type].zh
+                                                            : ResourceExTLink[type].en
+                                                    }`}
                                                 </Link>
                                             ),
                                         })}

@@ -53,7 +53,11 @@ const Locations = () => {
                             <AccordionItem key={district} title={district}>
                                 <div>
                                     {groupByDistrict[district].map((location, index) => (
-                                        <LocationCard key={index} data={location} />
+                                        <LocationCard
+                                            key={index}
+                                            data={location}
+                                            display='district'
+                                        />
                                     ))}
                                 </div>
                             </AccordionItem>

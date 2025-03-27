@@ -55,7 +55,7 @@ const CoinCartLocations = () => {
                                     {month}
                                 </h2>
                                 {groupedData[month].map((data, index) => (
-                                    <LocationCard key={index} data={data} />
+                                    <LocationCard key={index} data={data} display='date' />
                                 ))}
                             </div>
                         ))}
