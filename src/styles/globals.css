@@ -2,21 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Main color */
-:root {
-    --primary: #30af5b;
-    --primary-hover: #2a994f;
-    --black: #382c28;
-    --variant1: #776e6b;
-    --variant2: #b4aba8;
-    --white: #ffffff;
-    --outline: #e4e4e4;
-    --surface: #f8f8f8;
-    --red: #c72929;
-    --success: #37b853;
-    --yellow: #f4d118;
-    --line: #e9e9e9;
-}
 :root {
     --background: #ffffff;
     --foreground: #171717;

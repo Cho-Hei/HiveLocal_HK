@@ -10,6 +10,7 @@ import { DataTypes, MapIcons } from "@/types";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { getGPUTier } from "detect-gpu";
+import { div } from "framer-motion/client";
 
 const Settings = () => {
     const [slideopen, setSlideopen] = useState(false);
@@ -18,7 +19,7 @@ const Settings = () => {
     const locale = useLocale();
     const sidebarRef = useRef<HTMLDivElement>(null);
     const localeSwitchRef = useRef<HTMLDivElement>(null);
-    const t = useTranslations("I_MapNote");
+    const t = useTranslations("I_Settings");
 
     const handleClickOutside = (event: MouseEvent) => {
         if (
@@ -65,7 +66,7 @@ const Settings = () => {
     };
 
     return (
-        <div className='relative'>
+        <div className='relative text-primary'>
             <button
                 className='flexCenter m-2'
                 onClick={() => setSlideopen(!slideopen)}
@@ -74,9 +75,9 @@ const Settings = () => {
             </button>
             <div
                 ref={sidebarRef}
-                className={`fixed top-0 right-0 h-full bg-[#17153B] shadow-lg transform transition-transform duration-300 z-10 ${
+                className={`fixed top-0 right-0 h-full bg-[#17153B] p-2 shadow-lg transform transition-transform duration-300 z-10 ${
                     slideopen ? "translate-x-0" : "translate-x-full"
-                } max-lg:w-screen lg:w-[200px]`}
+                } max-lg:w-screen lg:w-[300px]`}
                 style={{ maxWidth: "100vw" }}>
                 <div className='flex flex-col m-4'>
                     <button
@@ -85,27 +86,34 @@ const Settings = () => {
                         aria-label='Close'>
                         ✕
                     </button>
-                    <div className='flex flex-col items-start h-full'>
-                        <div ref={localeSwitchRef}>
+                    <div className='flex flex-col flex-grow flexCenter items-start h-full'>
+                        <div ref={localeSwitchRef} className='flex justify-start w-full m-2'>
                             <LocaleSwitch dropdownref={localeSwitchRef} />
                         </div>
+
                         <RadioGroup
-                            label='Select your Label'
+                            label={t("select_label")}
                             value={type}
-                            onValueChange={(value) => handleUpdateType(value)}>
+                            size='lg'
+                            onValueChange={(value) => handleUpdateType(value)}
+                            classNames={{ base: "flex w-full m-2", label: "text-primary text-xl" }}>
                             {Object.values(DataTypes).map((cur) => (
                                 <Radio
                                     key={locale === "tc" ? cur.name_zh : cur.name_en}
-                                    value={cur.id}>
-                                    <div className='flex items-center'>
+                                    value={cur.id}
+                                    classNames={{
+                                        base: "flex justify-start w-full",
+                                        label: "text-lg",
+                                    }}>
+                                    <div className='flex flexCenter'>
                                         <Image
                                             src={MapIcons[cur.id]}
-                                            width={24}
-                                            height={24}
+                                            width={32}
+                                            height={32}
                                             alt={locale === "tc" ? cur.name_zh : cur.name_en}
                                             className='mr-2'
                                         />
-                                        <h3 className='text-primary text-sm'>
+                                        <h3 className='text-primary text-left'>
                                             {locale === "tc" ? cur.name_zh : cur.name_en}
                                         </h3>
                                     </div>

@@ -20,10 +20,11 @@
         "date": "Date",
         "remark": "Remark",
         "to": "to",
-        "remarkwarn": "Remark: The information on service hours, address and remarks is for reference only. In case of any changes, no further notice will be given.<br></br> <br></br>The above information is provided by the {data_provider}. For the latest information, please visit the {data_provider} website: <link></link>",
-        "performance_remind": "Enable hardware acceleration for the best experience"
+        "remarkwarn": "Remark: The information on service hours, address and remarks is for reference only. In case of any changes, no further notice will be given.<br></br> <br></br>The above information is provided by the {data_provider}. For the latest information, please visit the {data_provider} website: <link></link>"
     },
-    "I_popup": {
-        "performance_remind": "Enable hardware acceleration for the best experience"
+    "I_Settings": {
+        "performance_remind": "Enable hardware acceleration for the best experience",
+        "select_label": "Select Marker",
+        "language": "語言"
     }
 }

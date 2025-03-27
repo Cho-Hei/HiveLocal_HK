@@ -2,7 +2,7 @@
 import { usePathname, useRouter } from "@/utils/i18n/navigation";
 import { Locale, routing } from "@/utils/i18n/routing";
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@heroui/react";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { useTransition } from "react";
 
@@ -12,6 +12,7 @@ const LocaleSwitch = ({ dropdownref }: { dropdownref: React.Ref<HTMLElement | nu
     const pathname = usePathname();
     const params = useParams();
     const locale = useLocale();
+    const t = useTranslations("I_Settings");
 
     const onDropdownChange = (key: string) => {
         const nextLocale = key as Locale;
@@ -29,8 +30,8 @@ const LocaleSwitch = ({ dropdownref }: { dropdownref: React.Ref<HTMLElement | nu
     return (
         <div className='lng-dropdown'>
             <div className='flex items-center text-center'>
-                <h2 className='text-primary'>Language:</h2>
-                <Dropdown backdrop='blur' className='bg-slate-400'>
+                <h2 className='text-primary text-lg'>{`${t("language")}:`}</h2>
+                <Dropdown backdrop='blur' className='bg-[#17153B]'>
                     <DropdownTrigger>
                         <Button className='bg-slate-400 min-w-6 h-6 m-2'>
                             {locale === "en" ? "中" : "EN"}
