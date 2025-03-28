@@ -3,12 +3,36 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const maxDuration = 20;
 
+// Utility function to retry fetch
+async function fetchWithRetry(
+    url: string,
+    options: RequestInit = {},
+    retries: number = 3,
+    delay: number = 1000
+): Promise<Response> {
+    for (let attempt = 0; attempt < retries; attempt++) {
+        try {
+            const response = await fetch(url, options);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response;
+        } catch (err) {
+            if (attempt < retries - 1) {
+                await new Promise((resolve) => setTimeout(resolve, delay)); // Wait before retrying
+            } else {
+                throw err; // Throw error if all retries fail
+            }
+        }
+    }
+    throw new Error("Failed to fetch after retries");
+}
+
 export async function POST(req: NextRequest) {
     const { lang } = await req.json();
 
     try {
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-        const response = await fetch(
+        const response = await fetchWithRetry(
             `https://api.csdi.gov.hk/apim/dataquery/api/?id=had_rcd_1665042410524_59761&layer=geotagging&limit=2000`
         );
         const data: Record<string, string[]> = await response.json();
