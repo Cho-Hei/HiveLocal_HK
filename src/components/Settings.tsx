@@ -65,7 +65,7 @@ const Settings = () => {
     };
 
     return (
-        <div className='relative text-primary'>
+        <div className='relative text-white'>
             <button
                 className='flexCenter m-2'
                 onClick={() => setSlideopen(!slideopen)}
@@ -74,7 +74,7 @@ const Settings = () => {
             </button>
             <div
                 ref={sidebarRef}
-                className={`fixed top-0 right-0 h-full bg-[#17153B] p-2 shadow-lg transform transition-transform duration-300 z-10 ${
+                className={`fixed top-0 right-0 h-full bg-primary p-2 shadow-lg transform transition-transform duration-300 z-10 ${
                     slideopen ? "translate-x-0" : "translate-x-full"
                 } max-lg:w-screen lg:w-[300px]`}
                 style={{ maxWidth: "100vw" }}>
@@ -95,7 +95,7 @@ const Settings = () => {
                             value={type}
                             size='lg'
                             onValueChange={(value) => handleUpdateType(value)}
-                            classNames={{ base: "flex w-full m-2", label: "text-primary text-xl" }}>
+                            classNames={{ base: "flex w-full m-2", label: "text-white text-xl" }}>
                             {Object.values(DataTypes).map((cur) => (
                                 <Radio
                                     key={locale === "tc" ? cur.name_zh : cur.name_en}
@@ -103,6 +103,7 @@ const Settings = () => {
                                     classNames={{
                                         base: "flex justify-start w-full",
                                         label: "text-lg",
+                                        control: "bg-white border-white !important",
                                     }}>
                                     <div className='flex flexCenter'>
                                         <Image
@@ -112,7 +113,7 @@ const Settings = () => {
                                             alt={locale === "tc" ? cur.name_zh : cur.name_en}
                                             className='mr-2'
                                         />
-                                        <h3 className='text-primary text-left'>
+                                        <h3 className='text-white text-left'>
                                             {locale === "tc" ? cur.name_zh : cur.name_en}
                                         </h3>
                                     </div>

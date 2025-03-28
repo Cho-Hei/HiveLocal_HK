@@ -5,6 +5,11 @@ import { Skeleton } from "@heroui/react";
 import { useLocale, useTranslations } from "next-intl";
 import { useSelector } from "react-redux";
 
+const colors = {
+    coincart: "#6250a0",
+    clothesrecycle: "#008B8B",
+};
+
 const InfoCard = () => {
     const t = useTranslations("I_SideBar");
     const locale = useLocale();
@@ -39,7 +44,9 @@ const InfoCard = () => {
                 <>
                     {location ? (
                         <div className='info-content p-2 flex-grow flex flex-col'>
-                            <div className='service-provider px-4 py-3 rounded-2xl bg-[#6250a0]'>
+                            <div
+                                className={`service-provider px-4 py-3 rounded-2xl`}
+                                style={{ backgroundColor: colors[type] }}>
                                 <h2 className='text-xl lg:text-2xl font-bold'>
                                     {locale === "tc"
                                         ? DataTypes[type].name_zh
@@ -85,7 +92,7 @@ const InfoCard = () => {
                         </div>
                     ) : (
                         <div className='flexCenter flex-grow'>
-                            <h1 className='text-primary text-center'>{t("noData")}</h1>
+                            <h1 className='text-white text-center'>{t("noData")}</h1>
                         </div>
                     )}
                 </>

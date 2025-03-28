@@ -18,11 +18,12 @@ const LocationCard = ({ data, display }: LocationCardProps) => {
 
     return (
         <div
-            className='p-2 cursor-pointer hover:bg-[#433D8B] rounded-lg'
+            className='p-2 cursor-pointer hover:bg-tertiary rounded-lg'
             onClick={() => handleLocation(data)}>
             {display === "date" && <h2 className='text-xl font-bold'>{data.district}</h2>}
 
             <h4 className='text-base'>{data.address}</h4>
+            <hr className='border-t-2 border-white/35 my-2' />
         </div>
     );
 };

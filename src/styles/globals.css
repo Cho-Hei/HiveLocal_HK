@@ -223,3 +223,8 @@ body {
         border-color: var(--flashing-color, red); /* Default to red */
     }
 }
+
+.group[data-selected="true"] .group-data-\[selected\=true\]\:border-primary {
+    --tw-border-opacity: 1;
+    border-color: var(--white) !important;
+}

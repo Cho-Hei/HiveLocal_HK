@@ -110,7 +110,7 @@ const MapTile = () => {
                                     </h3>
                                     {data.start_date && (
                                         <h4 className='text-base font-semibold'>
-                                            {t("date")}
+                                            {t("date")}:{" "}
                                             {`${data.start_date} ${t("to")} ${data.end_date}`}
                                         </h4>
                                     )}

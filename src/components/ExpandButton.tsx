@@ -14,7 +14,7 @@ const ExpandButton = () => {
     };
 
     return (
-        <button className='bg-[#433D8B] w-full py-2 rounded-2xl' onClick={handleToggle}>
+        <button className='bg-tertiary w-full py-2 rounded-2xl' onClick={handleToggle}>
             {showAll ? t("showLess") : t("showAll")}
         </button>
     );

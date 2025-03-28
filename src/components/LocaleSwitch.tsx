@@ -30,8 +30,8 @@ const LocaleSwitch = ({ dropdownref }: { dropdownref: React.Ref<HTMLElement | nu
     return (
         <div className='lng-dropdown'>
             <div className='flex items-center text-center'>
-                <h2 className='text-primary text-lg'>{`${t("language")}:`}</h2>
-                <Dropdown backdrop='blur' className='bg-[#17153B]'>
+                <h2 className='text-white text-lg'>{`${t("language")}:`}</h2>
+                <Dropdown backdrop='blur' className='bg-primary'>
                     <DropdownTrigger>
                         <Button className='bg-slate-400 min-w-6 h-6 m-2'>
                             {locale === "en" ? "中" : "EN"}
@@ -40,10 +40,14 @@ const LocaleSwitch = ({ dropdownref }: { dropdownref: React.Ref<HTMLElement | nu
                     <DropdownMenu
                         ref={dropdownref}
                         aria-label='Locale'
+                        itemClasses={{ base: ["data-[hover=true]:bg-tertiary"] }}
                         onAction={(key) => onDropdownChange(key as string)}
                         disabledKeys={[locale]}>
                         {routing.locales.map((cur) => (
-                            <DropdownItem key={cur} value={cur}>
+                            <DropdownItem
+                                key={cur}
+                                value={cur}
+                                classNames={{ title: "text-white" }}>
                                 {cur === "en" ? "English" : "中"}
                             </DropdownItem>
                         ))}

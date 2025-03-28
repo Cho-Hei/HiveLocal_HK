@@ -64,7 +64,7 @@ const SideBar = () => {
         <>
             {/* Mobile Sidebar */}
             <section
-                className='lg:hidden fixed left-0 w-full bg-[#17153B] rounded-t-2xl shadow-lg grid grid-cols-2 gap-2 p-2 text-primary overflow-hidden z-20'
+                className='lg:hidden fixed left-0 w-full bg-primary rounded-t-2xl shadow-lg grid grid-cols-2 gap-2 p-2 text-white overflow-hidden z-20'
                 style={{
                     height: `${height}px`, // Dynamically update height
                     bottom: 0, // Fixed to the bottom of the viewport
@@ -74,8 +74,8 @@ const SideBar = () => {
                 onMouseDown={handleDragStart}
                 onTouchStart={handleDragStart} // Enable touch dragging
             >
-                <div className='mobileinfo min-h-[350px] max-h-[480px] max-w-full rounded-2xl bg-[#2E236C] shadow-lg flex flex-col overflow-hidden self-start'>
-                    <div className='info-title bg-[#433D8B] flexCenter rounded-t-2xl'>
+                <div className='mobileinfo min-h-[350px] max-h-[480px] max-w-full rounded-2xl bg-secondary shadow-lg flex flex-col overflow-hidden self-start'>
+                    <div className='info-title bg-tertiary flexCenter rounded-t-2xl'>
                         <Info weight='fill' color='#ffffff' size={24} />
                         <h1 className='text-xl py-1 mx-2'>{t("info")}</h1>
                     </div>
@@ -90,10 +90,10 @@ const SideBar = () => {
             </section>
 
             {/* Desktop Sidebar */}
-            <section className='hidden lg:grid sidebar h-[450px] lg:h-screen max-w-[310px] min-w-[310px] bg-[#17153B] p-2 lg:p-1 grid-cols-2 lg:grid-cols-1 gap-2 place-content-stretch text-primary'>
-                <div className='min-h-[420px] max-h-fit rounded-2xl bg-[#2E236C] lg:mx-2 lg:my-1 shadow-lg flex flex-col'>
+            <section className='hidden lg:grid sidebar h-[450px] lg:h-screen max-w-[310px] min-w-[310px] bg-primary p-2 lg:p-1 grid-cols-2 lg:grid-cols-1 gap-2 place-content-stretch text-white'>
+                <div className='min-h-[420px] max-h-fit rounded-2xl bg-secondary lg:mx-2 lg:my-1 shadow-lg flex flex-col'>
                     <div className='info flex flex-col flex-grow h-full'>
-                        <div className='info-title bg-[#433D8B] flexCenter rounded-t-2xl'>
+                        <div className='info-title bg-tertiary flexCenter rounded-t-2xl'>
                             <Info weight='fill' color='#ffffff' size={24} />
                             <h1 className='text-xl py-1 text-center mx-2'>{t("info")}</h1>
                         </div>

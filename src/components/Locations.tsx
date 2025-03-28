@@ -30,8 +30,8 @@ const Locations = () => {
     }, [currentLocation]);
 
     return (
-        <div className='flex flex-col location rounded-2xl bg-[#2E236C] lg:mx-2 text-primary h-full'>
-            <div className='info-title bg-[#433D8B] flexCenter rounded-t-2xl'>
+        <div className='flex flex-col location rounded-2xl bg-secondary lg:mx-2 text-white h-full'>
+            <div className='info-title bg-tertiary flexCenter rounded-t-2xl'>
                 <MapPinLine weight='fill' size={24} />
                 <h1 className='text-xl py-1 text-center mx-2'>{t("location")}</h1>
             </div>
@@ -50,7 +50,10 @@ const Locations = () => {
                             setCurrentDistrict(selectedKey === currentDistrict ? "" : selectedKey);
                         }}>
                         {Object.keys(groupByDistrict).map((district) => (
-                            <AccordionItem key={district} title={district}>
+                            <AccordionItem
+                                key={district}
+                                title={district}
+                                classNames={{ heading: "text-white", title: "text-white" }}>
                                 <div>
                                     {groupByDistrict[district].map((location, index) => (
                                         <LocationCard
@@ -65,7 +68,7 @@ const Locations = () => {
                     </Accordion>
                 ) : (
                     <div className='flexCenter flex-grow'>
-                        <h1 className='text-primary text-center'>{t("noData")}</h1>
+                        <h1 className='text-white text-center'>{t("noData")}</h1>
                     </div>
                 )}
             </div>
