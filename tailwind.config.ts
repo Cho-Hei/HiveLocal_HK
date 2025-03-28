@@ -11,8 +11,12 @@ export default {
     theme: {
         extend: {
             colors: {
+                primary: "#17153B",
+                secondary: "#2E236C",
+                tertiary: "#433D8B",
                 background: "var(--background)",
                 foreground: "var(--foreground)",
+                white: "#F8F8F8",
             },
             fontFamily: {
                 sans: ["var(--font-noto-sans-tc)"],

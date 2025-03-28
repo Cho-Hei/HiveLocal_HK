@@ -1,6 +1,6 @@
 {
-    "name": "hk-map",
-    "version": "0.1.1",
+    "name": "hivelocal-hk",
+    "version": "0.1.2",
     "private": true,
     "scripts": {
         "dev": "next dev",
@@ -17,11 +17,13 @@
         "framer-motion": "^12.4.10",
         "leaflet": "^1.9.4",
         "leaflet-defaulticon-compatibility": "^0.1.2",
-        "next": "15.1.7",
+        "leaflet.markercluster": "^1.5.3",
+        "next": "^15.2.4",
         "next-intl": "^3.26.5",
         "react": "^19.0.0",
         "react-dom": "^19.0.0",
         "react-leaflet": "^5.0.0",
+        "react-leaflet-markercluster": "^5.0.0-rc.0",
         "react-redux": "^9.2.0",
         "swr": "^2.3.3"
     },

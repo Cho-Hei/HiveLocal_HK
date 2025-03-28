@@ -1,72 +1,62 @@
 "use client";
 import { MapContainer, TileLayer, Marker, Popup, ZoomControl, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { DataProps } from "@/types";
-import { useEffect, useRef } from "react";
+import "react-leaflet-markercluster/styles";
+import { DataProps, MapIcons } from "@/types";
+import { useEffect, useRef, useMemo } from "react";
 import L, { Map } from "leaflet";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
-import { getGPUTier } from "detect-gpu";
-import { addToast, cn } from "@heroui/react";
 import { AppDispatch, RootState } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { updateCurrentLocation } from "@/store/dataSetsSlice";
+import MarkerClusterGroup from "react-leaflet-markercluster";
 
-interface MapTileProps {
-    data: DataProps[];
-    location: DataProps | null;
-    setLocation: (location: DataProps) => void;
-}
-
-// Create a custom icon
-const truckIcon = L.icon({
-    iconUrl: "/money-transport_1.svg", // Path to your truck icon image in the public directory
-    iconSize: [25, 25], // Size of the icon
-    iconAnchor: [10, 10], // Anchor point of the icon
-    popupAnchor: [0, -16], // Anchor point of the popup relative to the icon
-});
-
-const clothesIcon = L.icon({
-    iconUrl: "/tshirt.svg",
-    iconSize: [25, 25],
-    iconAnchor: [10, 10],
-    popupAnchor: [0, -16],
-});
+export const ResourceExTLink = {
+    coincart: {
+        data_provider: {
+            en: "Hong Kong Monetary Authority",
+            zh: "香港金融管理局",
+        },
+        en: "https://www.hkma.gov.hk/eng/key-functions/money/hong-kong-currency/coin-collection-programme/",
+        zh: "https://www.hkma.gov.hk/chi/key-functions/money/hong-kong-currency/coin-collection-programme/",
+    },
+    clothesrecycle: {
+        data_provider: {
+            en: "Home Affairs Department",
+            zh: "民政事務總署",
+        },
+        en: "https://www.had.gov.hk/en/public_services/community_used_clothes_recycling_bank_scheme/",
+        zh: "https://www.had.gov.hk/tc/public_services/community_used_clothes_recycling_bank_scheme/",
+    },
+};
 
 const MapTile = () => {
-    // const selectedLocation = coinCartData[location];
     const t = useTranslations("I_MapNote");
     const dispatch: AppDispatch = useDispatch();
-    const { data, currentLocation: location } = useSelector((state: RootState) => state.dataSets);
+    const {
+        type,
+        data,
+        currentLocation: location,
+    } = useSelector((state: RootState) => state.dataSets);
     const locale = useLocale();
     const mapRef = useRef<Map | null>(null);
 
-    const checkGPU = async () => {
-        const { tier } = await getGPUTier();
-
-        console.log(`GPU tier: ${tier}`);
-        if (tier < 2) {
-            addToast({
-                color: "warning",
-                title: t("performance_remind"),
-                timeout: 5000,
-                shouldShowTimeoutProgress: true,
-                classNames: {
-                    base: cn(["absolute bottom-0 right-0 z-10"]),
-                },
-            });
-        }
-    };
-
-    // Hardware acceleration check
-    useEffect(() => {
-        checkGPU();
-    }, []);
+    // Create a custom icon
+    const MapIcon = useMemo(
+        () =>
+            L.icon({
+                iconUrl: MapIcons[type],
+                iconSize: [25, 25],
+                iconAnchor: [10, 10],
+                popupAnchor: [0, -16],
+            }),
+        [type]
+    );
 
     // Close popup when changing location
     const MapCenter = () => {
         const map = useMap();
-
         useEffect(() => {
             if (location) {
                 map.closePopup();
@@ -89,62 +79,79 @@ const MapTile = () => {
                 className='map'
                 zoomControl={false}
                 ref={mapRef}>
-                {/* Base map */}
                 <TileLayer
                     url='https://mapapi.geodata.gov.hk/gs/api/v1.0.0/xyz/basemap/WGS84/{z}/{x}/{y}.png'
                     attribution='&copy; <a href="https://api.portal.hkmapservice.gov.hk/disclaimer">Lands Department</a> contributors'
                 />
-                {/* Map Label (buildings, landmarks) */}
                 <TileLayer
                     url={`https://mapapi.geodata.gov.hk/gs/api/v1.0.0/xyz/label/hk/${locale}/WGS84/{z}/{x}/{y}.png`}
                     attribution='&copy; <a href="https://api.portal.hkmapservice.gov.hk/disclaimer">Lands Department</a> contributors'
                 />
                 <ZoomControl position='bottomright' />
                 <MapCenter />
-                {data.map((data, index) => (
-                    <Marker
-                        key={index}
-                        position={[data.latitude, data.longitude]}
-                        icon={truckIcon}
-                        eventHandlers={{
-                            click: () => {
-                                handleLocation(data);
-                            },
-                        }}>
-                        <Popup>
-                            <div className='popup-content w-full'>
-                                <h2 className='text-lg font-bold'>
-                                    {t("district")}: {data.district}
-                                </h2>
-                                <h3 className='text-base/5 my-1 font-semibold'>
-                                    {t("address")}: {data.address}
-                                </h3>
-                                <h4 className='text-base font-semibold'>
-                                    {t("date")}: {`${data.start_date} ${t("to")} ${data.end_date}`}
-                                </h4>
-                                {data.remarks && (
-                                    <h4 className='text-sm font-semibold italic my-1'>
-                                        {t("remark")}: {data.remarks}
-                                    </h4>
-                                )}
-                                <p className='text-justify'>
-                                    {t.rich("remarkwarn", {
-                                        br: () => <br />,
-                                        link: (chunks) => (
-                                            <Link
-                                                href={`${chunks}`}
-                                                target='_blank'
-                                                className='break-words break-all whitespace-normal'>
-                                                <br />
-                                                {chunks}
-                                            </Link>
-                                        ),
-                                    })}
-                                </p>
-                            </div>
-                        </Popup>
-                    </Marker>
-                ))}
+                <MarkerClusterGroup showCoverageOnHover={false}>
+                    {data.map((data, index) => (
+                        <Marker
+                            key={index}
+                            position={[data.latitude, data.longitude]}
+                            icon={MapIcon}
+                            eventHandlers={{
+                                click: () => {
+                                    handleLocation(data);
+                                },
+                            }}>
+                            <Popup>
+                                <div className='popup-content w-full text-[#353935]'>
+                                    <h2 className='text-lg font-bold'>
+                                        {t("district")}: {data.district}
+                                    </h2>
+                                    <h3 className='text-base/5 my-1 font-semibold'>
+                                        {t("address")}: {data.address}
+                                    </h3>
+                                    {data.start_date && (
+                                        <h4 className='text-base font-semibold'>
+                                            {t("date")}:{" "}
+                                            {`${data.start_date} ${t("to")} ${data.end_date}`}
+                                        </h4>
+                                    )}
+
+                                    {data.remarks && (
+                                        <h4 className='text-sm font-semibold italic my-1'>
+                                            {t("remark")}: {data.remarks}
+                                        </h4>
+                                    )}
+                                    <p className='text-justify'>
+                                        {t.rich("remarkwarn", {
+                                            data_provider: `${
+                                                locale === "tc"
+                                                    ? ResourceExTLink[type].data_provider.zh
+                                                    : ResourceExTLink[type].data_provider.en
+                                            }`,
+                                            br: () => <br />,
+                                            link: () => (
+                                                <Link
+                                                    href={`${
+                                                        locale === "tc"
+                                                            ? ResourceExTLink[type].zh
+                                                            : ResourceExTLink[type].en
+                                                    }`}
+                                                    target='_blank'
+                                                    className='break-words break-all whitespace-normal'>
+                                                    <br />
+                                                    {`${
+                                                        locale === "tc"
+                                                            ? ResourceExTLink[type].zh
+                                                            : ResourceExTLink[type].en
+                                                    }`}
+                                                </Link>
+                                            ),
+                                        })}
+                                    </p>
+                                </div>
+                            </Popup>
+                        </Marker>
+                    ))}
+                </MarkerClusterGroup>
             </MapContainer>
         </section>
     );

@@ -21,10 +21,11 @@
         "date": "日期",
         "remark": "備註",
         "to": "至",
-        "remarkwarn": "備註: 有關服務時段、地址及備註資料僅供參考，如有更改，恕不另行通知。 以上資料由香港金融管理局提供。<br></br><br></br>請到香港金融管理局網站查閱最新資料: <link>https://www.hkma.gov.hk/chi/key-functions/money/hong-kong-currency/coin-collection-programme/</link>",
-        "performance_remind": "啟用硬體加速以獲得最佳體驗"
+        "remarkwarn": "備註: 有關服務時段、地址及備註資料僅供參考，如有更改，恕不另行通知。 以上資料由{data_provider}提供。<br></br><br></br>請到{data_provider}網站查閱最新資料: <link></link>"
     },
-    "I_popup": {
-        "performance_remind": "啟用硬體加速以獲得最佳體驗"
+    "I_Settings": {
+        "performance_remind": "啟用硬體加速以獲得最佳體驗",
+        "select_label": "選擇標記",
+        "language": "Langauge"
     }
 }

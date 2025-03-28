@@ -38,32 +38,35 @@ const CoinCartLocations = () => {
     }, [coinCartData]);
 
     return (
-        <div className='flex flex-col location rounded-2xl bg-[#2E236C] lg:mx-2 text-white'>
-            <div className='info-title bg-[#433D8B] flexCenter rounded-t-2xl'>
+        <div className='flex flex-col flex-grow location rounded-2xl bg-secondary lg:mx-2 text-white h-full '>
+            {/* Fixed info-title */}
+            <div className='info-title bg-tertiary flexCenter rounded-t-2xl'>
                 <MapPinLine weight='fill' size={24} />
                 <h1 className='text-xl py-1 text-center mx-2'>{t("location")}</h1>
             </div>
-            {/* List of location */}
-            {coinCartData && coinCartData.length > 0 ? (
-                <div className='location_scroll my-2'>
-                    {Object.keys(groupedData).map((month) => (
-                        <div key={month}>
-                            <h2 className='text-xl font-bold flexCenter bg-[#433D8B] rounded-lg m-2 px-2'>
-                                {month}
-                            </h2>
-                            {groupedData[month].map((data, index) => (
-                                <LocationCard key={index} data={data} />
-                            ))}
-                        </div>
-                    ))}
-                </div>
-            ) : (
-                <div className='flexCenter flex-grow'>
-                    <h1 className='text-white text-center'>{t("noData")}</h1>
-                </div>
-            )}
-            {/* Show all */}
-            <ExpandButton />
+
+            {/* Scrollable coinCartData */}
+            <div className='flex-grow overflow-y-auto my-2 location_scroll'>
+                {coinCartData && coinCartData.length > 0 ? (
+                    <div>
+                        {Object.keys(groupedData).map((month) => (
+                            <div key={month}>
+                                <h2 className='text-xl font-bold flexCenter bg-tertiary rounded-lg m-2 px-2'>
+                                    {month}
+                                </h2>
+                                {groupedData[month].map((data, index) => (
+                                    <LocationCard key={index} data={data} display='date' />
+                                ))}
+                            </div>
+                        ))}
+                        <ExpandButton />
+                    </div>
+                ) : (
+                    <div className='flexCenter flex-grow'>
+                        <h1 className='text-white text-center'>{t("noData")}</h1>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

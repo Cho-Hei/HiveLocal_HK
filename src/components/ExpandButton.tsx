@@ -2,7 +2,6 @@
 import { toggleShowAll } from "@/store/dataSetsSlice";
 import { AppDispatch, RootState } from "@/store/store";
 import { useTranslations } from "next-intl";
-import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const ExpandButton = () => {
@@ -15,7 +14,7 @@ const ExpandButton = () => {
     };
 
     return (
-        <button className='bg-[#433D8B] w-full py-2 rounded-2xl' onClick={handleToggle}>
+        <button className='bg-tertiary w-full py-2 rounded-2xl' onClick={handleToggle}>
             {showAll ? t("showLess") : t("showAll")}
         </button>
     );
