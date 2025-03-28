@@ -25,37 +25,47 @@ const SideBar = () => {
     }, [type]);
 
     const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
+        e.preventDefault();
+
         // Prevent drag if the event originated within LocationsPicker
         if (LocationsPickerRef.current && LocationsPickerRef.current.contains(e.target as Node)) {
             return; // Ignore drag
         }
 
         setIsDragging(true);
-        const startY = "clientY" in e ? e.clientY : e.touches?.[0].clientY; // Capture starting cursor position
+        const startY = "clientY" in e ? e.clientY : e.touches?.[0].clientY; // Initial cursor position
+        let currentHeight = height; // Track the current height without setting state repeatedly
 
         const handleDragMove = (moveEvent: MouseEvent | TouchEvent) => {
+            moveEvent.preventDefault(); // Prevent overscroll or pull-to-refresh
+
             const currentY =
                 moveEvent instanceof MouseEvent ? moveEvent.clientY : moveEvent.touches[0].clientY;
-            const deltaY = startY - currentY; // Calculate drag direction and amount
-            const newHeight = Math.min(
-                Math.max(height + deltaY, minHeight), // Ensure height is >= minHeight
-                maxHeight // Ensure height is <= maxHeight
+            const deltaY = startY - currentY; // Calculate movement
+            currentHeight = Math.min(
+                Math.max(height + deltaY, minHeight), // Ensure height >= minHeight
+                maxHeight // Ensure height <= maxHeight
             );
-            setHeight(newHeight); // Update height dynamically
+
+            // Throttle updates using requestAnimationFrame
+            requestAnimationFrame(() => {
+                setHeight(currentHeight); // Update height with throttling
+            });
         };
 
         const handleDragEnd = () => {
             setIsDragging(false);
-            // Clean up event listeners
+
+            // Remove listeners
             document.removeEventListener("mousemove", handleDragMove);
             document.removeEventListener("touchmove", handleDragMove);
             document.removeEventListener("mouseup", handleDragEnd);
             document.removeEventListener("touchend", handleDragEnd);
         };
 
-        // Attach listeners for drag movement and end
+        // Attach listeners (passive: false for touchmove to prevent default behaviors)
         document.addEventListener("mousemove", handleDragMove);
-        document.addEventListener("touchmove", handleDragMove);
+        document.addEventListener("touchmove", handleDragMove, { passive: false });
         document.addEventListener("mouseup", handleDragEnd);
         document.addEventListener("touchend", handleDragEnd);
     };
