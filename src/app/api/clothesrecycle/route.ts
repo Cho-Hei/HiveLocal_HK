@@ -7,7 +7,7 @@ export const maxDuration = 20;
 async function fetchWithRetry(
     url: string,
     options: RequestInit = {},
-    retries: number = 3,
+    retries: number = 5,
     delay: number = 1000
 ): Promise<Response> {
     for (let attempt = 0; attempt < retries; attempt++) {

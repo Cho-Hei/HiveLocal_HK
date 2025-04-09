@@ -8,10 +8,11 @@ import { RootState } from "@/store/store";
 import { DataProps, districtshort } from "@/types";
 import { Accordion, AccordionItem } from "@heroui/react";
 import { useEffect, useState } from "react";
+import LoadingSpinner from "./LoadingSpinner";
 
 const Locations = () => {
     const t = useTranslations("I_Location");
-    const { data, currentLocation } = useSelector((state: RootState) => state.dataSets);
+    const { data, currentLocation, status } = useSelector((state: RootState) => state.dataSets);
     const [currentDistrict, setCurrentDistrict] = useState<string | "">("");
 
     const groupByDistrict: { [key: string]: DataProps[] } = {};
@@ -36,42 +37,50 @@ const Locations = () => {
                 <h1 className='text-xl py-1 text-center mx-2'>{t("location")}</h1>
             </div>
             {/* List of location */}
-            <div className='flex-grow overflow-y-auto my-2 location_scroll'>
-                {data ? (
-                    <Accordion
-                        isCompact
-                        selectedKeys={[currentDistrict]} // Ensure selectedKeys is an array
-                        onSelectionChange={(keys) => {
-                            // Convert the Set to an array and extract the key
-                            const selectedKey: districtshort | "" =
-                                (Array.from(keys)[0] as districtshort) || "";
+            {status === "loading" ? (
+                <div className='flexCenter flex-grow'>
+                    <LoadingSpinner />
+                </div>
+            ) : (
+                <div className='flex-grow overflow-y-auto my-2 location_scroll'>
+                    {data ? (
+                        <Accordion
+                            isCompact
+                            selectedKeys={[currentDistrict]} // Ensure selectedKeys is an array
+                            onSelectionChange={(keys) => {
+                                // Convert the Set to an array and extract the key
+                                const selectedKey: districtshort | "" =
+                                    (Array.from(keys)[0] as districtshort) || "";
 
-                            // Toggle: Collapse if clicked district matches currentDistrict, otherwise expand
-                            setCurrentDistrict(selectedKey === currentDistrict ? "" : selectedKey);
-                        }}>
-                        {Object.keys(groupByDistrict).map((district) => (
-                            <AccordionItem
-                                key={district}
-                                title={district}
-                                classNames={{ heading: "text-white", title: "text-white" }}>
-                                <div>
-                                    {groupByDistrict[district].map((location, index) => (
-                                        <LocationCard
-                                            key={index}
-                                            data={location}
-                                            display='district'
-                                        />
-                                    ))}
-                                </div>
-                            </AccordionItem>
-                        ))}
-                    </Accordion>
-                ) : (
-                    <div className='flexCenter flex-grow'>
-                        <h1 className='text-white text-center'>{t("noData")}</h1>
-                    </div>
-                )}
-            </div>
+                                // Toggle: Collapse if clicked district matches currentDistrict, otherwise expand
+                                setCurrentDistrict(
+                                    selectedKey === currentDistrict ? "" : selectedKey
+                                );
+                            }}>
+                            {Object.keys(groupByDistrict).map((district) => (
+                                <AccordionItem
+                                    key={district}
+                                    title={district}
+                                    classNames={{ heading: "text-white", title: "text-white" }}>
+                                    <div>
+                                        {groupByDistrict[district].map((location, index) => (
+                                            <LocationCard
+                                                key={index}
+                                                data={location}
+                                                display='district'
+                                            />
+                                        ))}
+                                    </div>
+                                </AccordionItem>
+                            ))}
+                        </Accordion>
+                    ) : (
+                        <div className='flexCenter flex-grow'>
+                            <h1 className='text-white text-center'>{t("noData")}</h1>
+                        </div>
+                    )}
+                </div>
+            )}
         </div>
     );
 };

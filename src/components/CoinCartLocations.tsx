@@ -7,11 +7,12 @@ import ExpandButton from "./ExpandButton";
 import LocationCard from "./LocationCard";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import LoadingSpinner from "./LoadingSpinner";
 
 const CoinCartLocations = () => {
     const locale = useLocale();
     const t = useTranslations("I_Location");
-    const { data: coinCartData } = useSelector((state: RootState) => state.dataSets);
+    const { data: coinCartData, status } = useSelector((state: RootState) => state.dataSets);
 
     const groupedData = useMemo(() => {
         const grouped: { [key: string]: DataProps[] } = {};
@@ -46,27 +47,35 @@ const CoinCartLocations = () => {
             </div>
 
             {/* Scrollable coinCartData */}
-            <div className='flex-grow overflow-y-auto my-2 location_scroll'>
-                {coinCartData && coinCartData.length > 0 ? (
-                    <div>
-                        {Object.keys(groupedData).map((month) => (
-                            <div key={month}>
-                                <h2 className='text-xl font-bold flexCenter bg-tertiary rounded-lg m-2 px-2'>
-                                    {month}
-                                </h2>
-                                {groupedData[month].map((data, index) => (
-                                    <LocationCard key={index} data={data} display='date' />
-                                ))}
+            {status === "loading" ? (
+                <div className='flexCenter flex-grow'>
+                    <LoadingSpinner />
+                </div>
+            ) : (
+                <div className='flex-grow overflow-y-auto my-2 location_scroll'>
+                    {coinCartData && coinCartData.length > 0 ? (
+                        <div>
+                            {Object.keys(groupedData).map((month) => (
+                                <div key={month}>
+                                    <h2 className='text-xl font-bold flexCenter bg-tertiary rounded-lg m-2 px-2'>
+                                        {month}
+                                    </h2>
+                                    {groupedData[month].map((data, index) => (
+                                        <LocationCard key={index} data={data} display='date' />
+                                    ))}
+                                </div>
+                            ))}
+                            <div className='flexCenter flex-grow'>
+                                <ExpandButton />
                             </div>
-                        ))}
-                        <ExpandButton />
-                    </div>
-                ) : (
-                    <div className='flexCenter flex-grow'>
-                        <h1 className='text-white text-center'>{t("noData")}</h1>
-                    </div>
-                )}
-            </div>
+                        </div>
+                    ) : (
+                        <div className='flexCenter flex-grow'>
+                            <h1 className='text-white text-center'>{t("noData")}</h1>
+                        </div>
+                    )}
+                </div>
+            )}
         </div>
     );
 };
