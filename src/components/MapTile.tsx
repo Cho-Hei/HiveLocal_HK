@@ -41,6 +41,7 @@ const MapTile = () => {
     } = useSelector((state: RootState) => state.dataSets);
     const locale = useLocale();
     const mapRef = useRef<Map | null>(null);
+    console.log("MapTile", data);
 
     // Create a custom icon
     const MapIcon = useMemo(
