@@ -15,14 +15,11 @@ const ContentParent = ({ children }: ContentParentProps) => {
     const { locale } = useParams<{ locale: string }>();
 
     useEffect(() => {
-        console.log(`locale: ${locale}`);
-        // If type is "coincart", fetch data with "showAll", otherwise omit "all".
         if (type === "coincart") {
             dispatch(fetchData({ type: type as string, lang: locale as string, all: showAll }));
         } else {
             dispatch(fetchData({ type: type as string, lang: locale as string }));
         }
-        // dispatch(fetchData({ type: type as string, lang: locale as string, all: showAll }));
     }, [dispatch, locale, showAll, type]);
 
     useEffect(() => {
@@ -33,9 +30,13 @@ const ContentParent = ({ children }: ContentParentProps) => {
         return (
             <section className='relative overflow-hidden h-screen'>
                 <div className='flex flex-col-reverse lg:flex-row h-full'>
-                    <h1>Error loading data. </h1>
-                    <li>Please disable any extension / application that will block trackers.</li>
-                    <li>Try again / refresh page</li>
+                    <ul>
+                        <li>Error loading data. </li>
+                        <li>
+                            Please disable any extension / application that will block trackers.
+                        </li>
+                        <li>Try again / refresh page</li>
+                    </ul>
                 </div>
             </section>
         );

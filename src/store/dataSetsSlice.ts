@@ -4,6 +4,8 @@ import { DataName, DataProps } from "@/types";
 
 // Check if IndexedDB is available (browser environment) (Client Side)
 const isBrowser = typeof window !== "undefined" && typeof indexedDB !== "undefined";
+const CACHE_EXPIRATION_TIME = 24 * 60 * 60 * 1000;
+// const CACHE_EXPIRATION_TIME = 60 * 1000;
 
 const dbPromise = isBrowser
     ? openDB("DataCacheDB", 1, {
@@ -16,16 +18,26 @@ const dbPromise = isBrowser
     : null;
 
 async function getCachedData(key: string): Promise<DataProps[] | null> {
-    if (!dbPromise) return null; // Return null if not in the browser
+    if (!dbPromise) return null;
     const db = await dbPromise;
     const cached = await db.get("datasets", key);
-    return cached ? cached.data : null;
+
+    if (cached) {
+        const now = Date.now();
+        if (now - cached.timestamp < CACHE_EXPIRATION_TIME) {
+            return cached.data;
+        }
+    }
+
+    return null; // Return null if no valid cached data
 }
 
 async function cacheData(key: string, data: DataProps[]) {
     if (!dbPromise) return; // Do nothing if not in the browser
     const db = await dbPromise;
-    await db.put("datasets", { key, data });
+
+    // Store data with a timestamp
+    await db.put("datasets", { key, data, timestamp: Date.now() });
 }
 
 export const fetchData = createAsyncThunk(
@@ -36,10 +48,11 @@ export const fetchData = createAsyncThunk(
         // Check IndexedDB for cached data
         const cachedData = await getCachedData(cacheKey);
         if (cachedData) {
+            console.log("Using cached data:", cachedData);
             return cachedData;
         }
 
-        // Fetch data from API if not cached
+        // Fetch data from API if not cached or expired
         const response = await fetch(`/api/${type}`, {
             method: "POST",
             headers: {
@@ -49,7 +62,7 @@ export const fetchData = createAsyncThunk(
         });
         const data = await response.json();
 
-        // Cache the fetched data
+        // Cache the fetched data with a timestamp
         await cacheData(cacheKey, data);
 
         return data as DataProps[];
