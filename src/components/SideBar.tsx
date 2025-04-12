@@ -15,7 +15,7 @@ const SideBar = () => {
     // Explicitly type the ref for LocationsPicker
     const LocationsPickerRef = useRef<HTMLDivElement>(null);
 
-    const minHeight = 300; // Minimum height of the section
+    const minHeight = 350; // Minimum height of the section
     const maxHeight = window.innerHeight - 250; // Maximum height of the section
     const [height, setHeight] = useState(minHeight); // Initial height
     const [isDragging, setIsDragging] = useState(false); // Drag state

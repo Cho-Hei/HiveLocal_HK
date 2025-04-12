@@ -29,7 +29,7 @@ async function getCachedData(key: string): Promise<DataProps[] | null> {
         }
     }
 
-    return null; // Return null if no valid cached data
+    return null;
 }
 
 async function cacheData(key: string, data: DataProps[]) {
@@ -53,14 +53,26 @@ export const fetchData = createAsyncThunk(
         }
 
         // Fetch data from API if not cached or expired
-        const response = await fetch(`/api/${type}`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(type === "coincart" ? { lang, all } : { lang }),
-        });
-        const data = await response.json();
+        let data;
+        if (type === "coincart") {
+            const response = await fetch(`/api/${type}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ lang, all }),
+            });
+            data = await response.json();
+        } else {
+            const response = await fetch(`/api/facilities`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ lang, facilitiesType: type }),
+            });
+            data = await response.json();
+        }
 
         // Cache the fetched data with a timestamp
         await cacheData(cacheKey, data);

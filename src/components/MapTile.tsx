@@ -29,6 +29,14 @@ export const ResourceExTLink = {
         en: "https://www.had.gov.hk/en/public_services/community_used_clothes_recycling_bank_scheme/",
         zh: "https://www.had.gov.hk/tc/public_services/community_used_clothes_recycling_bank_scheme/",
     },
+    studyroom: {
+        data_provider: {
+            en: "Education Bureau",
+            zh: "教育局",
+        },
+        en: "https://www.edb.gov.hk/en/student-parents/parents-related/students-related/study-rooms/index.html",
+        zh: "https://www.edb.gov.hk/tc/student-parents/parents-related/students-related/study-rooms/index.html",
+    },
 };
 
 const MapTile = () => {
@@ -41,7 +49,6 @@ const MapTile = () => {
     } = useSelector((state: RootState) => state.dataSets);
     const locale = useLocale();
     const mapRef = useRef<Map | null>(null);
-    console.log("MapTile", data);
 
     // Create a custom icon
     const MapIcon = useMemo(

@@ -11,7 +11,8 @@ export async function POST(req: NextRequest) {
         const data = await response.json();
 
         const records: any[] = data.result.records;
-        let coinCartData: DataProps[] = records.map((record: any) => ({
+        let coinCartData: DataProps[] = [];
+        coinCartData = records.map((record: any) => ({
             organization: `${lang === "en" ? "Hong Kong Monetary Authority" : "香港金融管理局"}`,
             start_date: record.start_date as string,
             end_date: record.end_date as string,
