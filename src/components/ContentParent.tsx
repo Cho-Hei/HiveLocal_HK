@@ -1,6 +1,16 @@
 "use client";
 import { fetchData, updateCurrentLocation } from "@/store/dataSetsSlice";
 import { AppDispatch, RootState } from "@/store/store";
+import {
+    Button,
+    Modal,
+    ModalBody,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    useDisclosure,
+} from "@heroui/react";
+import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { ReactNode, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,6 +23,8 @@ const ContentParent = ({ children }: ContentParentProps) => {
     const dispatch: AppDispatch = useDispatch();
     const { type, status, showAll } = useSelector((state: RootState) => state.dataSets);
     const { locale } = useParams<{ locale: string }>();
+    const { isOpen, onOpenChange } = useDisclosure({ defaultOpen: true });
+    const t = useTranslations("I_StartModal");
 
     useEffect(() => {
         if (type === "coincart") {
@@ -28,7 +40,7 @@ const ContentParent = ({ children }: ContentParentProps) => {
 
     if (status === "failed") {
         return (
-            <section className='relative overflow-hidden h-screen'>
+            <section className='relative overflow-hidden h-screen text-white'>
                 <div className='flex flex-col-reverse lg:flex-row h-full'>
                     <ul>
                         <li>Error loading data. </li>
@@ -43,7 +55,36 @@ const ContentParent = ({ children }: ContentParentProps) => {
     }
 
     return (
-        <section className='relative overflow-hidden h-screen'>
+        <section className='relative overflow-hidden h-screen text-white'>
+            {/* Start Modal */}
+            <Modal
+                backdrop='blur'
+                isOpen={isOpen}
+                onOpenChange={onOpenChange}
+                isDismissable={false}
+                isKeyboardDismissDisabled={true}
+                classNames={{
+                    base: "bg-[#19172c] text-white",
+                }}>
+                <ModalContent>
+                    {(onClose) => (
+                        <>
+                            <ModalHeader className='flex flex-col gap-1'>HiveLocal HK</ModalHeader>
+                            <ModalBody>
+                                <p>{t("line1")}</p>
+                                <p>{t("line2")}</p>
+                                <p>{t("line3")}</p>
+                                <p>Enjoy!</p>
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button onPress={onClose} className='bg-[#6254ab] text-base'>
+                                    {t("continue")}
+                                </Button>
+                            </ModalFooter>
+                        </>
+                    )}
+                </ModalContent>
+            </Modal>
             <div className='flex flex-col-reverse lg:flex-row h-full'>{children}</div>
         </section>
     );

@@ -1,5 +1,5 @@
 "use client";
-import { Gear } from "@phosphor-icons/react/dist/ssr";
+import { Gear, GithubLogo } from "@phosphor-icons/react/dist/ssr";
 import LocaleSwitch from "./LocaleSwitch";
 import { useEffect, useRef, useState } from "react";
 import { addToast, cn, Radio, RadioGroup } from "@heroui/react";
@@ -79,48 +79,60 @@ const Settings = () => {
                     slideopen ? "translate-x-0" : "translate-x-full"
                 } max-lg:w-screen lg:w-[300px]`}
                 style={{ maxWidth: "100vw" }}>
-                <div className='flex flex-col m-4'>
-                    <button
-                        className='flex justify-end '
-                        onClick={() => setSlideopen(false)}
-                        aria-label='Close'>
-                        ✕
-                    </button>
-                    <div className='flex flex-col flex-grow flexCenter items-start h-full'>
-                        <div ref={localeSwitchRef} className='flex justify-start w-full m-2'>
-                            <LocaleSwitch dropdownref={localeSwitchRef} />
-                        </div>
+                <div className='flex flex-col w-full h-full justify-between'>
+                    <div className='flex flex-col m-4'>
+                        <button
+                            className='flex justify-end'
+                            onClick={() => setSlideopen(false)}
+                            aria-label='Close'>
+                            ✕
+                        </button>
+                        <div className='flex flex-col flex-grow flexCenter items-start h-full'>
+                            <div ref={localeSwitchRef} className='flex justify-start w-full m-2'>
+                                <LocaleSwitch dropdownref={localeSwitchRef} />
+                            </div>
 
-                        <RadioGroup
-                            label={t("select_label")}
-                            value={type}
-                            size='lg'
-                            onValueChange={(value) => handleUpdateType(value)}
-                            classNames={{ base: "flex w-full m-2", label: "text-white text-xl" }}>
-                            {Object.values(DataTypes).map((cur) => (
-                                <Radio
-                                    key={locale === "tc" ? cur.name_zh : cur.name_en}
-                                    value={cur.id}
-                                    classNames={{
-                                        base: "flex justify-start w-full",
-                                        label: "text-lg",
-                                        control: "bg-white border-white !important",
-                                    }}>
-                                    <div className='flex flexCenter'>
-                                        <Image
-                                            src={MapIcons[cur.id]}
-                                            width={32}
-                                            height={32}
-                                            alt={locale === "tc" ? cur.name_zh : cur.name_en}
-                                            className='mr-2'
-                                        />
-                                        <h3 className='text-white text-left'>
-                                            {locale === "tc" ? cur.name_zh : cur.name_en}
-                                        </h3>
-                                    </div>
-                                </Radio>
-                            ))}
-                        </RadioGroup>
+                            <RadioGroup
+                                label={t("select_label")}
+                                value={type}
+                                size='lg'
+                                onValueChange={(value) => handleUpdateType(value)}
+                                classNames={{
+                                    base: "flex w-full m-2",
+                                    label: "text-white text-xl",
+                                }}>
+                                {Object.values(DataTypes).map((cur) => (
+                                    <Radio
+                                        key={locale === "tc" ? cur.name_zh : cur.name_en}
+                                        value={cur.id}
+                                        classNames={{
+                                            base: "flex justify-start w-full",
+                                            label: "text-lg",
+                                            control: "bg-white border-white !important",
+                                        }}>
+                                        <div className='flex flexCenter'>
+                                            <Image
+                                                src={MapIcons[cur.id]}
+                                                width={32}
+                                                height={32}
+                                                alt={locale === "tc" ? cur.name_zh : cur.name_en}
+                                                className='mr-2'
+                                            />
+                                            <h3 className='text-white text-left'>
+                                                {locale === "tc" ? cur.name_zh : cur.name_en}
+                                            </h3>
+                                        </div>
+                                    </Radio>
+                                ))}
+                            </RadioGroup>
+                        </div>
+                    </div>
+                    <div className='flexCenter'>
+                        <GithubLogo
+                            fill='white'
+                            size={48}
+                            className='border-3 border-white rounded-3xl'
+                        />
                     </div>
                 </div>
             </div>

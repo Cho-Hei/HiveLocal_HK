@@ -47,7 +47,7 @@ export const DataTypes: Record<
 export const MapIcons: Record<DataName, string> = {
     coincart: "/money-transport_1.svg",
     clothesrecycle: "/tshirt.svg",
-    studyroom: "/money-transport_1.svg",
+    studyroom: "/studyroom.svg",
 };
 
 export interface LocationsProps {
