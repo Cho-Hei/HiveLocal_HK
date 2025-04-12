@@ -61,7 +61,10 @@ const Locations = () => {
                                 <AccordionItem
                                     key={district}
                                     title={district}
-                                    classNames={{ heading: "text-white", title: "text-white" }}>
+                                    classNames={{
+                                        heading: "text-white",
+                                        title: "text-white capitalize",
+                                    }}>
                                     <div>
                                         {groupByDistrict[district].map((location, index) => (
                                             <LocationCard

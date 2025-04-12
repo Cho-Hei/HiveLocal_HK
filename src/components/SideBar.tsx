@@ -74,7 +74,7 @@ const SideBar = () => {
         <>
             {/* Mobile Sidebar */}
             <section
-                className='lg:hidden fixed left-0 w-full bg-primary rounded-t-2xl shadow-lg grid grid-cols-2 gap-2 p-2 text-white overflow-hidden z-20'
+                className='lg:hidden fixed left-0 w-full bg-primary rounded-t-2xl shadow-lg p-2 text-white overflow-hidden z-20'
                 style={{
                     height: `${height}px`, // Dynamically update height
                     bottom: 0, // Fixed to the bottom of the viewport
@@ -84,18 +84,25 @@ const SideBar = () => {
                 onMouseDown={handleDragStart}
                 onTouchStart={handleDragStart} // Enable touch dragging
             >
-                <div className='mobileinfo min-h-[350px] max-h-[480px] max-w-full rounded-2xl bg-secondary shadow-lg flex flex-col overflow-hidden self-start'>
-                    <div className='info-title bg-tertiary flexCenter rounded-t-2xl'>
-                        <Info weight='fill' color='#ffffff' size={24} />
-                        <h1 className='text-xl py-1 mx-2'>{t("info")}</h1>
+                <div className='overflow-hidden h-full'>
+                    <div className='flexCenter'>
+                        <hr className='w-6 h-1 mb-1 bg-gray-400 border-0 rounded-sm dark:bg-gray-700' />
                     </div>
-                    <InfoCard />
-                </div>
+                    <div className='grid grid-cols-2 gap-2 overflow-hidden h-full'>
+                        <div className='mobileinfo min-h-[350px] max-h-[480px] max-w-full rounded-2xl bg-secondary shadow-lg flex flex-col overflow-hidden self-start'>
+                            <div className='info-title bg-tertiary flexCenter rounded-t-2xl'>
+                                <Info weight='fill' color='#ffffff' size={24} />
+                                <h1 className='text-xl py-1 mx-2'>{t("info")}</h1>
+                            </div>
+                            <InfoCard />
+                        </div>
 
-                <div
-                    ref={LocationsPickerRef} // Attach ref to detect interaction
-                    className='flex flex-col overflow-y-auto'>
-                    {LocationsPicker}
+                        <div
+                            ref={LocationsPickerRef} // Attach ref to detect interaction
+                            className='flex flex-col overflow-y-auto'>
+                            {LocationsPicker}
+                        </div>
+                    </div>
                 </div>
             </section>
 

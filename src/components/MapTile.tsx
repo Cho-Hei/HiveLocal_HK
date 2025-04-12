@@ -110,7 +110,7 @@ const MapTile = () => {
                             }}>
                             <Popup>
                                 <div className='popup-content w-full text-[#353935]'>
-                                    <h2 className='text-lg font-bold'>
+                                    <h2 className='text-lg font-bold capitalize'>
                                         {t("district")}: {data.district}
                                     </h2>
                                     <h3 className='text-base/5 my-1 font-semibold'>

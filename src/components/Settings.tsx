@@ -62,6 +62,7 @@ const Settings = () => {
     const handleUpdateType = (value: string) => {
         dispatch(changeType(value));
         dispatch(updateCurrentLocation(null));
+        setSlideopen(false);
     };
 
     return (

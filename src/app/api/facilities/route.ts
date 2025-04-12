@@ -93,7 +93,7 @@ export async function POST(req: NextRequest) {
                         : record.properties[mapping.address_tc],
                 district: mapping.district.includes("SEARCH02_")
                     ? lang === "en"
-                        ? record.properties[mapping.district]
+                        ? record.properties[mapping.district].toLowerCase()
                         : record.properties[mapping.district_tc]
                     : districtCodeToName(
                           record.properties[mapping.district],

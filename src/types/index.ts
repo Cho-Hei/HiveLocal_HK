@@ -75,7 +75,7 @@ export type districtshort =
     | "yl";
 
 export const Districts: Record<districtshort, Record<string, string>> = {
-    cw: { en: "Central and Western", zh: "中西區" },
+    cw: { en: "Central & Western", zh: "中西區" },
     e: { en: "Eastern", zh: "東區" },
     s: { en: "Southern", zh: "南區" },
     wc: { en: "Wan Chai", zh: "灣仔" },
@@ -96,7 +96,7 @@ export const Districts: Record<districtshort, Record<string, string>> = {
 };
 
 export const districtOrder_en = [
-    "Central and Western",
+    "Central & Western",
     "Wan Chai",
     "Eastern",
     "Southern",
