@@ -55,11 +55,12 @@ const ContentParent = ({ children }: ContentParentProps) => {
     }
 
     return (
-        <section className='relative overflow-hidden h-screen text-white'>
+        <section className='relative overflow-hidden h-screen text-white bg-primary'>
             {/* Start Modal */}
             <Modal
                 backdrop='blur'
                 isOpen={isOpen}
+                placement='center'
                 onOpenChange={onOpenChange}
                 isDismissable={false}
                 isKeyboardDismissDisabled={true}

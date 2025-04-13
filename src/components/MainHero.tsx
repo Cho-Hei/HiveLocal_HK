@@ -13,9 +13,10 @@ const MainHero = () => {
         <ContentParent>
             <SideBar />
             <div className='flex flex-col flex-grow lg:h-screen h-full'>
-                <div className='z-50'>
+                <div className='z-50 max-h-[40px]'>
                     <Navbar />
                 </div>
+
                 <MapTile />
             </div>
         </ContentParent>

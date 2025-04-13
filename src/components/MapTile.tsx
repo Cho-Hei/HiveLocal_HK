@@ -79,7 +79,7 @@ const MapTile = () => {
     };
 
     return (
-        <section className='map-container lg:h-screen'>
+        <section className='map-container lg:h-screen mt-[-40px]'>
             <MapContainer
                 center={[22.319158, 114.192923]}
                 zoom={13}

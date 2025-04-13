@@ -149,7 +149,7 @@ body {
 
 .map-container {
     width: 100%;
-    height: 65vh; /* Ensure the section takes the full viewport height */
+    height: 60%; /* Ensure the section takes the full viewport height */
 }
 
 .map {
