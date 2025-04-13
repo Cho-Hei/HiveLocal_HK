@@ -21,20 +21,33 @@ export interface DataProps {
     remarks: string | null;
 }
 
-export type DataName = "coincart" | "clothesrecycle";
+export type DataName = "coincart" | "clothesrecycle" | "studyroom";
 
-export const DataTypes: Record<DataName, { id: DataName; name_en: string; name_zh: string }> = {
-    coincart: { id: "coincart", name_en: "Coin Cart", name_zh: "收銀車" },
+export const DataTypes: Record<
+    DataName,
+    { id: DataName; name_en: string; name_zh: string; fetchurl: string }
+> = {
+    coincart: { id: "coincart", name_en: "Coin Cart", name_zh: "收銀車", fetchurl: "" },
     clothesrecycle: {
         id: "clothesrecycle",
         name_en: "Community Used Clothes Recycling Banks",
         name_zh: "社區舊衣回收箱",
+        fetchurl:
+            "https://api.csdi.gov.hk/apim/dataquery/api/?id=had_rcd_1665042410524_59761&layer=geotagging&limit=2000",
+    },
+    studyroom: {
+        id: "studyroom",
+        name_en: "Study Room",
+        name_zh: "自修室",
+        fetchurl:
+            "https://api.csdi.gov.hk/apim/dataquery/api/?id=edb_rcd_1633320468580_185&layer=edbstrm&limit=2000",
     },
 };
 
 export const MapIcons: Record<DataName, string> = {
     coincart: "/money-transport_1.svg",
     clothesrecycle: "/tshirt.svg",
+    studyroom: "/studyroom.svg",
 };
 
 export interface LocationsProps {
@@ -62,7 +75,7 @@ export type districtshort =
     | "yl";
 
 export const Districts: Record<districtshort, Record<string, string>> = {
-    cw: { en: "Central and Western", zh: "中西區" },
+    cw: { en: "Central & Western", zh: "中西區" },
     e: { en: "Eastern", zh: "東區" },
     s: { en: "Southern", zh: "南區" },
     wc: { en: "Wan Chai", zh: "灣仔" },
@@ -81,3 +94,45 @@ export const Districts: Record<districtshort, Record<string, string>> = {
     tm: { en: "Tuen Mun", zh: "屯門" },
     yl: { en: "Yuen Long", zh: "元朗" },
 };
+
+export const districtOrder_en = [
+    "Central & Western",
+    "Wan Chai",
+    "Eastern",
+    "Southern",
+    "Yau Tsim Mong",
+    "Sham Shui Po",
+    "Kowloon City",
+    "Wong Tai Sin",
+    "Kwun Tong",
+    "Kwai Tsing",
+    "Tsuen Wan",
+    "Tuen Mun",
+    "Yuen Long",
+    "North",
+    "Tai Po",
+    "Sha Tin",
+    "Sai Kung",
+    "Islands",
+];
+
+export const districtOrder_zh = [
+    "中西區",
+    "灣仔",
+    "東區",
+    "南區",
+    "油尖旺",
+    "深水埗",
+    "九龍城",
+    "黃大仙",
+    "觀塘",
+    "葵青",
+    "荃灣",
+    "屯門",
+    "元朗",
+    "北區",
+    "大埔",
+    "沙田",
+    "西貢",
+    "離島",
+];

@@ -5,14 +5,22 @@ import { useLocale, useTranslations } from "next-intl";
 import { useMemo } from "react";
 import ExpandButton from "./ExpandButton";
 import LocationCard from "./LocationCard";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store/store";
 import LoadingSpinner from "./LoadingSpinner";
+import { Button } from "@heroui/react";
+import { fetchData } from "@/store/dataSetsSlice";
 
 const CoinCartLocations = () => {
     const locale = useLocale();
+    const dispatch: AppDispatch = useDispatch();
     const t = useTranslations("I_Location");
-    const { data: coinCartData, status } = useSelector((state: RootState) => state.dataSets);
+    const {
+        type,
+        data: coinCartData,
+        status,
+        showAll,
+    } = useSelector((state: RootState) => state.dataSets);
 
     const groupedData = useMemo(() => {
         const grouped: { [key: string]: DataProps[] } = {};
@@ -38,6 +46,15 @@ const CoinCartLocations = () => {
         return grouped;
     }, [coinCartData]);
 
+    const retryFetch = () => {
+        console.log("Retrying fetch...");
+        if (type === "coincart") {
+            dispatch(fetchData({ type: type as string, lang: locale as string, all: showAll }));
+        } else {
+            dispatch(fetchData({ type: type as string, lang: locale as string }));
+        }
+    };
+
     return (
         <div className='flex flex-col flex-grow location rounded-2xl bg-secondary lg:mx-2 text-white h-full '>
             {/* Fixed info-title */}
@@ -45,6 +62,13 @@ const CoinCartLocations = () => {
                 <MapPinLine weight='fill' size={24} />
                 <h1 className='text-xl py-1 text-center mx-2'>{t("location")}</h1>
             </div>
+
+            {status === "failed" && (
+                <div className='flexCenter flex-grow flex-col'>
+                    <h1 className='text-white text-center'>{t("error")}</h1>
+                    <Button onPress={retryFetch}>Retry</Button>
+                </div>
+            )}
 
             {/* Scrollable coinCartData */}
             {status === "loading" ? (

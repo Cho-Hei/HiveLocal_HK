@@ -11,7 +11,8 @@
         "location": "地點",
         "noData": "沒有數據",
         "showAll": "顯示全部",
-        "showLess": "顯示較少"
+        "showLess": "顯示較少",
+        "error": "獲取數據時出錯"
     },
 
     "I_MapNote": {
@@ -27,5 +28,11 @@
         "performance_remind": "啟用硬體加速以獲得最佳體驗",
         "select_label": "選擇標記",
         "language": "Langauge"
+    },
+    "I_StartModal": {
+        "line1": "這是一個仍在開發中的應用程式。請注意，可能會發生一些錯誤或錯誤。如果您遇到任何問題，請在Github上報告它們。",
+        "line2": "此應用程式與任何政府或組織無關。所有數據均來自開源和公共數據。如果您是數據的所有者並希望刪除它，請通過[INSERT EMAIL HERE]與我聯繫。",
+        "line3": "如果您想 Contribute，請查看GitHub [INSERT LINK HERE]。",
+        "continue": "繼續"
     }
 }

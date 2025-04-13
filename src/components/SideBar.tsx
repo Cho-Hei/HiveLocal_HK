@@ -7,6 +7,7 @@ import { RootState } from "@/store/store";
 import CoinCartLocations from "./CoinCartLocations";
 import InfoCard from "./InfoCard";
 import { useMemo, useState, useRef } from "react";
+import PreventRefresh from "./PreventRefresh";
 
 const SideBar = () => {
     const t = useTranslations("I_SideBar");
@@ -15,8 +16,8 @@ const SideBar = () => {
     // Explicitly type the ref for LocationsPicker
     const LocationsPickerRef = useRef<HTMLDivElement>(null);
 
-    const minHeight = 300; // Minimum height of the section
-    const maxHeight = window.innerHeight - 250; // Maximum height of the section
+    const minHeight = window.innerHeight * 0.4; // Minimum height of the section
+    const maxHeight = window.innerHeight - 100; // Maximum height of the section
     const [height, setHeight] = useState(minHeight); // Initial height
     const [isDragging, setIsDragging] = useState(false); // Drag state
 
@@ -25,8 +26,6 @@ const SideBar = () => {
     }, [type]);
 
     const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
-        e.preventDefault();
-
         // Prevent drag if the event originated within LocationsPicker
         if (LocationsPickerRef.current && LocationsPickerRef.current.contains(e.target as Node)) {
             return; // Ignore drag
@@ -73,31 +72,40 @@ const SideBar = () => {
     return (
         <>
             {/* Mobile Sidebar */}
-            <section
-                className='lg:hidden fixed left-0 w-full bg-primary rounded-t-2xl shadow-lg grid grid-cols-2 gap-2 p-2 text-white overflow-hidden z-20'
-                style={{
-                    height: `${height}px`, // Dynamically update height
-                    bottom: 0, // Fixed to the bottom of the viewport
-                    cursor: isDragging ? "grabbing" : "grab", // Change cursor during drag
-                    transition: isDragging ? "none" : "height 0.3s ease-out", // Smooth release animation
-                }}
-                onMouseDown={handleDragStart}
-                onTouchStart={handleDragStart} // Enable touch dragging
-            >
-                <div className='mobileinfo min-h-[350px] max-h-[480px] max-w-full rounded-2xl bg-secondary shadow-lg flex flex-col overflow-hidden self-start'>
-                    <div className='info-title bg-tertiary flexCenter rounded-t-2xl'>
-                        <Info weight='fill' color='#ffffff' size={24} />
-                        <h1 className='text-xl py-1 mx-2'>{t("info")}</h1>
-                    </div>
-                    <InfoCard />
-                </div>
+            <PreventRefresh exceptref={LocationsPickerRef}>
+                <section
+                    className='lg:hidden fixed left-0 w-full bg-primary rounded-t-2xl shadow-lg p-2 text-white overflow-hidden z-20'
+                    style={{
+                        height: `${height}px`, // Dynamically update height
+                        bottom: 0, // Fixed to the bottom of the viewport
+                        cursor: isDragging ? "grabbing" : "grab", // Change cursor during drag
+                        transition: isDragging ? "none" : "height 0.3s ease-out", // Smooth release animation
+                    }}
+                    onMouseDown={handleDragStart}
+                    onTouchStart={handleDragStart} // Enable touch dragging
+                >
+                    <div className='overflow-hidden h-full'>
+                        <div className='flexCenter'>
+                            <hr className='w-6 h-1 mb-1 bg-gray-400 border-0 rounded-sm dark:bg-gray-700' />
+                        </div>
+                        <div className='grid grid-cols-2 gap-2 overflow-hidden h-full'>
+                            <div className='mobileinfo min-h-[350px] max-h-[480px] max-w-full rounded-2xl bg-secondary shadow-lg flex flex-col overflow-hidden self-start'>
+                                <div className='info-title bg-tertiary flexCenter rounded-t-2xl'>
+                                    <Info weight='fill' color='#ffffff' size={24} />
+                                    <h1 className='text-xl py-1 mx-2'>{t("info")}</h1>
+                                </div>
+                                <InfoCard />
+                            </div>
 
-                <div
-                    ref={LocationsPickerRef} // Attach ref to detect interaction
-                    className='flex flex-col overflow-y-auto'>
-                    {LocationsPicker}
-                </div>
-            </section>
+                            <div
+                                ref={LocationsPickerRef} // Attach ref to detect interaction
+                                className='flex flex-col overflow-y-auto'>
+                                {LocationsPicker}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </PreventRefresh>
 
             {/* Desktop Sidebar */}
             <section className='hidden lg:grid sidebar h-[450px] lg:h-screen max-w-[310px] min-w-[310px] bg-primary p-2 lg:p-1 grid-cols-2 lg:grid-cols-1 gap-2 place-content-stretch text-white'>

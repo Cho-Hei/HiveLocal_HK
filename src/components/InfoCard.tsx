@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 const colors = {
     coincart: "#6250a0",
     clothesrecycle: "#008B8B",
+    studyroom: "#895129",
 };
 
 const InfoCard = () => {
@@ -43,7 +44,7 @@ const InfoCard = () => {
             ) : (
                 <>
                     {location ? (
-                        <div className='info-content p-2 flex-grow flex flex-col'>
+                        <div className='info-content p-2 flex-grow flex flex-col text-white'>
                             <div
                                 className={`service-provider px-4 py-3 rounded-2xl`}
                                 style={{ backgroundColor: colors[type] }}>

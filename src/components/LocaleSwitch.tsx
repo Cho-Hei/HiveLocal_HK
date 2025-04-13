@@ -2,6 +2,7 @@
 import { usePathname, useRouter } from "@/utils/i18n/navigation";
 import { Locale, routing } from "@/utils/i18n/routing";
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@heroui/react";
+import { Globe } from "@phosphor-icons/react/dist/ssr";
 import { useLocale, useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { useTransition } from "react";
@@ -30,7 +31,8 @@ const LocaleSwitch = ({ dropdownref }: { dropdownref: React.Ref<HTMLElement | nu
     return (
         <div className='lng-dropdown'>
             <div className='flex items-center text-center'>
-                <h2 className='text-white text-lg'>{`${t("language")}:`}</h2>
+                <Globe size={24} fill='white' className='text-white' />
+                <h2 className='ml-2 text-white text-lg'>{`${t("language")}:`}</h2>
                 <Dropdown backdrop='blur' className='bg-primary'>
                     <DropdownTrigger>
                         <Button className='bg-slate-400 min-w-6 h-6 m-2'>

@@ -29,6 +29,14 @@ export const ResourceExTLink = {
         en: "https://www.had.gov.hk/en/public_services/community_used_clothes_recycling_bank_scheme/",
         zh: "https://www.had.gov.hk/tc/public_services/community_used_clothes_recycling_bank_scheme/",
     },
+    studyroom: {
+        data_provider: {
+            en: "Education Bureau",
+            zh: "教育局",
+        },
+        en: "https://www.edb.gov.hk/en/student-parents/parents-related/students-related/study-rooms/index.html",
+        zh: "https://www.edb.gov.hk/tc/student-parents/parents-related/students-related/study-rooms/index.html",
+    },
 };
 
 const MapTile = () => {
@@ -71,7 +79,7 @@ const MapTile = () => {
     };
 
     return (
-        <section className='map-container lg:h-screen'>
+        <section className='map-container lg:h-screen mt-[-40px]'>
             <MapContainer
                 center={[22.319158, 114.192923]}
                 zoom={13}
@@ -102,7 +110,7 @@ const MapTile = () => {
                             }}>
                             <Popup>
                                 <div className='popup-content w-full text-[#353935]'>
-                                    <h2 className='text-lg font-bold'>
+                                    <h2 className='text-lg font-bold capitalize'>
                                         {t("district")}: {data.district}
                                     </h2>
                                     <h3 className='text-base/5 my-1 font-semibold'>
