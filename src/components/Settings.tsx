@@ -2,7 +2,19 @@
 import { Gear, GithubLogo } from "@phosphor-icons/react/dist/ssr";
 import LocaleSwitch from "./LocaleSwitch";
 import { useEffect, useRef, useState } from "react";
-import { addToast, cn, Radio, RadioGroup } from "@heroui/react";
+import {
+    addToast,
+    Button,
+    cn,
+    Modal,
+    ModalBody,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    Radio,
+    RadioGroup,
+    useDisclosure,
+} from "@heroui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
 import { changeType, updateCurrentLocation } from "@/store/dataSetsSlice";
@@ -19,6 +31,7 @@ const Settings = () => {
     const sidebarRef = useRef<HTMLDivElement>(null);
     const localeSwitchRef = useRef<HTMLDivElement>(null);
     const t = useTranslations("I_Settings");
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
     const handleClickOutside = (event: MouseEvent) => {
         if (
@@ -127,12 +140,58 @@ const Settings = () => {
                             </RadioGroup>
                         </div>
                     </div>
-                    <div className='flexCenter'>
+                    <div className='flexCenter flex-col gap-2 mb-4'>
+                        <h3 onClick={onOpen} className='hover:underline hover:cursor-pointer'>
+                            Credits
+                        </h3>
                         <GithubLogo
                             fill='white'
                             size={48}
                             className='border-3 border-white rounded-3xl'
                         />
+
+                        <Modal
+                            backdrop='blur'
+                            isOpen={isOpen}
+                            placement='center'
+                            onOpenChange={onOpenChange}
+                            isDismissable={false}
+                            isKeyboardDismissDisabled={true}
+                            size='xl'
+                            classNames={{
+                                base: "bg-[#19172c] text-white",
+                            }}>
+                            <ModalContent>
+                                {(onClose) => (
+                                    <>
+                                        <ModalHeader className='flex flex-col gap-1'>
+                                            Credits
+                                        </ModalHeader>
+                                        <ModalBody>
+                                            <h4>
+                                                Coin Cart Icon made by by Freepik from
+                                                www.flaticon.com
+                                            </h4>
+                                            <h4>
+                                                Clothes Recycle Icon made by muhammad atho' from
+                                                www.flaticon.com
+                                            </h4>
+                                            <h4>
+                                                Study Room Icon made by Haris Masood from
+                                                www.flaticon.com
+                                            </h4>
+                                        </ModalBody>
+                                        <ModalFooter>
+                                            <Button
+                                                onPress={onClose}
+                                                className='bg-[#6254ab] text-base'>
+                                                Close
+                                            </Button>
+                                        </ModalFooter>
+                                    </>
+                                )}
+                            </ModalContent>
+                        </Modal>
                     </div>
                 </div>
             </div>
