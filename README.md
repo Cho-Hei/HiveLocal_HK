@@ -1,16 +1,17 @@
-# HK Coin Cart Map
+# Hivelocal HK
 
-This is an information board for Coin Carts in Hong Kong which is part of the coin collection programme started in 2014 ([More on HKMA](https://www.hkma.gov.hk/eng/key-functions/money/hong-kong-currency/coin-collection-programme/)). This webapp added a map interface to further enhance usability ([Match Between the System and the Real World](https://www.nngroup.com/articles/ten-usability-heuristics/#toc-2-match-between-the-system-and-the-real-world-2)).
+This web application serves as an information hub for various facilities in Hong Kong. Initially designed to track the movement of limited coin carts across areas, it features a dashboard that simplifies viewing their schedules. This webapp added a map interface to further enhance usability ([Match Between the System and the Real World](https://www.nngroup.com/articles/ten-usability-heuristics/#toc-2-match-between-the-system-and-the-real-world-2)).
 
-> This application may change to add more facilities as long as APIs are available (Currently only coin cart data is in this application). However, this application mainly focuses on those that don't show on commonly used map applications.
+> [!NOTE]
+> This application may change to add more facilities as long as APIs are available. However, this application mainly focuses on those that don't show on commonly used map applications.
 
-Deployed link: https://hkmap.choheitoby.com/
+Deployed link: https://hivelocalhk.choheitoby.com
 
 ## Tech Stack
 
 **Client:** NextJS, Typescript, TailwindCSS, Redux, next-intl, react-leaflet
 
-**API:** (Data.gov.hk): https://data.gov.hk/tc-data/dataset/hk-hkma-coincart-coin-cart-schedule
+**API:** (Data.gov.hk): https://data.gov.hk/
 
 ## Features
 
@@ -32,7 +33,7 @@ Deployed link: https://hkmap.choheitoby.com/
 
 GTAWeb.eu: https://gtaweb.eu/gtao-map/ls/
 
-[獨立巴士預報 HK Bus ETA](https://hkbus.app/en) : https://github.com/hkbus/hk-independent-bus-eta
+[獨立巴士預報 HK Bus ETA](https://hkbus.app) : https://github.com/hkbus/hk-independent-bus-eta
 
 **UI Design**
 
