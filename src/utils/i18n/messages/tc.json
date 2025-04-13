@@ -11,7 +11,8 @@
         "location": "地點",
         "noData": "沒有數據",
         "showAll": "顯示全部",
-        "showLess": "顯示較少"
+        "showLess": "顯示較少",
+        "error": "獲取數據時出錯"
     },
 
     "I_MapNote": {

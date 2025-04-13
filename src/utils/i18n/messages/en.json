@@ -11,7 +11,8 @@
         "location": "Locations",
         "noData": "No data",
         "showAll": "Show All",
-        "showLess": "Show Less"
+        "showLess": "Show Less",
+        "error": "Error in fetching data"
     },
     "I_MapNote": {
         "district": "District",

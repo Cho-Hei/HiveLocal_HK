@@ -2,17 +2,22 @@
 import { MapPinLine } from "@phosphor-icons/react/dist/ssr";
 import { useTranslations } from "next-intl";
 import LocationCard from "./LocationCard";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
-
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store/store";
 import { DataProps, districtshort } from "@/types";
-import { Accordion, AccordionItem } from "@heroui/react";
+import { Accordion, AccordionItem, Button } from "@heroui/react";
 import { useEffect, useState } from "react";
 import LoadingSpinner from "./LoadingSpinner";
+import { fetchData } from "@/store/dataSetsSlice";
+import { useParams } from "next/navigation";
 
 const Locations = () => {
     const t = useTranslations("I_Location");
-    const { data, currentLocation, status } = useSelector((state: RootState) => state.dataSets);
+    const dispatch: AppDispatch = useDispatch();
+    const { locale } = useParams<{ locale: string }>();
+    const { type, data, currentLocation, status, showAll } = useSelector(
+        (state: RootState) => state.dataSets
+    );
     const [currentDistrict, setCurrentDistrict] = useState<string | "">("");
 
     const groupByDistrict: { [key: string]: DataProps[] } = {};
@@ -30,12 +35,29 @@ const Locations = () => {
         if (currentLocation) setCurrentDistrict(currentLocation?.district);
     }, [currentLocation]);
 
+    const retryFetch = () => {
+        console.log("Retrying fetch...");
+        if (type === "coincart") {
+            dispatch(fetchData({ type: type as string, lang: locale as string, all: showAll }));
+        } else {
+            dispatch(fetchData({ type: type as string, lang: locale as string }));
+        }
+    };
+
     return (
         <div className='flex flex-col location rounded-2xl bg-secondary lg:mx-2 text-white h-full'>
             <div className='info-title bg-tertiary flexCenter rounded-t-2xl'>
                 <MapPinLine weight='fill' size={24} />
                 <h1 className='text-xl py-1 text-center mx-2'>{t("location")}</h1>
             </div>
+
+            {status === "failed" && (
+                <div className='flexCenter flex-grow flex-col'>
+                    <h1 className='text-white text-center'>{t("error")}</h1>
+                    <Button onPress={retryFetch}>Retry</Button>
+                </div>
+            )}
+
             {/* List of location */}
             {status === "loading" ? (
                 <div className='flexCenter flex-grow'>
