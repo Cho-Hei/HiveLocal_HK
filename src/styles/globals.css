@@ -228,3 +228,7 @@ body {
     --tw-border-opacity: 1;
     border-color: var(--white) !important;
 }
+
+.special-height {
+    height: calc(var(--vh, 1vh) * 100);
+}

@@ -38,6 +38,18 @@ const ContentParent = ({ children }: ContentParentProps) => {
         dispatch(updateCurrentLocation(null));
     }, [locale]);
 
+    useEffect(() => {
+        // Remove White Space after scroll in Chrome mobile
+        const vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty("--vh", `${vh}px`);
+        document.body.setAttribute("style", `height: calc(var(--vh, 1vh) * 100);`);
+
+        window.addEventListener("resize", () => {
+            let vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty("--vh", `${vh}px`);
+        });
+    }, []);
+
     if (status === "failed") {
         return (
             <section className='relative overflow-hidden h-screen text-white'>
@@ -55,7 +67,7 @@ const ContentParent = ({ children }: ContentParentProps) => {
     }
 
     return (
-        <section className='relative overflow-hidden h-screen text-white bg-primary'>
+        <section className='relative overflow-hidden h-screen text-white bg-primary special-height'>
             {/* Start Modal */}
             <Modal
                 backdrop='blur'
