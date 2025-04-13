@@ -26,8 +26,6 @@ const SideBar = () => {
     }, [type]);
 
     const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
-        e.preventDefault();
-
         // Prevent drag if the event originated within LocationsPicker
         if (LocationsPickerRef.current && LocationsPickerRef.current.contains(e.target as Node)) {
             return; // Ignore drag
