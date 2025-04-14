@@ -27,6 +27,38 @@ Deployed link: https://hivelocalhk.choheitoby.com
     -   (e.g Electric Vehicle Chargers)
 -   Weather Warnings
 
+## Getting Started
+
+### 📦 Install
+
+```
+$ git clone https://github.com/Cho-Hei/HiveLocal_HK.git
+
+$ npm install
+```
+
+### 🔨 How to use
+
+Runs next which starts Next.js in development mode
+
+```bash
+$ npm dev
+```
+
+Runs next build which builds the application for production usage
+
+```bash
+$ npm build
+```
+
+Runs next start which starts a Next.js production server
+
+```bash
+$ npm start
+```
+
+The app should be up and running on http://localhost:3000
+
 ## Acknowledgement
 
 **Inspiration**
