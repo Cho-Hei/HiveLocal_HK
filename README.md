@@ -39,16 +39,16 @@ $ npm install
 
 ### 🔨 How to use
 
-Runs next which starts Next.js in development mode
+Runs Next.js in development mode
 
 ```bash
-$ npm dev
+$ npm run dev
 ```
 
 Runs next build which builds the application for production usage
 
 ```bash
-$ npm build
+$ npm run build
 ```
 
 Runs next start which starts a Next.js production server
