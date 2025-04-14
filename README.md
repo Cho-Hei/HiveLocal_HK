@@ -1,9 +1,9 @@
-# Hivelocal HK
+# HiveLocal HK
 
 This web application serves as an information hub for various facilities in Hong Kong. Initially designed to track the movement of limited coin carts across areas, it features a dashboard that simplifies viewing their schedules. This webapp added a map interface to further enhance usability ([Match Between the System and the Real World](https://www.nngroup.com/articles/ten-usability-heuristics/#toc-2-match-between-the-system-and-the-real-world-2)).
 
 > [!NOTE]
-> This application may change to add more facilities as long as APIs are available. However, this application mainly focuses on those that don't show on commonly used map applications.
+> This application may change or add more facilities as long as APIs are available. However, this application mainly focuses on those that don't show on common map applications.
 
 Deployed link: https://hivelocalhk.choheitoby.com
 
@@ -19,6 +19,7 @@ Deployed link: https://hivelocalhk.choheitoby.com
 -   Auto update of locations
 -   Fully mobile responsive design
 -   i18n Support
+-   Data caching
 
 ## Future Improvements
 
