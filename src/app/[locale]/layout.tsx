@@ -20,7 +20,7 @@ const notoSansTC = Noto_Sans_TC({
 });
 
 export const metadata: Metadata = {
-    title: `HiveLocal HK ${process.env.NEXT_APP_VERSION}`,
+    title: `HiveLocal HK ${process.env.RELEASE}`,
     description: "Map for facilities in Hong Kong",
 };
 
