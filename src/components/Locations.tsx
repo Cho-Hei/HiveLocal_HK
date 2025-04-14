@@ -31,7 +31,7 @@ const Locations = () => {
     });
 
     useEffect(() => {
-        console.log(currentLocation);
+        // console.log(currentLocation);
         if (currentLocation) setCurrentDistrict(currentLocation?.district);
     }, [currentLocation]);
 

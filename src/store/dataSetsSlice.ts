@@ -48,7 +48,7 @@ export const fetchData = createAsyncThunk(
         // Check IndexedDB for cached data
         const cachedData = await getCachedData(cacheKey);
         if (cachedData) {
-            console.log("Using cached data:", cachedData);
+            // console.log("Using cached data:", cachedData);
             return cachedData;
         }
 

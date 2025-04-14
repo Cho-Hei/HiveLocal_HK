@@ -22,6 +22,7 @@ import { DataTypes, MapIcons } from "@/types";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { getGPUTier } from "detect-gpu";
+import Link from "next/link";
 
 const Settings = () => {
     const [slideopen, setSlideopen] = useState(false);
@@ -144,19 +145,19 @@ const Settings = () => {
                         <h3 onClick={onOpen} className='hover:underline hover:cursor-pointer'>
                             Credits
                         </h3>
-                        <GithubLogo
-                            fill='white'
-                            size={48}
-                            className='border-3 border-white rounded-3xl'
-                        />
+                        <Link href={"https://github.com/Cho-Hei/HiveLocal_HK"} target='_blank'>
+                            <GithubLogo
+                                fill='white'
+                                size={48}
+                                className='border-3 border-white rounded-3xl'
+                            />
+                        </Link>
 
                         <Modal
                             backdrop='blur'
                             isOpen={isOpen}
                             placement='center'
                             onOpenChange={onOpenChange}
-                            isDismissable={false}
-                            isKeyboardDismissDisabled={true}
                             size='xl'
                             classNames={{
                                 base: "bg-[#19172c] text-white",
