@@ -42,8 +42,8 @@ async function cacheData(key: string, data: DataProps[]) {
 
 export const fetchData = createAsyncThunk(
     "datasets/fetchData",
-    async ({ type, lang, all }: { type: string; lang: string; all?: boolean }) => {
-        const cacheKey = `${type === "coincart" ? `${type}-${lang}-${all}` : `${type}-${lang}`}`;
+    async ({ type, lang }: { type: string; lang: string }) => {
+        const cacheKey = `${type}-${lang}`;
 
         // Check IndexedDB for cached data
         const cachedData = await getCachedData(cacheKey);
@@ -60,7 +60,7 @@ export const fetchData = createAsyncThunk(
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ lang, all }),
+                body: JSON.stringify({ lang }),
             });
             data = await response.json();
         } else {
@@ -89,13 +89,8 @@ const dataSetsSlice = createSlice({
         currentLocation: null as DataProps | null,
         status: "idle",
         error: null,
-        showAll: false,
     },
     reducers: {
-        toggleShowAll: (state) => {
-            state.showAll = !state.showAll;
-            state.data = [];
-        },
         updateCurrentLocation: (state, action) => {
             state.currentLocation = action.payload;
         },
@@ -120,6 +115,6 @@ const dataSetsSlice = createSlice({
     },
 });
 
-export const { toggleShowAll, updateCurrentLocation, changeType } = dataSetsSlice.actions;
+export const { updateCurrentLocation, changeType } = dataSetsSlice.actions;
 
 export default dataSetsSlice.reducer;

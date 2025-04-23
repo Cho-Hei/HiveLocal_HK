@@ -15,7 +15,7 @@ const Locations = () => {
     const t = useTranslations("I_Location");
     const dispatch: AppDispatch = useDispatch();
     const { locale } = useParams<{ locale: string }>();
-    const { type, data, currentLocation, status, showAll } = useSelector(
+    const { type, data, currentLocation, status } = useSelector(
         (state: RootState) => state.dataSets
     );
     const [currentDistrict, setCurrentDistrict] = useState<string | "">("");
@@ -37,11 +37,7 @@ const Locations = () => {
 
     const retryFetch = () => {
         console.log("Retrying fetch...");
-        if (type === "coincart") {
-            dispatch(fetchData({ type: type as string, lang: locale as string, all: showAll }));
-        } else {
-            dispatch(fetchData({ type: type as string, lang: locale as string }));
-        }
+        dispatch(fetchData({ type: type as string, lang: locale as string }));
     };
 
     return (

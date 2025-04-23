@@ -2,7 +2,7 @@
 import { DataProps } from "@/types";
 import { MapPinLine } from "@phosphor-icons/react/dist/ssr";
 import { useLocale, useTranslations } from "next-intl";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import ExpandButton from "./ExpandButton";
 import LocationCard from "./LocationCard";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,17 +15,27 @@ const CoinCartLocations = () => {
     const locale = useLocale();
     const dispatch: AppDispatch = useDispatch();
     const t = useTranslations("I_Location");
-    const {
-        type,
-        data: coinCartData,
-        status,
-        showAll,
-    } = useSelector((state: RootState) => state.dataSets);
+    const { type, data: coinCartData, status } = useSelector((state: RootState) => state.dataSets);
+
+    const [showallrecord, setShowallrecord] = useState(false);
 
     const groupedData = useMemo(() => {
+        console.log("update coinCartData");
         const grouped: { [key: string]: DataProps[] } = {};
+        let listofData: DataProps[] = coinCartData;
 
-        coinCartData.forEach((data) => {
+        if (!showallrecord) {
+            const currentDate = new Date().setHours(0, 0, 0, 0);
+            listofData = coinCartData.filter(
+                (record: DataProps) =>
+                    record.start_date &&
+                    record.end_date &&
+                    new Date(record.start_date).setHours(0, 0, 0, 0) <= currentDate &&
+                    new Date(record.end_date).setHours(0, 0, 0, 0) >= currentDate
+            );
+        }
+
+        listofData.forEach((data) => {
             const month = data.start_date
                 ? new Date(data.start_date).toLocaleString(locale === "tc" ? "zh-HK" : "en-US", {
                       month: "long",
@@ -44,15 +54,11 @@ const CoinCartLocations = () => {
         });
 
         return grouped;
-    }, [coinCartData]);
+    }, [coinCartData, showallrecord]);
 
     const retryFetch = () => {
         console.log("Retrying fetch...");
-        if (type === "coincart") {
-            dispatch(fetchData({ type: type as string, lang: locale as string, all: showAll }));
-        } else {
-            dispatch(fetchData({ type: type as string, lang: locale as string }));
-        }
+        dispatch(fetchData({ type: type as string, lang: locale as string }));
     };
 
     return (
@@ -90,7 +96,10 @@ const CoinCartLocations = () => {
                                 </div>
                             ))}
                             <div className='flexCenter flex-grow'>
-                                <ExpandButton />
+                                <ExpandButton
+                                    showall={showallrecord}
+                                    expanddata={() => setShowallrecord((prev) => !prev)}
+                                />
                             </div>
                         </div>
                     ) : (

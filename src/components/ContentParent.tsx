@@ -21,18 +21,14 @@ interface ContentParentProps {
 
 const ContentParent = ({ children }: ContentParentProps) => {
     const dispatch: AppDispatch = useDispatch();
-    const { type, status, showAll } = useSelector((state: RootState) => state.dataSets);
+    const { type, status } = useSelector((state: RootState) => state.dataSets);
     const { locale } = useParams<{ locale: string }>();
     const { isOpen, onOpenChange } = useDisclosure({ defaultOpen: true });
     const t = useTranslations("I_StartModal");
 
     useEffect(() => {
-        if (type === "coincart") {
-            dispatch(fetchData({ type: type as string, lang: locale as string, all: showAll }));
-        } else {
-            dispatch(fetchData({ type: type as string, lang: locale as string }));
-        }
-    }, [dispatch, locale, showAll, type]);
+        dispatch(fetchData({ type: type as string, lang: locale as string }));
+    }, [dispatch, locale, type]);
 
     useEffect(() => {
         dispatch(updateCurrentLocation(null));

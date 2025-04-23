@@ -1,21 +1,17 @@
 "use client";
-import { toggleShowAll } from "@/store/dataSetsSlice";
-import { AppDispatch, RootState } from "@/store/store";
 import { useTranslations } from "next-intl";
-import { useDispatch, useSelector } from "react-redux";
 
-const ExpandButton = () => {
+interface ExpandButtonProps {
+    showall: boolean;
+    expanddata: () => void;
+}
+
+const ExpandButton = ({ showall, expanddata }: ExpandButtonProps) => {
     const t = useTranslations("I_Location");
-    const dispatch: AppDispatch = useDispatch();
-    const showAll = useSelector((state: RootState) => state.dataSets.showAll);
-
-    const handleToggle = () => {
-        dispatch(toggleShowAll());
-    };
 
     return (
-        <button className='bg-tertiary w-full m-2 py-2 rounded-xl' onClick={handleToggle}>
-            {showAll ? t("showLess") : t("showAll")}
+        <button className='bg-tertiary w-full m-2 py-2 rounded-xl' onClick={expanddata}>
+            {showall ? t("showLess") : t("showAll")}
         </button>
     );
 };

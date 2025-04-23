@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { DataProps } from "@/types";
 
 export async function POST(req: NextRequest) {
-    const { lang, all } = await req.json();
+    const { lang } = await req.json();
 
     try {
         const response = await fetch(
@@ -23,17 +23,6 @@ export async function POST(req: NextRequest) {
             longitude: record.longitude,
             remarks: record.remarks,
         }));
-
-        if (!all) {
-            const currentDate = new Date().setHours(0, 0, 0, 0);
-            coinCartData = coinCartData.filter(
-                (record: DataProps) =>
-                    record.start_date &&
-                    record.end_date &&
-                    new Date(record.start_date).setHours(0, 0, 0, 0) <= currentDate &&
-                    new Date(record.end_date).setHours(0, 0, 0, 0) >= currentDate
-            );
-        }
 
         // Filter out address after ";" and "*"
         coinCartData.forEach((record: DataProps) => {
