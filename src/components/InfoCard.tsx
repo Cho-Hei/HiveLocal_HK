@@ -1,15 +1,10 @@
 "use client";
 import { RootState } from "@/store/store";
 import { DataTypes } from "@/types";
+import { boxcolors } from "@/utils/constants";
 import { Skeleton } from "@heroui/react";
 import { useLocale, useTranslations } from "next-intl";
 import { useSelector } from "react-redux";
-
-const colors = {
-    coincart: "#6250a0",
-    clothesrecycle: "#008B8B",
-    studyroom: "#895129",
-};
 
 const InfoCard = () => {
     const t = useTranslations("I_SideBar");
@@ -47,7 +42,7 @@ const InfoCard = () => {
                         <div className='info-content p-2 flex-grow flex flex-col text-white'>
                             <div
                                 className={`service-provider px-4 py-3 rounded-2xl`}
-                                style={{ backgroundColor: colors[type] }}>
+                                style={{ backgroundColor: boxcolors[type] }}>
                                 <h2 className='text-xl lg:text-2xl font-bold'>
                                     {locale === "tc"
                                         ? DataTypes[type].name_zh

@@ -11,33 +11,7 @@ import { AppDispatch, RootState } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { updateCurrentLocation } from "@/store/dataSetsSlice";
 import MarkerClusterGroup from "react-leaflet-markercluster";
-
-export const ResourceExTLink = {
-    coincart: {
-        data_provider: {
-            en: "Hong Kong Monetary Authority",
-            zh: "香港金融管理局",
-        },
-        en: "https://www.hkma.gov.hk/eng/key-functions/money/hong-kong-currency/coin-collection-programme/",
-        zh: "https://www.hkma.gov.hk/chi/key-functions/money/hong-kong-currency/coin-collection-programme/",
-    },
-    clothesrecycle: {
-        data_provider: {
-            en: "Home Affairs Department",
-            zh: "民政事務總署",
-        },
-        en: "https://www.had.gov.hk/en/public_services/community_used_clothes_recycling_bank_scheme/",
-        zh: "https://www.had.gov.hk/tc/public_services/community_used_clothes_recycling_bank_scheme/",
-    },
-    studyroom: {
-        data_provider: {
-            en: "Education Bureau",
-            zh: "教育局",
-        },
-        en: "https://www.edb.gov.hk/en/student-parents/parents-related/students-related/study-rooms/index.html",
-        zh: "https://www.edb.gov.hk/tc/student-parents/parents-related/students-related/study-rooms/index.html",
-    },
-};
+import { ResourceExTLink } from "@/utils/constants";
 
 const MapTile = () => {
     const t = useTranslations("I_MapNote");

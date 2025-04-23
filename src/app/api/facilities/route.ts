@@ -7,28 +7,10 @@ import {
     Districts,
     districtshort,
 } from "@/types";
+import { fieldMappings } from "@/utils/constants";
 import { NextRequest, NextResponse } from "next/server";
 
 export const maxDuration = 20;
-
-const fieldMappings: Record<string, Record<string, string>> = {
-    clothesrecycle: {
-        organization: "sm_en",
-        organization_tc: "sm_tc",
-        address: "addr_en",
-        address_tc: "addr_tc",
-        district: "District",
-    },
-    studyroom: {
-        organization: "NAME_EN",
-        organization_tc: "NAME_TC",
-        address: "ADDRESS_EN",
-        address_tc: "ADDRESS_TC",
-        district: "SEARCH02_EN",
-        district_tc: "SEARCH02_TC",
-    },
-    // Add more mappings for other facilitiesType as needed
-};
 
 // Utility function to retry fetch
 async function fetchWithRetry(
@@ -94,7 +76,7 @@ export async function POST(req: NextRequest) {
                 district: mapping.district.includes("SEARCH02_")
                     ? lang === "en"
                         ? record.properties[mapping.district].toLowerCase()
-                        : record.properties[mapping.district_tc]
+                        : record.properties[mapping.district_tc ?? mapping.district]
                     : districtCodeToName(
                           record.properties[mapping.district],
                           record.properties.Region
