@@ -2,8 +2,8 @@
 import { MapContainer, TileLayer, Marker, Popup, ZoomControl, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "react-leaflet-markercluster/styles";
-import { DataProps, MapIcons } from "@/types";
-import { useEffect, useRef, useMemo } from "react";
+import { DataProps } from "@/types";
+import { useEffect, useRef, useMemo, useState } from "react";
 import L, { Map } from "leaflet";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
@@ -11,7 +11,7 @@ import { AppDispatch, RootState } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { updateCurrentLocation } from "@/store/dataSetsSlice";
 import MarkerClusterGroup from "react-leaflet-markercluster";
-import { ResourceExTLink } from "@/utils/constants";
+import { MapIcons, ResourceExTLink } from "@/utils/constants";
 
 const MapTile = () => {
     const t = useTranslations("I_MapNote");
@@ -20,9 +20,11 @@ const MapTile = () => {
         type,
         data,
         currentLocation: location,
+        coincartshowall,
     } = useSelector((state: RootState) => state.dataSets);
     const locale = useLocale();
     const mapRef = useRef<Map | null>(null);
+    const [lastlocation, setLastLocation] = useState<DataProps | null>(null);
 
     // Create a custom icon
     const MapIcon = useMemo(
@@ -36,13 +38,31 @@ const MapTile = () => {
         [type]
     );
 
+    // Filter coin cart data for current date
+    const filteredData = useMemo(() => {
+        let listofData: DataProps[] = data;
+        if (type === "coincart" && coincartshowall === false) {
+            const currentDate = new Date().setHours(0, 0, 0, 0);
+            listofData = data.filter(
+                (record: DataProps) =>
+                    record.start_date &&
+                    record.end_date &&
+                    new Date(record.start_date).setHours(0, 0, 0, 0) <= currentDate &&
+                    new Date(record.end_date).setHours(0, 0, 0, 0) >= currentDate
+            );
+        }
+
+        return listofData;
+    }, [coincartshowall, data]);
+
     // Close popup when changing location
     const MapCenter = () => {
         const map = useMap();
         useEffect(() => {
-            if (location) {
+            if (location && location !== lastlocation) {
                 map.closePopup();
                 map.setView([location.latitude, location.longitude], 18);
+                setLastLocation(location);
             }
         }, [location, map]);
         return null;
@@ -72,7 +92,7 @@ const MapTile = () => {
                 <ZoomControl position='bottomright' />
                 <MapCenter />
                 <MarkerClusterGroup showCoverageOnHover={false}>
-                    {data.map((data, index) => (
+                    {filteredData.map((data, index) => (
                         <Marker
                             key={index}
                             position={[data.latitude, data.longitude]}

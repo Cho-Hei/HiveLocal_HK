@@ -1,4 +1,5 @@
-import { DataProps, Districts, districtshort } from "@/types";
+import { DataProps, districtshort } from "@/types";
+import { Districts } from "@/utils/constants";
 import { NextRequest, NextResponse } from "next/server";
 
 export const maxDuration = 20;

@@ -2,25 +2,31 @@
 import { DataProps } from "@/types";
 import { MapPinLine } from "@phosphor-icons/react/dist/ssr";
 import { useLocale, useTranslations } from "next-intl";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import ExpandButton from "./ExpandButton";
 import LocationCard from "./LocationCard";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
 import LoadingSpinner from "./LoadingSpinner";
 import { Button } from "@heroui/react";
-import { fetchData } from "@/store/dataSetsSlice";
+import { fetchData, updateCoinCartShowAll } from "@/store/dataSetsSlice";
 
 const CoinCartLocations = () => {
     const locale = useLocale();
     const dispatch: AppDispatch = useDispatch();
     const t = useTranslations("I_Location");
-    const { type, data: coinCartData, status } = useSelector((state: RootState) => state.dataSets);
+    const {
+        type,
+        data: coinCartData,
+        coincartshowall: showallrecord,
+        status,
+    } = useSelector((state: RootState) => state.dataSets);
 
-    const [showallrecord, setShowallrecord] = useState(false);
+    useEffect(() => {
+        dispatch(updateCoinCartShowAll(false));
+    }, []);
 
     const groupedData = useMemo(() => {
-        console.log("update coinCartData");
         const grouped: { [key: string]: DataProps[] } = {};
         let listofData: DataProps[] = coinCartData;
 
@@ -96,10 +102,7 @@ const CoinCartLocations = () => {
                                 </div>
                             ))}
                             <div className='flexCenter flex-grow'>
-                                <ExpandButton
-                                    showall={showallrecord}
-                                    expanddata={() => setShowallrecord((prev) => !prev)}
-                                />
+                                <ExpandButton />
                             </div>
                         </div>
                     ) : (

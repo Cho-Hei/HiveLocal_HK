@@ -85,12 +85,16 @@ const dataSetsSlice = createSlice({
     name: "datasets",
     initialState: {
         data: [] as DataProps[],
+        coincartshowall: false,
         type: "coincart" as DataName,
         currentLocation: null as DataProps | null,
         status: "idle",
         error: null,
     },
     reducers: {
+        updateCoinCartShowAll: (state, action) => {
+            state.coincartshowall = action.payload;
+        },
         updateCurrentLocation: (state, action) => {
             state.currentLocation = action.payload;
         },
@@ -115,6 +119,6 @@ const dataSetsSlice = createSlice({
     },
 });
 
-export const { updateCurrentLocation, changeType } = dataSetsSlice.actions;
+export const { updateCoinCartShowAll, updateCurrentLocation, changeType } = dataSetsSlice.actions;
 
 export default dataSetsSlice.reducer;

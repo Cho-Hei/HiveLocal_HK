@@ -1,13 +1,11 @@
+import { DataName, DataProps, districtshort } from "@/types";
 import {
-    DataName,
-    DataProps,
     DataTypes,
     districtOrder_en,
     districtOrder_zh,
     Districts,
-    districtshort,
-} from "@/types";
-import { fieldMappings } from "@/utils/constants";
+    fieldMappings,
+} from "@/utils/constants";
 import { NextRequest, NextResponse } from "next/server";
 
 export const maxDuration = 20;

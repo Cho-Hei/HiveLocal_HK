@@ -18,11 +18,11 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
 import { changeType, updateCurrentLocation } from "@/store/dataSetsSlice";
-import { DataTypes, MapIcons } from "@/types";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { getGPUTier } from "detect-gpu";
 import Link from "next/link";
+import { DataTypes, MapIcons } from "@/utils/constants";
 
 const Settings = () => {
     const [slideopen, setSlideopen] = useState(false);

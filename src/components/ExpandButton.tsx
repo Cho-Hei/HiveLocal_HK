@@ -1,17 +1,21 @@
 "use client";
+import { updateCoinCartShowAll } from "@/store/dataSetsSlice";
+import { AppDispatch, RootState } from "@/store/store";
 import { useTranslations } from "next-intl";
+import { useDispatch, useSelector } from "react-redux";
 
-interface ExpandButtonProps {
-    showall: boolean;
-    expanddata: () => void;
-}
-
-const ExpandButton = ({ showall, expanddata }: ExpandButtonProps) => {
+const ExpandButton = () => {
     const t = useTranslations("I_Location");
+    const dispatch: AppDispatch = useDispatch();
+    const { coincartshowall } = useSelector((state: RootState) => state.dataSets);
+
+    const expanddata = () => {
+        dispatch(updateCoinCartShowAll(!coincartshowall));
+    };
 
     return (
         <button className='bg-tertiary w-full m-2 py-2 rounded-xl' onClick={expanddata}>
-            {showall ? t("showLess") : t("showAll")}
+            {coincartshowall ? t("showLess") : t("showAll")}
         </button>
     );
 };

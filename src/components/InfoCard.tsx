@@ -1,7 +1,6 @@
 "use client";
 import { RootState } from "@/store/store";
-import { DataTypes } from "@/types";
-import { boxcolors } from "@/utils/constants";
+import { boxcolors, DataTypes } from "@/utils/constants";
 import { Skeleton } from "@heroui/react";
 import { useLocale, useTranslations } from "next-intl";
 import { useSelector } from "react-redux";
