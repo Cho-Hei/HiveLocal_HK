@@ -10,29 +10,59 @@ import { DataName, districtshort } from "@/types";
 // API fetching parameters
 
 type ParamConfig = {
-    organization: string;
-    organization_tc: string;
+    organization: string | null;
+    organization_tc: string | null;
+    provider: ProviderProps;
     address: string;
     address_tc: string;
     district: string;
     district_tc?: string;
+    district_decode: boolean;
+};
+
+type ProviderProps = {
+    tc: string;
+    en: string;
 };
 
 export const fieldMappings: Record<string, ParamConfig> = {
     clothesrecycle: {
         organization: "sm_en",
         organization_tc: "sm_tc",
+        provider: {
+            tc: "民政事務總署",
+            en: "Home Affairs Department",
+        },
         address: "addr_en",
         address_tc: "addr_tc",
         district: "District",
+        district_decode: true,
     },
     studyroom: {
         organization: "NAME_EN",
         organization_tc: "NAME_TC",
+        provider: {
+            tc: "教育局",
+            en: "Education Bureau",
+        },
         address: "ADDRESS_EN",
         address_tc: "ADDRESS_TC",
         district: "SEARCH02_EN",
         district_tc: "SEARCH02_TC",
+        district_decode: false,
+    },
+    postbox: {
+        organization: null,
+        organization_tc: null,
+        provider: {
+            tc: "香港郵政",
+            en: "HongKong Post",
+        },
+        address: "Address",
+        address_tc: "地址",
+        district: "District",
+        district_tc: "地區",
+        district_decode: false,
     },
     // Add more mappings for other facilitiesType as needed
 };
@@ -56,6 +86,13 @@ export const DataTypes: Record<
         fetchurl:
             "https://api.csdi.gov.hk/apim/dataquery/api/?id=edb_rcd_1633320468580_185&layer=edbstrm&limit=2000",
     },
+    postbox: {
+        id: "postbox",
+        name_en: "Post Box",
+        name_zh: "郵箱",
+        fetchurl:
+            "https://api.csdi.gov.hk/apim/dataquery/api/?id=hkpo_rcd_1638773801007_13653&layer=spb&limit=2000",
+    },
 };
 
 // Colors for different facilities (on dashboard)
@@ -63,12 +100,14 @@ export const boxcolors = {
     coincart: "#6250a0",
     clothesrecycle: "#008B8B",
     studyroom: "#895129",
+    postbox: "#0F9D58",
 };
 
 export const MapIcons: Record<DataName, string> = {
     coincart: "/money-transport_1.svg",
     clothesrecycle: "/tshirt.svg",
     studyroom: "/studyroom.svg",
+    postbox: "/postbox.svg",
 };
 
 export const ResourceExTLink = {
@@ -96,27 +135,35 @@ export const ResourceExTLink = {
         en: "https://www.edb.gov.hk/en/student-parents/parents-related/students-related/study-rooms/index.html",
         zh: "https://www.edb.gov.hk/tc/student-parents/parents-related/students-related/study-rooms/index.html",
     },
+    postbox: {
+        data_provider: {
+            en: "HongKong Post",
+            zh: "香港郵政",
+        },
+        en: "https://webapp.hongkongpost.hk/tc/about_us/network/street_posting_boxes/index.html",
+        zh: "https://webapp.hongkongpost.hk/en/about_us/network/street_posting_boxes/index.html",
+    },
 };
 
 export const Districts: Record<districtshort, Record<string, string>> = {
     cw: { en: "Central & Western", zh: "中西區" },
     e: { en: "Eastern", zh: "東區" },
     s: { en: "Southern", zh: "南區" },
-    wc: { en: "Wan Chai", zh: "灣仔" },
-    kc: { en: "Kowloon City", zh: "九龍城" },
-    kto: { en: "Kwun Tong", zh: "觀塘" },
-    kts: { en: "Kwai Tsing", zh: "葵青" },
-    ssp: { en: "Sham Shui Po", zh: "深水埗" },
-    wts: { en: "Wong Tai Sin", zh: "黃大仙" },
-    ytm: { en: "Yau Tsim Mong", zh: "油尖旺" },
-    is: { en: "Islands", zh: "離島" },
+    wc: { en: "Wan Chai", zh: "灣仔區" },
+    kc: { en: "Kowloon City", zh: "九龍城區" },
+    kto: { en: "Kwun Tong", zh: "觀塘區" },
+    kts: { en: "Kwai Tsing", zh: "葵青區" },
+    ssp: { en: "Sham Shui Po", zh: "深水埗區" },
+    wts: { en: "Wong Tai Sin", zh: "黃大仙區" },
+    ytm: { en: "Yau Tsim Mong", zh: "油尖旺區" },
+    is: { en: "Islands", zh: "離島區" },
     n: { en: "North", zh: "北區" },
-    sk: { en: "Sai Kung", zh: "西貢" },
-    st: { en: "Sha Tin", zh: "沙田" },
-    tp: { en: "Tai Po", zh: "大埔" },
-    tw: { en: "Tsuen Wan", zh: "荃灣" },
-    tm: { en: "Tuen Mun", zh: "屯門" },
-    yl: { en: "Yuen Long", zh: "元朗" },
+    sk: { en: "Sai Kung", zh: "西貢區" },
+    st: { en: "Sha Tin", zh: "沙田區" },
+    tp: { en: "Tai Po", zh: "大埔區" },
+    tw: { en: "Tsuen Wan", zh: "荃灣區" },
+    tm: { en: "Tuen Mun", zh: "屯門區" },
+    yl: { en: "Yuen Long", zh: "元朗區" },
 };
 
 export const districtOrder_en = [
@@ -142,21 +189,28 @@ export const districtOrder_en = [
 
 export const districtOrder_zh = [
     "中西區",
-    "灣仔",
+    "灣仔區",
     "東區",
     "南區",
-    "油尖旺",
-    "深水埗",
-    "九龍城",
-    "黃大仙",
-    "觀塘",
-    "葵青",
-    "荃灣",
-    "屯門",
-    "元朗",
-    "北區",
-    "大埔",
-    "沙田",
-    "西貢",
-    "離島",
+    "油尖旺區",
+    "深水埗區",
+    "九龍城區",
+    "黃大仙區",
+    "觀塘區",
+    "葵青區",
+    "荃灣區",
+    "屯門區",
+    "元朗區",
+    "北區區",
+    "大埔區",
+    "沙田區",
+    "西貢區",
+    "離島區",
+];
+
+export const Iconcredits = [
+    "Coin Cart Icon made by by Freepik from www.flaticon.com",
+    "Clothes Recycle Icon made by muhammad atho' from www.flaticon.com",
+    "Study Room Icon made by Haris Masood from www.flaticon.com",
+    "Post Box Icon made by Ehtisham Abid from www.flaticon.com",
 ];

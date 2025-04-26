@@ -85,7 +85,7 @@ const dataSetsSlice = createSlice({
     name: "datasets",
     initialState: {
         data: [] as DataProps[],
-        coincartshowall: false,
+        coincartshowall: false as boolean,
         type: "coincart" as DataName,
         currentLocation: null as DataProps | null,
         status: "idle",

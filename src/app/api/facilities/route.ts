@@ -55,15 +55,30 @@ export async function POST(req: NextRequest) {
                 : Districts[code as districtshort]?.en || "unknown";
         };
 
+        const districtFormat = (district: string): string => {
+            let d;
+            if (lang === "en") {
+                d = district.toLowerCase().replace(/and/i, "&");
+            } else {
+                d = district.includes("區") ? district : district + "區";
+            }
+            return d;
+        };
+
         let FacilitiesData: DataProps[] = [];
 
         if (records) {
             const mapping = fieldMappings[facilitiesType]; // Get the mapping for the current type
             FacilitiesData = records.map((record: any) => ({
-                organization:
-                    lang === "en"
-                        ? record.properties[mapping.organization]
-                        : record.properties[mapping.organization_tc],
+                organization: `${
+                    mapping.organization !== null
+                        ? lang === "en"
+                            ? record.properties[mapping.organization]
+                            : record.properties[mapping.organization_tc || mapping.organization]
+                        : lang === "en"
+                        ? mapping.provider.en
+                        : mapping.provider.tc
+                }`,
                 start_date: null,
                 end_date: null,
                 open_hours: null,
@@ -71,10 +86,10 @@ export async function POST(req: NextRequest) {
                     lang === "en"
                         ? record.properties[mapping.address]
                         : record.properties[mapping.address_tc],
-                district: mapping.district.includes("SEARCH02_")
+                district: !mapping.district_decode
                     ? lang === "en"
-                        ? record.properties[mapping.district].toLowerCase()
-                        : record.properties[mapping.district_tc ?? mapping.district]
+                        ? districtFormat(record.properties[mapping.district])
+                        : districtFormat(record.properties[mapping.district_tc || mapping.district])
                     : districtCodeToName(
                           record.properties[mapping.district],
                           record.properties.Region

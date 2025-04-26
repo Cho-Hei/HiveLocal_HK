@@ -66,7 +66,7 @@ const InfoCard = () => {
                                     </div>
 
                                     <div className='rounded-lg m-1'>
-                                        <h4 className='text-base lg:text-lg font-bold'>
+                                        <h4 className='text-base lg:text-lg font-bold capitalize'>
                                             {location.district}
                                         </h4>
                                     </div>

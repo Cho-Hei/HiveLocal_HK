@@ -21,7 +21,7 @@ export interface DataProps {
     remarks: string | null;
 }
 
-export type DataName = "coincart" | "clothesrecycle" | "studyroom";
+export type DataName = "coincart" | "clothesrecycle" | "studyroom" | "postbox";
 
 export interface LocationsProps {
     data: DataProps[];

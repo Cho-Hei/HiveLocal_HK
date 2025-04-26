@@ -22,7 +22,7 @@ import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { getGPUTier } from "detect-gpu";
 import Link from "next/link";
-import { DataTypes, MapIcons } from "@/utils/constants";
+import { DataTypes, Iconcredits, MapIcons } from "@/utils/constants";
 
 const Settings = () => {
     const [slideopen, setSlideopen] = useState(false);
@@ -169,18 +169,9 @@ const Settings = () => {
                                             Credits
                                         </ModalHeader>
                                         <ModalBody>
-                                            <h4>
-                                                Coin Cart Icon made by by Freepik from
-                                                www.flaticon.com
-                                            </h4>
-                                            <h4>
-                                                Clothes Recycle Icon made by muhammad atho' from
-                                                www.flaticon.com
-                                            </h4>
-                                            <h4>
-                                                Study Room Icon made by Haris Masood from
-                                                www.flaticon.com
-                                            </h4>
+                                            {Iconcredits.map((credit) => (
+                                                <h4>{credit}</h4>
+                                            ))}
                                         </ModalBody>
                                         <ModalFooter>
                                             <Button
