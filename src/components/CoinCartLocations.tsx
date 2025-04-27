@@ -93,7 +93,7 @@ const CoinCartLocations = () => {
                         <div>
                             {Object.keys(groupedData).map((month) => (
                                 <div key={month}>
-                                    <h2 className='text-xl font-bold flexCenter bg-tertiary rounded-lg m-2 px-2'>
+                                    <h2 className='text-lg lg:text-xl font-bold flexCenter bg-tertiary rounded-lg my-1 mx-2 px-2'>
                                         {month}
                                     </h2>
                                     {groupedData[month].map((data, index) => (

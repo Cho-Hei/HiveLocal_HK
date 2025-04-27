@@ -187,9 +187,18 @@ body {
 
 /* React Leaflet */
 
-.leaflet-popup-content-wrapper,
-.leaflet-popup-content {
-    min-width: 365px !important;
+@media (width < 64rem) {
+    .leaflet-popup-content-wrapper,
+    .leaflet-popup-content {
+        max-width: 390px !important;
+    }
+}
+
+@media (width >= 64rem) {
+    .leaflet-popup-content-wrapper,
+    .leaflet-popup-content {
+        min-width: 365px !important;
+    }
 }
 
 .leaflet-popup-content-wrapper,

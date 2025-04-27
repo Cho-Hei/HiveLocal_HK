@@ -29,7 +29,7 @@
         "language": "語言"
     },
     "I_StartModal": {
-        "line1": "This is an application that still in development. Please note that some bugs or errors may occur. If you encounter any issues, please report them on Github.",
+        "line1": "This is an application that still in development. The features and content may be constantly adjusted. If you encounter any problems, please report them on Github.",
         "line2": "This application is not affiliated with any government or organization. All data are collected from open source and public data.",
         "line3": "Contribution are welcome! If you want to contribute, please check out the GitHub repository.",
         "continue": "Continue"
