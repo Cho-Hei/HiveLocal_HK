@@ -61,6 +61,7 @@ export async function POST(req: NextRequest) {
             let d;
             if (lang === "en") {
                 d = district.toLowerCase().replace(/\band\b/gi, "&");
+                d = d.includes("district") ? d : d + " district";
             } else {
                 d = district.includes("區") ? district : district + "區";
             }
