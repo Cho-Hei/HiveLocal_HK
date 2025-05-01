@@ -59,8 +59,12 @@ const InfoCard = () => {
                                                 } ${t("to")} ${location.end_date}`}</h4>
                                             )}
 
-                                            <h4 className='text-base mt-2'>
-                                                {location.open_hours}
+                                            <h4
+                                                className='text-base mt-2'
+                                                dangerouslySetInnerHTML={{
+                                                    __html: location.open_hours || "",
+                                                }}>
+                                                {/* {location.open_hours} */}
                                             </h4>
                                         </div>
                                     </div>
