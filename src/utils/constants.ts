@@ -253,4 +253,5 @@ export const Iconcredits = [
     "Clothes Recycle Icon made by muhammad atho' from www.flaticon.com",
     "Study Room Icon made by Haris Masood from www.flaticon.com",
     "Post Box Icon made by Ehtisham Abid from www.flaticon.com",
+    "Clinic Icon made by logisstudio from www.flaticon.com",
 ];
