@@ -31,7 +31,7 @@ const MapTile = () => {
         () =>
             L.icon({
                 iconUrl: MapIcons[type],
-                iconSize: [25, 25],
+                iconSize: [30, 30],
                 iconAnchor: [10, 10],
                 popupAnchor: [0, -16],
             }),
@@ -116,6 +116,13 @@ const MapTile = () => {
                                             {`${data.start_date} ${t("to")} ${data.end_date}`}
                                         </h4>
                                     )}
+                                    {/* <h4
+                                        className='text-base mt-2'
+                                        dangerouslySetInnerHTML={{
+                                            __html: data.open_hours || "",
+                                        }}>
+                    
+                                    </h4> */}
 
                                     {data.remarks && (
                                         <h4 className='text-sm font-semibold italic my-1'>

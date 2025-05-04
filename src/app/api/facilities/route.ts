@@ -7,6 +7,7 @@ import {
     fieldMappings,
 } from "@/utils/constants";
 import { NextRequest, NextResponse } from "next/server";
+import { parseStringPromise } from "xml2js";
 
 export const maxDuration = 20;
 
@@ -45,6 +46,7 @@ export async function POST(req: NextRequest) {
         const data: Record<string, string[]> = await response.json();
 
         const records = data.features;
+        const mapping = fieldMappings[facilitiesType];
 
         const districtCodeToName = (code: string, region: string): string => {
             if (code === "kt") {
@@ -55,49 +57,128 @@ export async function POST(req: NextRequest) {
                 : Districts[code as districtshort]?.en || "unknown";
         };
 
-        const districtFormat = (district: string): string => {
+        const districtDistrictFormat = (district: string): string => {
             let d;
             if (lang === "en") {
-                d = district.toLowerCase().replace(/and/i, "&");
+                d = district.toLowerCase().replace(/\band\b/gi, "&");
+                d = d.includes("district") ? d : d + " district";
             } else {
                 d = district.includes("區") ? district : district + "區";
             }
             return d;
         };
 
+        const findDistrict = async (record: any) => {
+            let district = "unknown";
+            if (!mapping.district) {
+                console.log("No district mapping found");
+                district = await findDistrictByAddress(record.properties[mapping.address]);
+            } else if (!mapping.district_decode) {
+                console.log("District decoding not required");
+                return lang === "en"
+                    ? districtDistrictFormat(record.properties[mapping.district])
+                    : districtDistrictFormat(
+                          record.properties[mapping.district_tc || mapping.district]
+                      );
+            } else {
+                district = districtCodeToName(
+                    record.properties[mapping.district],
+                    record.properties.Region
+                );
+            }
+
+            return district;
+        };
+
+        const findDistrictByAddress = async (address: string): Promise<string> => {
+            try {
+                const lookup = await fetchWithRetry(
+                    `https://www.als.gov.hk/lookup?q=${encodeURIComponent(
+                        address.replace(/\b\w+\/F,\s*/gi, "").trim()
+                    )}`
+                );
+                const lookuptxt = await lookup.text();
+
+                // Parse the XML response
+                const xmlDoc = await parseStringPromise(lookuptxt);
+                console.log(
+                    xmlDoc.AddressLookupResult.SuggestedAddress?.[0].Address?.[0]
+                        .PremisesAddress?.[0].EngPremisesAddress?.[0].EngDistrict?.[0]
+                        .DcDistrict?.[0]
+                );
+
+                // Extract the DcDistrict value
+                let dcDistrict: string | undefined;
+
+                if (lang === "en") {
+                    const engPremisesAddress =
+                        xmlDoc.AddressLookupResult.SuggestedAddress?.[0].Address?.[0]
+                            .PremisesAddress?.[0].EngPremisesAddress?.[0].EngDistrict?.[0];
+                    dcDistrict = engPremisesAddress?.DcDistrict?.[0]
+                        .toLowerCase()
+                        .replace(/\band\b/gi, "&");
+                } else {
+                    const chiPremisesAddress =
+                        xmlDoc.AddressLookupResult.SuggestedAddress?.[0].Address?.[0]
+                            .PremisesAddress?.[0].ChiPremisesAddress?.[0].ChiDistrict?.[0];
+                    dcDistrict = chiPremisesAddress?.DcDistrict?.[0];
+                }
+
+                return dcDistrict ? dcDistrict.trim() : "unknown";
+            } catch (error) {
+                console.error("Error fetching or parsing address lookup:", error);
+                return "unknown";
+            }
+        };
+
+        const decodeOpenHours = (record: any): string => {
+            let encodedString = "";
+
+            if (mapping.open_hours) {
+                const openHours = record.properties[mapping.open_hours];
+                if (openHours) {
+                    encodedString =
+                        lang === "en"
+                            ? openHours
+                            : record.properties[mapping.open_hours_tc || mapping.open_hours];
+                }
+            }
+
+            return encodedString
+                .replace(/\\u003C/g, "<") // Replace \u003C with <
+                .replace(/\\u003E/g, ">") // Replace \u003E with >
+                .replace(/\\u0026/g, "&") // Replace \u0026 with &
+                .replace(/\\u003Cbr\\u003E/g, "<br>") // Replace \u003Cbr\u003E with <br>
+                .replace(/\\u003Cbr\\u003E\\u003Cbr\\u003E/g, "<br><br>"); // Handle double <br>
+        };
+
         let FacilitiesData: DataProps[] = [];
 
         if (records) {
-            const mapping = fieldMappings[facilitiesType]; // Get the mapping for the current type
-            FacilitiesData = records.map((record: any) => ({
-                organization: `${
-                    mapping.organization !== null
-                        ? lang === "en"
-                            ? record.properties[mapping.organization]
-                            : record.properties[mapping.organization_tc || mapping.organization]
-                        : lang === "en"
-                        ? mapping.provider.en
-                        : mapping.provider.tc
-                }`,
-                start_date: null,
-                end_date: null,
-                open_hours: null,
-                address:
-                    lang === "en"
-                        ? record.properties[mapping.address]
-                        : record.properties[mapping.address_tc],
-                district: !mapping.district_decode
-                    ? lang === "en"
-                        ? districtFormat(record.properties[mapping.district])
-                        : districtFormat(record.properties[mapping.district_tc || mapping.district])
-                    : districtCodeToName(
-                          record.properties[mapping.district],
-                          record.properties.Region
-                      ),
-                latitude: record.geometry.coordinates[1],
-                longitude: record.geometry.coordinates[0],
-                remarks: null,
-            }));
+            FacilitiesData = await Promise.all(
+                records.map(async (record: any) => ({
+                    organization: `${
+                        mapping.organization !== null
+                            ? lang === "en"
+                                ? record.properties[mapping.organization]
+                                : record.properties[mapping.organization_tc || mapping.organization]
+                            : lang === "en"
+                            ? mapping.provider.en
+                            : mapping.provider.tc
+                    }`,
+                    start_date: null,
+                    end_date: null,
+                    open_hours: decodeOpenHours(record), // For Clinic
+                    address:
+                        lang === "en"
+                            ? record.properties[mapping.address]
+                            : record.properties[mapping.address_tc],
+                    district: await findDistrict(record),
+                    latitude: record.geometry.coordinates[1],
+                    longitude: record.geometry.coordinates[0],
+                    remarks: null,
+                }))
+            );
         }
 
         FacilitiesData.sort((a, b) => {

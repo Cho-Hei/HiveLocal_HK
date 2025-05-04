@@ -15,9 +15,11 @@ type ParamConfig = {
     provider: ProviderProps;
     address: string;
     address_tc: string;
-    district: string;
-    district_tc?: string;
+    district: string | null;
+    district_tc?: string | null;
     district_decode: boolean;
+    open_hours: string | null;
+    open_hours_tc: string | null;
 };
 
 type ProviderProps = {
@@ -37,6 +39,8 @@ export const fieldMappings: Record<string, ParamConfig> = {
         address_tc: "addr_tc",
         district: "District",
         district_decode: true,
+        open_hours: null,
+        open_hours_tc: null,
     },
     studyroom: {
         organization: "NAME_EN",
@@ -50,6 +54,8 @@ export const fieldMappings: Record<string, ParamConfig> = {
         district: "SEARCH02_EN",
         district_tc: "SEARCH02_TC",
         district_decode: false,
+        open_hours: null,
+        open_hours_tc: null,
     },
     postbox: {
         organization: null,
@@ -63,6 +69,23 @@ export const fieldMappings: Record<string, ParamConfig> = {
         district: "District",
         district_tc: "地區",
         district_decode: false,
+        open_hours: null,
+        open_hours_tc: null,
+    },
+    clinic: {
+        organization: null,
+        organization_tc: null,
+        provider: {
+            tc: "醫院管理局",
+            en: "Hospital Authority",
+        },
+        address: "Address",
+        address_tc: "地址",
+        district: null,
+        district_tc: null,
+        district_decode: false,
+        open_hours: "Opening_Hours",
+        open_hours_tc: "開放時間",
     },
     // Add more mappings for other facilitiesType as needed
 };
@@ -93,14 +116,22 @@ export const DataTypes: Record<
         fetchurl:
             "https://api.csdi.gov.hk/apim/dataquery/api/?id=hkpo_rcd_1638773801007_13653&layer=spb&limit=2000",
     },
+    clinic: {
+        id: "clinic",
+        name_en: "General Out-patient Clinic",
+        name_zh: "普通科門診診所",
+        fetchurl:
+            "https://api.csdi.gov.hk/apim/dataquery/api/?id=fhb_rcd_1637050485482_89683&layer=clinic&limit=2000",
+    },
 };
 
 // Colors for different facilities (on dashboard)
-export const boxcolors = {
+export const boxcolors: Record<DataName, string> = {
     coincart: "#6250a0",
     clothesrecycle: "#008B8B",
     studyroom: "#895129",
     postbox: "#0F9D58",
+    clinic: "#E4404D",
 };
 
 export const MapIcons: Record<DataName, string> = {
@@ -108,6 +139,7 @@ export const MapIcons: Record<DataName, string> = {
     clothesrecycle: "/tshirt.svg",
     studyroom: "/studyroom.svg",
     postbox: "/postbox.svg",
+    clinic: "/clinic.svg",
 };
 
 export const ResourceExTLink = {
@@ -143,48 +175,56 @@ export const ResourceExTLink = {
         en: "https://webapp.hongkongpost.hk/tc/about_us/network/street_posting_boxes/index.html",
         zh: "https://webapp.hongkongpost.hk/en/about_us/network/street_posting_boxes/index.html",
     },
+    clinic: {
+        data_provider: {
+            en: "Hospital Authority",
+            zh: "醫院管理局",
+        },
+        en: "https://www.ha.org.hk/visitor/ha_visitor_index.asp?Content_ID=200250&Lang=ENG",
+        zh: "https://www.ha.org.hk/visitor/ha_visitor_index.asp?Content_ID=200250&Lang=CHIB5",
+    },
 };
 
 export const Districts: Record<districtshort, Record<string, string>> = {
-    cw: { en: "Central & Western", zh: "中西區" },
-    e: { en: "Eastern", zh: "東區" },
-    s: { en: "Southern", zh: "南區" },
-    wc: { en: "Wan Chai", zh: "灣仔區" },
-    kc: { en: "Kowloon City", zh: "九龍城區" },
-    kto: { en: "Kwun Tong", zh: "觀塘區" },
-    kts: { en: "Kwai Tsing", zh: "葵青區" },
-    ssp: { en: "Sham Shui Po", zh: "深水埗區" },
-    wts: { en: "Wong Tai Sin", zh: "黃大仙區" },
-    ytm: { en: "Yau Tsim Mong", zh: "油尖旺區" },
-    is: { en: "Islands", zh: "離島區" },
-    n: { en: "North", zh: "北區" },
-    sk: { en: "Sai Kung", zh: "西貢區" },
-    st: { en: "Sha Tin", zh: "沙田區" },
-    tp: { en: "Tai Po", zh: "大埔區" },
-    tw: { en: "Tsuen Wan", zh: "荃灣區" },
-    tm: { en: "Tuen Mun", zh: "屯門區" },
-    yl: { en: "Yuen Long", zh: "元朗區" },
+    cw: { en: "Central & Western District", zh: "中西區" },
+    e: { en: "Eastern District", zh: "東區" },
+    s: { en: "Southern District", zh: "南區" },
+    wc: { en: "Wan Chai District", zh: "灣仔區" },
+    kc: { en: "Kowloon City District", zh: "九龍城區" },
+    kto: { en: "Kwun Tong District", zh: "觀塘區" },
+    kts: { en: "Kwai Tsing District", zh: "葵青區" },
+    ssp: { en: "Sham Shui Po District", zh: "深水埗區" },
+    wts: { en: "Wong Tai Sin District", zh: "黃大仙區" },
+    ytm: { en: "Yau Tsim Mong District", zh: "油尖旺區" },
+    is: { en: "Islands District", zh: "離島區" },
+    n: { en: "North District", zh: "北區" },
+    sk: { en: "Sai Kung District", zh: "西貢區" },
+    st: { en: "Sha Tin District", zh: "沙田區" },
+    tp: { en: "Tai Po District", zh: "大埔區" },
+    tw: { en: "Tsuen Wan District", zh: "荃灣區" },
+    tm: { en: "Tuen Mun District", zh: "屯門區" },
+    yl: { en: "Yuen Long District", zh: "元朗區" },
 };
 
 export const districtOrder_en = [
-    "Central & Western",
-    "Wan Chai",
-    "Eastern",
-    "Southern",
-    "Yau Tsim Mong",
-    "Sham Shui Po",
-    "Kowloon City",
-    "Wong Tai Sin",
-    "Kwun Tong",
-    "Kwai Tsing",
-    "Tsuen Wan",
-    "Tuen Mun",
-    "Yuen Long",
-    "North",
-    "Tai Po",
-    "Sha Tin",
-    "Sai Kung",
-    "Islands",
+    "Central & Western District",
+    "Wan Chai District",
+    "Eastern District",
+    "Southern District",
+    "Yau Tsim Mong District",
+    "Sham Shui Po District",
+    "Kowloon City District",
+    "Wong Tai Sin District",
+    "Kwun Tong District",
+    "Kwai Tsing District",
+    "Tsuen Wan District",
+    "Tuen Mun District",
+    "Yuen Long District",
+    "North District",
+    "Tai Po District",
+    "Sha Tin District",
+    "Sai Kung District",
+    "Islands District",
 ];
 
 export const districtOrder_zh = [
@@ -201,7 +241,7 @@ export const districtOrder_zh = [
     "荃灣區",
     "屯門區",
     "元朗區",
-    "北區區",
+    "北區",
     "大埔區",
     "沙田區",
     "西貢區",
@@ -213,4 +253,5 @@ export const Iconcredits = [
     "Clothes Recycle Icon made by muhammad atho' from www.flaticon.com",
     "Study Room Icon made by Haris Masood from www.flaticon.com",
     "Post Box Icon made by Ehtisham Abid from www.flaticon.com",
+    "Clinic Icon made by logisstudio from www.flaticon.com",
 ];

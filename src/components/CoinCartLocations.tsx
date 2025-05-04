@@ -39,6 +39,13 @@ const CoinCartLocations = () => {
                     new Date(record.start_date).setHours(0, 0, 0, 0) <= currentDate &&
                     new Date(record.end_date).setHours(0, 0, 0, 0) >= currentDate
             );
+        } else {
+            listofData = coinCartData.filter((record: DataProps) => {
+                if (record.end_date) {
+                    const endDate = new Date(record.end_date);
+                    return endDate.setHours(0, 0, 0, 0) >= new Date().setHours(0, 0, 0, 0);
+                }
+            });
         }
 
         listofData.forEach((data) => {
