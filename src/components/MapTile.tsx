@@ -116,13 +116,13 @@ const MapTile = () => {
                                             {`${data.start_date} ${t("to")} ${data.end_date}`}
                                         </h4>
                                     )}
-                                    <h4
+                                    {/* <h4
                                         className='text-base mt-2'
                                         dangerouslySetInnerHTML={{
                                             __html: data.open_hours || "",
                                         }}>
-                                        {/* {location.open_hours} */}
-                                    </h4>
+                    
+                                    </h4> */}
 
                                     {data.remarks && (
                                         <h4 className='text-sm font-semibold italic my-1'>

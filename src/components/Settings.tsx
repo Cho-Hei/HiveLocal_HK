@@ -112,8 +112,9 @@ const Settings = () => {
                                 size='lg'
                                 onValueChange={(value) => handleUpdateType(value)}
                                 classNames={{
-                                    base: "flex w-full m-2",
+                                    base: "grid gap-4 w-full m-2",
                                     label: "text-white text-xl",
+                                    wrapper: "gap-4",
                                 }}>
                                 {Object.values(DataTypes).map((cur) => (
                                     <Radio

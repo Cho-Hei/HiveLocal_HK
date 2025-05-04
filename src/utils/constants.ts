@@ -118,7 +118,7 @@ export const DataTypes: Record<
     },
     clinic: {
         id: "clinic",
-        name_en: "Clinic",
+        name_en: "General Out-patient Clinic",
         name_zh: "普通科門診診所",
         fetchurl:
             "https://api.csdi.gov.hk/apim/dataquery/api/?id=fhb_rcd_1637050485482_89683&layer=clinic&limit=2000",
