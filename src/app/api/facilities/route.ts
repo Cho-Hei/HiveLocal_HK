@@ -155,7 +155,6 @@ export async function POST(req: NextRequest) {
         let FacilitiesData: DataProps[] = [];
 
         if (records) {
-            // Get the mapping for the current type
             FacilitiesData = await Promise.all(
                 records.map(async (record: any) => ({
                     organization: `${
@@ -169,12 +168,12 @@ export async function POST(req: NextRequest) {
                     }`,
                     start_date: null,
                     end_date: null,
-                    open_hours: decodeOpenHours(record),
+                    open_hours: decodeOpenHours(record), // For Clinic
                     address:
                         lang === "en"
                             ? record.properties[mapping.address]
                             : record.properties[mapping.address_tc],
-                    district: await findDistrict(record), // Resolves the district asynchronously
+                    district: await findDistrict(record),
                     latitude: record.geometry.coordinates[1],
                     longitude: record.geometry.coordinates[0],
                     remarks: null,

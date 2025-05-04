@@ -1,3 +1,10 @@
+/**
+ *
+ *  Deprecated route for clothes recycle bins
+ *  Use /api/facilities API instead
+ *  Unless there is an API need for a lot manual mapping
+ *
+ */
 import { DataProps, districtshort } from "@/types";
 import { Districts } from "@/utils/constants";
 import { NextRequest, NextResponse } from "next/server";
