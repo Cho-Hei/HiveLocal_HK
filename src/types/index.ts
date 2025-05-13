@@ -21,7 +21,13 @@ export interface DataProps {
     remarks: string | null;
 }
 
-export type DataName = "coincart" | "clothesrecycle" | "studyroom" | "postbox" | "clinic";
+export type DataName =
+    | "coincart"
+    | "clothesrecycle"
+    | "studyroom"
+    | "postbox"
+    | "clinic"
+    | "market";
 
 export interface LocationsProps {
     data: DataProps[];
