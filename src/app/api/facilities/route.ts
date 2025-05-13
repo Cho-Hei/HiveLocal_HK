@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
         const districtDistrictFormat = (district: string): string => {
             let d;
             if (lang === "en") {
-                d = district.toLowerCase().replace(/\band\b/gi, "&");
+                d = district.toLowerCase().replace(/\b(?:and|\/)\b/gi, "&");
                 d = d.includes("district") ? d : d + " district";
             } else {
                 d = district.includes("區") ? district : district + "區";
@@ -94,7 +94,11 @@ export async function POST(req: NextRequest) {
             try {
                 const lookup = await fetchWithRetry(
                     `https://www.als.gov.hk/lookup?q=${encodeURIComponent(
-                        address.replace(/\b\w+\/F,\s*/gi, "").trim()
+                        address
+                            .replace(/\b(?:\w+|\d+)\/F[.,]?\s*/gi, "")
+                            .replace(/[,&]+(?=\s|$)/g, "")
+                            .replace(/\s+/g, " ")
+                            .trim()
                     )}`
                 );
                 const lookuptxt = await lookup.text();
