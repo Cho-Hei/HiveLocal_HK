@@ -12,17 +12,21 @@ export async function POST(req: NextRequest) {
 
         const records: any[] = data.result.records;
         let coinCartData: DataProps[] = [];
-        coinCartData = records.map((record: any) => ({
-            organization: `${lang === "en" ? "Hong Kong Monetary Authority" : "香港金融管理局"}`,
-            start_date: record.start_date as string,
-            end_date: record.end_date as string,
-            open_hours: `10:00 AM - 19:00 PM`,
-            district: record.district,
-            address: record.address,
-            latitude: record.latitude,
-            longitude: record.longitude,
-            remarks: record.remarks,
-        }));
+        coinCartData = records
+            .map((record: any) => ({
+                organization: `${
+                    lang === "en" ? "Hong Kong Monetary Authority" : "香港金融管理局"
+                }`,
+                start_date: record.start_date as string,
+                end_date: record.end_date as string,
+                open_hours: `10:00 AM - 19:00 PM`,
+                district: record.district,
+                address: record.address,
+                latitude: record.latitude,
+                longitude: record.longitude,
+                remarks: record.remarks,
+            }))
+            .filter((record: DataProps) => record.latitude && record.longitude && record.address);
 
         // Filter out address after ";" and "*"
         coinCartData.forEach((record: DataProps) => {
