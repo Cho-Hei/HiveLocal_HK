@@ -34,5 +34,8 @@
         "line2": "此應用程式與任何政府或組織無關。所有數據均來自開源和公共數據。",
         "line3": "如果您想 Contribute，請查看GitHub。",
         "continue": "繼續"
+    },
+    "I_Remark": {
+        "Planned": "計劃中 / 即將興建"
     }
 }

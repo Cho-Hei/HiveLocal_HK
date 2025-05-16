@@ -33,5 +33,8 @@
         "line2": "This application is not affiliated with any government or organization. All data are collected from open source and public data.",
         "line3": "Contribution are welcome! If you want to contribute, please check out the GitHub repository.",
         "continue": "Continue"
+    },
+    "I_Remark": {
+        "Planned": "Planned / Under Construction"
     }
 }

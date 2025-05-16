@@ -1,18 +1,29 @@
 "use client";
 import { RootState } from "@/store/store";
-import { boxcolors, DataTypes } from "@/utils/constants";
+import { DataName } from "@/types";
+import { boxcolors, DataTypes, SpecialRemarks } from "@/utils/constants";
 import { Skeleton } from "@heroui/react";
 import { useLocale, useTranslations } from "next-intl";
 import { useSelector } from "react-redux";
 
 const InfoCard = () => {
     const t = useTranslations("I_SideBar");
+    const r = useTranslations("I_Remark");
     const locale = useLocale();
     const {
         type,
         status,
         currentLocation: location,
     } = useSelector((state: RootState) => state.dataSets);
+
+    const TranslateRemark = (remark: string) => {
+        if (SpecialRemarks[type as DataName]?.includes(remark)) {
+            return r(remark);
+        }
+
+        return remark;
+    };
+
     return (
         <>
             {status === "loading" ? (
@@ -83,7 +94,7 @@ const InfoCard = () => {
                                 {location.remarks && (
                                     <div className='flexCenter rounded-lg p-2 min-h-[64px] text-center bg-orange-600/80 w-full'>
                                         <h4 className='text-sm font-bold text-pretty'>
-                                            {location.remarks}
+                                            {TranslateRemark(location.remarks)}
                                         </h4>
                                     </div>
                                 )}

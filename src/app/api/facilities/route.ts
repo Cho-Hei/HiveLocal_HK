@@ -5,6 +5,7 @@ import {
     districtOrder_zh,
     Districts,
     fieldMappings,
+    SpecialRemarks,
 } from "@/utils/constants";
 import { NextRequest, NextResponse } from "next/server";
 import { parseStringPromise } from "xml2js";
@@ -180,7 +181,13 @@ export async function POST(req: NextRequest) {
                     district: await findDistrict(record),
                     latitude: record.geometry.coordinates[1],
                     longitude: record.geometry.coordinates[0],
-                    remarks: null,
+                    remarks: mapping.remark
+                        ? SpecialRemarks[facilitiesType as DataName]?.includes(
+                              record.properties[mapping.remark]
+                          )
+                            ? record.properties[mapping.remark] ?? null
+                            : null
+                        : null,
                 }))
             );
         }

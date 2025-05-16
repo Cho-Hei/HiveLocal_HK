@@ -2,7 +2,7 @@
 import { MapContainer, TileLayer, Marker, Popup, ZoomControl, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "react-leaflet-markercluster/styles";
-import { DataProps } from "@/types";
+import { DataName, DataProps } from "@/types";
 import { useEffect, useRef, useMemo, useState } from "react";
 import L, { Map } from "leaflet";
 import { useLocale, useTranslations } from "next-intl";
@@ -11,10 +11,11 @@ import { AppDispatch, RootState } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { updateCurrentLocation } from "@/store/dataSetsSlice";
 import MarkerClusterGroup from "react-leaflet-markercluster";
-import { MapIcons, ResourceExTLink } from "@/utils/constants";
+import { MapIcons, ResourceExTLink, SpecialRemarks } from "@/utils/constants";
 
 const MapTile = () => {
     const t = useTranslations("I_MapNote");
+    const r = useTranslations("I_Remark");
     const dispatch: AppDispatch = useDispatch();
     const {
         type,
@@ -72,6 +73,14 @@ const MapTile = () => {
         dispatch(updateCurrentLocation(location));
     };
 
+    const TranslateRemark = (remark: string) => {
+        if (SpecialRemarks[type as DataName]?.includes(remark)) {
+            return r(remark);
+        }
+
+        return remark;
+    };
+
     return (
         <section className='map-container lg:h-screen mt-[-40px]'>
             <MapContainer
@@ -126,7 +135,7 @@ const MapTile = () => {
 
                                     {data.remarks && (
                                         <h4 className='text-sm font-semibold italic my-1'>
-                                            {t("remark")}: {data.remarks}
+                                            {t("remark")}: {TranslateRemark(data.remarks)}
                                         </h4>
                                     )}
                                     <p className='text-justify'>
