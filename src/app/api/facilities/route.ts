@@ -10,7 +10,7 @@ import {
 import { NextRequest, NextResponse } from "next/server";
 import { parseStringPromise } from "xml2js";
 
-export const maxDuration = 20;
+export const maxDuration = 30;
 
 // Utility function to retry fetch
 async function fetchWithRetry(
