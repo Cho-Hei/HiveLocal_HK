@@ -123,13 +123,13 @@ const MapTile = () => {
 
                                     {data.start_date && (
                                         <h4 className='text-base font-semibold'>
-                                            {t("date")}:
+                                            {t("date")}:{" "}
                                             {`${data.start_date} ${t("to")} ${data.end_date}`}
                                         </h4>
                                     )}
 
                                     {data.remarks && (
-                                        <h3 className='text-base font-semibold my-1 whitespace-nowrap'>
+                                        <h3 className='text-base font-semibold my-1'>
                                             {t("remark")}:
                                             <span className='italic'>
                                                 {" "}
