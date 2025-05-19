@@ -9,7 +9,6 @@ const WeatherWarning = () => {
     if (!warnings) {
         return null;
     }
-    // console.log(warnings);
 
     return (
         <div className='flexCenter'>

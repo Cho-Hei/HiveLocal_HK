@@ -2,7 +2,7 @@
 import { MapContainer, TileLayer, Marker, Popup, ZoomControl, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "react-leaflet-markercluster/styles";
-import { DataProps } from "@/types";
+import { DataName, DataProps } from "@/types";
 import { useEffect, useRef, useMemo, useState } from "react";
 import L, { Map } from "leaflet";
 import { useLocale, useTranslations } from "next-intl";
@@ -11,10 +11,11 @@ import { AppDispatch, RootState } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { updateCurrentLocation } from "@/store/dataSetsSlice";
 import MarkerClusterGroup from "react-leaflet-markercluster";
-import { MapIcons, ResourceExTLink } from "@/utils/constants";
+import { MapIcons, ResourceExTLink, SpecialRemarks } from "@/utils/constants";
 
 const MapTile = () => {
     const t = useTranslations("I_MapNote");
+    const r = useTranslations("I_Remark");
     const dispatch: AppDispatch = useDispatch();
     const {
         type,
@@ -26,7 +27,7 @@ const MapTile = () => {
     const mapRef = useRef<Map | null>(null);
     const [lastlocation, setLastLocation] = useState<DataProps | null>(null);
 
-    // Create a custom icon
+    // Create a custom icon for each facility type
     const MapIcon = useMemo(
         () =>
             L.icon({
@@ -72,6 +73,14 @@ const MapTile = () => {
         dispatch(updateCurrentLocation(location));
     };
 
+    const TranslateRemark = (remark: string) => {
+        if (SpecialRemarks[type as DataName]?.includes(remark)) {
+            return r(remark);
+        }
+
+        return remark;
+    };
+
     return (
         <section className='map-container lg:h-screen mt-[-40px]'>
             <MapContainer
@@ -107,27 +116,26 @@ const MapTile = () => {
                                     <h2 className='text-lg font-bold capitalize'>
                                         {t("district")}: {data.district}
                                     </h2>
+
                                     <h3 className='text-base/5 my-1 font-semibold'>
                                         {t("address")}: {data.address}
                                     </h3>
+
                                     {data.start_date && (
                                         <h4 className='text-base font-semibold'>
                                             {t("date")}:{" "}
                                             {`${data.start_date} ${t("to")} ${data.end_date}`}
                                         </h4>
                                     )}
-                                    {/* <h4
-                                        className='text-base mt-2'
-                                        dangerouslySetInnerHTML={{
-                                            __html: data.open_hours || "",
-                                        }}>
-                    
-                                    </h4> */}
 
                                     {data.remarks && (
-                                        <h4 className='text-sm font-semibold italic my-1'>
-                                            {t("remark")}: {data.remarks}
-                                        </h4>
+                                        <h3 className='text-base font-semibold my-1'>
+                                            {t("remark")}:
+                                            <span className='italic'>
+                                                {" "}
+                                                {TranslateRemark(data.remarks)}
+                                            </span>
+                                        </h3>
                                     )}
                                     <p className='text-justify'>
                                         {t.rich("remarkwarn", {

@@ -20,6 +20,7 @@ type ParamConfig = {
     district_decode: boolean;
     open_hours: string | null;
     open_hours_tc: string | null;
+    remark?: string | null;
 };
 
 type ProviderProps = {
@@ -87,6 +88,22 @@ export const fieldMappings: Record<string, ParamConfig> = {
         open_hours: "Opening_Hours",
         open_hours_tc: "開放時間",
     },
+    market: {
+        organization: null,
+        organization_tc: null,
+        provider: {
+            tc: "食物環境衛生署",
+            en: "Food and Environmental Hygiene Department",
+        },
+        address: "ADDRESS_EN",
+        address_tc: "ADDRESS_TC",
+        district: null, // API did not provide accurate district info
+        district_tc: null,
+        district_decode: false,
+        open_hours: null,
+        open_hours_tc: null,
+        remark: "NSEARCH02_EN",
+    },
     // Add more mappings for other facilitiesType as needed
 };
 
@@ -123,6 +140,13 @@ export const DataTypes: Record<
         fetchurl:
             "https://api.csdi.gov.hk/apim/dataquery/api/?id=fhb_rcd_1637050485482_89683&layer=clinic&limit=2000",
     },
+    market: {
+        id: "market",
+        name_en: "Public Market",
+        name_zh: "公眾街市",
+        fetchurl:
+            "https://api.csdi.gov.hk/apim/dataquery/api/?id=fehd_rcd_1629965523312_76550&layer=pmrk&limit=2000",
+    },
 };
 
 // Colors for different facilities (on dashboard)
@@ -132,6 +156,7 @@ export const boxcolors: Record<DataName, string> = {
     studyroom: "#895129",
     postbox: "#0F9D58",
     clinic: "#E4404D",
+    market: "#E67E22",
 };
 
 export const MapIcons: Record<DataName, string> = {
@@ -140,6 +165,7 @@ export const MapIcons: Record<DataName, string> = {
     studyroom: "/studyroom.svg",
     postbox: "/postbox.svg",
     clinic: "/clinic.svg",
+    market: "/market.svg",
 };
 
 export const ResourceExTLink = {
@@ -182,6 +208,14 @@ export const ResourceExTLink = {
         },
         en: "https://www.ha.org.hk/visitor/ha_visitor_index.asp?Content_ID=200250&Lang=ENG",
         zh: "https://www.ha.org.hk/visitor/ha_visitor_index.asp?Content_ID=200250&Lang=CHIB5",
+    },
+    market: {
+        data_provider: {
+            en: "Food and Environmental Hygiene Department",
+            zh: "食物環境衛生署",
+        },
+        en: "https://www.fehd.gov.hk/english/pleasant_environment/tidy_market/Markets_CFC_list.html",
+        zh: "https://www.fehd.gov.hk/tc_chi/pleasant_environment/tidy_market/Markets_CFC_list.html",
     },
 };
 
@@ -254,4 +288,9 @@ export const Iconcredits = [
     "Study Room Icon made by Haris Masood from www.flaticon.com",
     "Post Box Icon made by Ehtisham Abid from www.flaticon.com",
     "Clinic Icon made by logisstudio from www.flaticon.com",
+    "Market Icon made by zafdesign from www.flaticon.com",
 ];
+
+export const SpecialRemarks: Partial<Record<DataName, string[]>> = {
+    market: ["Planned"],
+};

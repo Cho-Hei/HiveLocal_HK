@@ -46,22 +46,6 @@ const ContentParent = ({ children }: ContentParentProps) => {
         });
     }, []);
 
-    // if (status === "failed") {
-    //     return (
-    //         <section className='relative overflow-hidden h-screen text-white'>
-    //             <div className='flex flex-col-reverse lg:flex-row h-full'>
-    //                 <ul>
-    //                     <li>Error loading data. </li>
-    //                     <li>
-    //                         Please disable any extension / application that will block trackers.
-    //                     </li>
-    //                     <li>Try again / refresh page</li>
-    //                 </ul>
-    //             </div>
-    //         </section>
-    //     );
-    // }
-
     return (
         <section className='relative overflow-hidden h-screen text-white bg-primary special-height'>
             {/* Start Modal */}

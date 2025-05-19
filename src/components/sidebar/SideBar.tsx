@@ -7,7 +7,7 @@ import { RootState } from "@/store/store";
 import CoinCartLocations from "./CoinCartLocations";
 import InfoCard from "./InfoCard";
 import { useMemo, useState, useRef } from "react";
-import PreventRefresh from "./PreventRefresh";
+import PreventRefresh from "../PreventRefresh";
 
 const SideBar = () => {
     const t = useTranslations("I_SideBar");
@@ -25,6 +25,11 @@ const SideBar = () => {
         return type === "coincart" ? <CoinCartLocations /> : <Locations />;
     }, [type]);
 
+    /**
+     * Sidebar for mobile devices, allow to drag up and down to see more locations
+     * @param e MouseEvent | TouchEvent
+     * @returns
+     */
     const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
         // Prevent drag if the event originated within LocationsPicker
         if (LocationsPickerRef.current && LocationsPickerRef.current.contains(e.target as Node)) {

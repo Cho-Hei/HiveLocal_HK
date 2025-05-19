@@ -1,12 +1,12 @@
 import dynamic from "next/dynamic";
-import Navbar from "./Navbar";
+import Navbar from "./navbar/Navbar";
 import ContentParent from "./ContentParent";
 import "leaflet/dist/leaflet.css";
 import "react-leaflet-markercluster/styles";
 
 // Next 15 requires !!false to disable SSR
-const MapTile = dynamic(() => import("./MapTile"), { ssr: !!false });
-const SideBar = dynamic(() => import("./SideBar"), { ssr: !!false });
+const MapTile = dynamic(() => import("./map/MapTile"), { ssr: !!false });
+const SideBar = dynamic(() => import("./sidebar/SideBar"), { ssr: !!false });
 
 const MainHero = () => {
     return (

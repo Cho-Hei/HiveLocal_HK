@@ -5,11 +5,12 @@ import {
     districtOrder_zh,
     Districts,
     fieldMappings,
+    SpecialRemarks,
 } from "@/utils/constants";
 import { NextRequest, NextResponse } from "next/server";
 import { parseStringPromise } from "xml2js";
 
-export const maxDuration = 20;
+export const maxDuration = 30;
 
 // Utility function to retry fetch
 async function fetchWithRetry(
@@ -60,7 +61,7 @@ export async function POST(req: NextRequest) {
         const districtDistrictFormat = (district: string): string => {
             let d;
             if (lang === "en") {
-                d = district.toLowerCase().replace(/\band\b/gi, "&");
+                d = district.toLowerCase().replace(/\b(?:and|\/)\b/gi, "&");
                 d = d.includes("district") ? d : d + " district";
             } else {
                 d = district.includes("區") ? district : district + "區";
@@ -94,7 +95,11 @@ export async function POST(req: NextRequest) {
             try {
                 const lookup = await fetchWithRetry(
                     `https://www.als.gov.hk/lookup?q=${encodeURIComponent(
-                        address.replace(/\b\w+\/F,\s*/gi, "").trim()
+                        address
+                            .replace(/\b(?:\w+|\d+)\/F[.,]?\s*/gi, "")
+                            .replace(/[,&]+(?=\s|$)/g, "")
+                            .replace(/\s+/g, " ")
+                            .trim()
                     )}`
                 );
                 const lookuptxt = await lookup.text();
@@ -176,7 +181,13 @@ export async function POST(req: NextRequest) {
                     district: await findDistrict(record),
                     latitude: record.geometry.coordinates[1],
                     longitude: record.geometry.coordinates[0],
-                    remarks: null,
+                    remarks: mapping.remark
+                        ? SpecialRemarks[facilitiesType as DataName]?.includes(
+                              record.properties[mapping.remark]
+                          )
+                            ? record.properties[mapping.remark] ?? null
+                            : null
+                        : null,
                 }))
             );
         }
