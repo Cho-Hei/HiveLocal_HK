@@ -1,3 +1,8 @@
+/***
+ *
+ *  Shows the locations of the facilities in the map (except for coin carts)
+ *
+ */
 "use client";
 import { MapPinLine } from "@phosphor-icons/react/dist/ssr";
 import { useTranslations } from "next-intl";
@@ -7,7 +12,7 @@ import { AppDispatch, RootState } from "@/store/store";
 import { DataProps, districtshort } from "@/types";
 import { Accordion, AccordionItem, Button } from "@heroui/react";
 import { useEffect, useState } from "react";
-import LoadingSpinner from "./LoadingSpinner";
+import LoadingSpinner from "../LoadingSpinner";
 import { fetchData } from "@/store/dataSetsSlice";
 import { useParams } from "next/navigation";
 
@@ -31,7 +36,6 @@ const Locations = () => {
     });
 
     useEffect(() => {
-        // console.log(currentLocation);
         if (currentLocation) setCurrentDistrict(currentLocation?.district);
     }, [currentLocation]);
 

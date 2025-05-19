@@ -1,6 +1,6 @@
 "use client";
 import { Gear, GithubLogo } from "@phosphor-icons/react/dist/ssr";
-import LocaleSwitch from "./LocaleSwitch";
+import LocaleSwitch from "../LocaleSwitch";
 import { useEffect, useRef, useState } from "react";
 import {
     addToast,

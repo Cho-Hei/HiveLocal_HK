@@ -1,3 +1,10 @@
+/**
+ *
+ *  Specialized component for CoinCart Locations
+ *  as records will be updated and grouped by month
+ *  Otherwise, use Locations.tsx
+ *
+ */
 "use client";
 import { DataProps } from "@/types";
 import { MapPinLine } from "@phosphor-icons/react/dist/ssr";
@@ -7,7 +14,7 @@ import ExpandButton from "./ExpandButton";
 import LocationCard from "./LocationCard";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
-import LoadingSpinner from "./LoadingSpinner";
+import LoadingSpinner from "../LoadingSpinner";
 import { Button } from "@heroui/react";
 import { fetchData, updateCoinCartShowAll } from "@/store/dataSetsSlice";
 
@@ -26,6 +33,12 @@ const CoinCartLocations = () => {
         dispatch(updateCoinCartShowAll(false));
     }, []);
 
+    /**
+     *
+     *  Should users choose to show all records, show all current and future records
+     *  Then group records by month
+     *
+     */
     const groupedData = useMemo(() => {
         const grouped: { [key: string]: DataProps[] } = {};
         let listofData: DataProps[] = coinCartData;

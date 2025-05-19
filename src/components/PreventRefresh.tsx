@@ -1,3 +1,7 @@
+/**
+ *  Prevent Pull to Refresh when user drag down sidebar in mobile view
+ *
+ */
 import { ReactNode, useEffect } from "react";
 
 const PreventRefresh = ({

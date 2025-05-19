@@ -27,7 +27,7 @@ const MapTile = () => {
     const mapRef = useRef<Map | null>(null);
     const [lastlocation, setLastLocation] = useState<DataProps | null>(null);
 
-    // Create a custom icon
+    // Create a custom icon for each facility type
     const MapIcon = useMemo(
         () =>
             L.icon({
