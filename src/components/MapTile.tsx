@@ -116,27 +116,26 @@ const MapTile = () => {
                                     <h2 className='text-lg font-bold capitalize'>
                                         {t("district")}: {data.district}
                                     </h2>
+
                                     <h3 className='text-base/5 my-1 font-semibold'>
                                         {t("address")}: {data.address}
                                     </h3>
+
                                     {data.start_date && (
                                         <h4 className='text-base font-semibold'>
-                                            {t("date")}:{" "}
+                                            {t("date")}:
                                             {`${data.start_date} ${t("to")} ${data.end_date}`}
                                         </h4>
                                     )}
-                                    {/* <h4
-                                        className='text-base mt-2'
-                                        dangerouslySetInnerHTML={{
-                                            __html: data.open_hours || "",
-                                        }}>
-                    
-                                    </h4> */}
 
                                     {data.remarks && (
-                                        <h4 className='text-sm font-semibold italic my-1'>
-                                            {t("remark")}: {TranslateRemark(data.remarks)}
-                                        </h4>
+                                        <h3 className='text-base font-semibold my-1 whitespace-nowrap'>
+                                            {t("remark")}:
+                                            <span className='italic'>
+                                                {" "}
+                                                {TranslateRemark(data.remarks)}
+                                            </span>
+                                        </h3>
                                     )}
                                     <p className='text-justify'>
                                         {t.rich("remarkwarn", {
