@@ -43,6 +43,7 @@ export default async function LocaleLayout({
 
     return (
         <html lang={locale}>
+            <meta name='theme-color' content='#2E236C' />
             <body
                 className={`${fontClass} ${locale === "tc" ? "font-sans" : "font-en"} antialiased`}>
                 <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
