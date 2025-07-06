@@ -1,44 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { openDB } from "idb";
 import { DataName, DataProps } from "@/types";
-
-// Check if IndexedDB is available (browser environment) (Client Side)
-const isBrowser = typeof window !== "undefined" && typeof indexedDB !== "undefined";
-const CACHE_EXPIRATION_TIME = 24 * 60 * 60 * 1000;
-// const CACHE_EXPIRATION_TIME = 60 * 1000;
-
-const dbPromise = isBrowser
-    ? openDB("DataCacheDB", 1, {
-          upgrade(db) {
-              if (!db.objectStoreNames.contains("datasets")) {
-                  db.createObjectStore("datasets", { keyPath: "key" });
-              }
-          },
-      })
-    : null;
-
-async function getCachedData(key: string): Promise<DataProps[] | null> {
-    if (!dbPromise) return null;
-    const db = await dbPromise;
-    const cached = await db.get("datasets", key);
-
-    if (cached) {
-        const now = Date.now();
-        if (now - cached.timestamp < CACHE_EXPIRATION_TIME) {
-            return cached.data;
-        }
-    }
-
-    return null;
-}
-
-async function cacheData(key: string, data: DataProps[]) {
-    if (!dbPromise) return; // Do nothing if not in the browser
-    const db = await dbPromise;
-
-    // Store data with a timestamp
-    await db.put("datasets", { key, data, timestamp: Date.now() });
-}
+import { cacheData, getCachedData } from "@/utils/indexDB";
 
 export const fetchData = createAsyncThunk(
     "datasets/fetchData",
@@ -48,7 +10,6 @@ export const fetchData = createAsyncThunk(
         // Check IndexedDB for cached data
         const cachedData = await getCachedData(cacheKey);
         if (cachedData) {
-            // console.log("Using cached data:", cachedData);
             return cachedData;
         }
 
@@ -75,7 +36,7 @@ export const fetchData = createAsyncThunk(
         }
 
         // Cache the fetched data with a timestamp
-        await cacheData(cacheKey, data);
+        cacheData(cacheKey, data);
 
         return data as DataProps[];
     }
@@ -89,7 +50,7 @@ const dataSetsSlice = createSlice({
         type: "coincart" as DataName,
         currentLocation: null as DataProps | null,
         status: "idle",
-        error: null,
+        error: "" as string,
     },
     reducers: {
         updateCoinCartShowAll: (state, action) => {
@@ -114,7 +75,7 @@ const dataSetsSlice = createSlice({
             })
             .addCase(fetchData.rejected, (state, action) => {
                 state.status = "failed";
-                state.error = action.error.message as any;
+                state.error = action.error.message as string;
             });
     },
 });
