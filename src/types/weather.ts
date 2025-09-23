@@ -47,8 +47,8 @@ export type WeatherCode =
 export const WeatherIcons: Partial<Record<WeatherCode, string>> = {
     TC10: "https://upload.wikimedia.org/wikipedia/commons/3/3d/No._10_Hurricane_Signal.png",
     TC9: "https://upload.wikimedia.org/wikipedia/commons/7/7a/No._09_Increasing_Gale_or_Storm_Signal.png",
-    TC8SW: "https://en.wikipedia.org/wiki/File:No._8_Southwest_Gale_or_Storm_Signal.png",
-    TC8NW: "https://en.wikipedia.org/wiki/File:No._8_Northwest_Gale_or_Storm_Signal.png",
+    TC8SW: "https://upload.wikimedia.org/wikipedia/commons/c/c7/No._8_Southwest_Gale_or_Storm_Signal.png",
+    TC8NW: "https://upload.wikimedia.org/wikipedia/commons/1/17/No._8_Northwest_Gale_or_Storm_Signal.png",
     TC8SE: "https://upload.wikimedia.org/wikipedia/commons/0/04/No._8_Southeast_Gale_or_Storm_Signal.png",
     TC8NE: "https://upload.wikimedia.org/wikipedia/commons/4/49/No._8_Northeast_Gale_or_Storm_Signal.png",
     WRAINB: "https://upload.wikimedia.org/wikipedia/commons/5/5b/Black_Rainstorm_Signal.svg",
