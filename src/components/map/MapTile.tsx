@@ -4,6 +4,7 @@ import "leaflet/dist/leaflet.css";
 import "react-leaflet-markercluster/styles";
 import { DataName, DataProps } from "@/types";
 import { useEffect, useRef, useMemo, useState } from "react";
+import type { CSSProperties } from "react";
 import L, { Map } from "leaflet";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
@@ -22,6 +23,7 @@ const MapTile = () => {
         data,
         currentLocation: location,
         coincartshowall,
+        status,
     } = useSelector((state: RootState) => state.dataSets);
     const locale = useLocale();
     const mapRef = useRef<Map | null>(null);
@@ -83,6 +85,7 @@ const MapTile = () => {
 
     return (
         <section className='map-container lg:h-screen mt-[-40px]'>
+            <div style={status === "loading" ? styles.loadingOverlay : undefined} />
             <MapContainer
                 center={[22.319158, 114.192923]}
                 zoom={13}
@@ -172,6 +175,16 @@ const MapTile = () => {
             </MapContainer>
         </section>
     );
+};
+const styles: { loadingOverlay: CSSProperties } = {
+    loadingOverlay: {
+        backgroundColor: "rgba(255, 255, 255, 0.7)",
+        pointerEvents: "none",
+        width: "100%",
+        height: "100%",
+        position: "absolute",
+        zIndex: 1000,
+    },
 };
 
 export default MapTile;
