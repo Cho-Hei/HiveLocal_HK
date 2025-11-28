@@ -51,14 +51,17 @@ const InfoCard = () => {
                     {location ? (
                         <div className='info-content p-2 flex-grow flex flex-col text-white'>
                             <div
-                                className={`service-provider px-4 py-3 rounded-2xl`}
-                                style={{ backgroundColor: boxcolors[type] }}>
+                                className={`service-provider rounded-2xl`}
+                                style={{
+                                    backgroundColor: boxcolors[type],
+                                    ...styles.servicesStyle,
+                                }}>
                                 <h2 className='text-xl lg:text-2xl font-bold'>
                                     {locale === "tc"
                                         ? DataTypes[type].name_zh
                                         : DataTypes[type].name_en}
                                 </h2>
-                                <p className='text-sm lg:text-base'>{location.organization}</p>
+                                <p style={styles.organizationStyles}>{location.organization}</p>
                             </div>
                             <div className='service-detail flex-grow flex flex-col justify-between'>
                                 <div className='flex flex-col'>
@@ -93,7 +96,9 @@ const InfoCard = () => {
 
                                 {location.remarks && (
                                     <div className='flexCenter rounded-lg p-2 min-h-[64px] text-center bg-orange-600/80 w-full'>
-                                        <h4 className='text-sm font-bold text-pretty'>
+                                        <h4
+                                            className='font-bold text-pretty'
+                                            style={styles.remarkStyles}>
                                             {TranslateRemark(location.remarks)}
                                         </h4>
                                     </div>
@@ -109,6 +114,18 @@ const InfoCard = () => {
             )}
         </>
     );
+};
+
+const styles = {
+    servicesStyle: {
+        padding: "min(5em, 6%)",
+    },
+    remarkStyles: {
+        fontSize: "clamp(0.875rem, 1.5vw, 1.125rem)",
+    },
+    organizationStyles: {
+        fontSize: "clamp(0.875rem, 1.2vw, 1rem)",
+    },
 };
 
 export default InfoCard;
