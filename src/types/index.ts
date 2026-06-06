@@ -16,8 +16,8 @@ export interface DataProps {
     open_hours: string | null;
     district: string;
     address: string;
-    latitude: number;
-    longitude: number;
+    latitude: number | null;
+    longitude: number | null;
     remarks: string | null;
 }
 

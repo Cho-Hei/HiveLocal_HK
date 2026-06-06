@@ -6,7 +6,7 @@ export async function POST(req: NextRequest) {
 
     try {
         const response = await fetch(
-            `https://api.hkma.gov.hk/public/coin-cart-schedule?lang=${lang}`
+            `https://api.hkma.gov.hk/public/coin-cart-schedule?lang=${lang}`,
         );
         const data = await response.json();
 
@@ -22,11 +22,11 @@ export async function POST(req: NextRequest) {
                 open_hours: `10:00 AM - 19:00 PM`,
                 district: record.district,
                 address: record.address,
-                latitude: record.latitude,
-                longitude: record.longitude,
+                latitude: record.latitude || null,
+                longitude: record.longitude || null,
                 remarks: record.remarks,
             }))
-            .filter((record: DataProps) => record.latitude && record.longitude && record.address);
+            .filter((record: DataProps) => record.address); // For vehicle maintenance
 
         // Filter out address after ";" and "*"
         coinCartData.forEach((record: DataProps) => {

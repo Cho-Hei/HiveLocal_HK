@@ -38,7 +38,7 @@ const MapTile = () => {
                 iconAnchor: [10, 10],
                 popupAnchor: [0, -16],
             }),
-        [type]
+        [type],
     );
 
     // Filter coin cart data for current date
@@ -51,7 +51,7 @@ const MapTile = () => {
                     record.start_date &&
                     record.end_date &&
                     new Date(record.start_date).setHours(0, 0, 0, 0) <= currentDate &&
-                    new Date(record.end_date).setHours(0, 0, 0, 0) >= currentDate
+                    new Date(record.end_date).setHours(0, 0, 0, 0) >= currentDate,
             );
         }
 
@@ -63,6 +63,9 @@ const MapTile = () => {
         const map = useMap();
         useEffect(() => {
             if (location && location !== lastlocation) {
+                if (location.latitude === null || location.longitude === null) {
+                    return;
+                }
                 map.closePopup();
                 map.setView([location.latitude, location.longitude], 18);
                 setLastLocation(location);
@@ -104,73 +107,75 @@ const MapTile = () => {
                 <ZoomControl position='bottomright' />
                 <MapCenter />
                 <MarkerClusterGroup showCoverageOnHover={false}>
-                    {filteredData.map((data, index) => (
-                        <Marker
-                            key={index}
-                            position={[data.latitude, data.longitude]}
-                            icon={MapIcon}
-                            eventHandlers={{
-                                click: () => {
-                                    handleLocation(data);
-                                },
-                            }}>
-                            <Popup>
-                                <div className='popup-content w-full text-[#353935]'>
-                                    <h2 className='text-lg font-bold capitalize'>
-                                        {t("district")}: {data.district}
-                                    </h2>
+                    {filteredData
+                        .filter((data) => data.latitude !== null && data.longitude !== null)
+                        .map((data, index) => (
+                            <Marker
+                                key={index}
+                                position={[data.latitude as number, data.longitude as number]}
+                                icon={MapIcon}
+                                eventHandlers={{
+                                    click: () => {
+                                        handleLocation(data);
+                                    },
+                                }}>
+                                <Popup>
+                                    <div className='popup-content w-full text-[#353935]'>
+                                        <h2 className='text-lg font-bold capitalize'>
+                                            {t("district")}: {data.district}
+                                        </h2>
 
-                                    <h3 className='text-base/5 my-1 font-semibold'>
-                                        {t("address")}: {data.address}
-                                    </h3>
-
-                                    {data.start_date && (
-                                        <h4 className='text-base font-semibold'>
-                                            {t("date")}:{" "}
-                                            {`${data.start_date} ${t("to")} ${data.end_date}`}
-                                        </h4>
-                                    )}
-
-                                    {data.remarks && (
-                                        <h3 className='text-base font-semibold my-1'>
-                                            {t("remark")}:
-                                            <span className='italic'>
-                                                {" "}
-                                                {TranslateRemark(data.remarks)}
-                                            </span>
+                                        <h3 className='text-base/5 my-1 font-semibold'>
+                                            {t("address")}: {data.address}
                                         </h3>
-                                    )}
-                                    <p className='text-justify'>
-                                        {t.rich("remarkwarn", {
-                                            data_provider: `${
-                                                locale === "tc"
-                                                    ? ResourceExTLink[type].data_provider.zh
-                                                    : ResourceExTLink[type].data_provider.en
-                                            }`,
-                                            br: () => <br />,
-                                            link: () => (
-                                                <Link
-                                                    href={`${
-                                                        locale === "tc"
-                                                            ? ResourceExTLink[type].zh
-                                                            : ResourceExTLink[type].en
-                                                    }`}
-                                                    target='_blank'
-                                                    className='break-words break-all whitespace-normal'>
-                                                    <br />
-                                                    {`${
-                                                        locale === "tc"
-                                                            ? ResourceExTLink[type].zh
-                                                            : ResourceExTLink[type].en
-                                                    }`}
-                                                </Link>
-                                            ),
-                                        })}
-                                    </p>
-                                </div>
-                            </Popup>
-                        </Marker>
-                    ))}
+
+                                        {data.start_date && (
+                                            <h4 className='text-base font-semibold'>
+                                                {t("date")}:{" "}
+                                                {`${data.start_date} ${t("to")} ${data.end_date}`}
+                                            </h4>
+                                        )}
+
+                                        {data.remarks && (
+                                            <h3 className='text-base font-semibold my-1'>
+                                                {t("remark")}:
+                                                <span className='italic'>
+                                                    {" "}
+                                                    {TranslateRemark(data.remarks)}
+                                                </span>
+                                            </h3>
+                                        )}
+                                        <p className='text-justify'>
+                                            {t.rich("remarkwarn", {
+                                                data_provider: `${
+                                                    locale === "tc"
+                                                        ? ResourceExTLink[type].data_provider.zh
+                                                        : ResourceExTLink[type].data_provider.en
+                                                }`,
+                                                br: () => <br />,
+                                                link: () => (
+                                                    <Link
+                                                        href={`${
+                                                            locale === "tc"
+                                                                ? ResourceExTLink[type].zh
+                                                                : ResourceExTLink[type].en
+                                                        }`}
+                                                        target='_blank'
+                                                        className='break-words break-all whitespace-normal'>
+                                                        <br />
+                                                        {`${
+                                                            locale === "tc"
+                                                                ? ResourceExTLink[type].zh
+                                                                : ResourceExTLink[type].en
+                                                        }`}
+                                                    </Link>
+                                                ),
+                                            })}
+                                        </p>
+                                    </div>
+                                </Popup>
+                            </Marker>
+                        ))}
                 </MarkerClusterGroup>
             </MapContainer>
         </section>
